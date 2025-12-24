@@ -23,14 +23,16 @@
             overflow-x: hidden;
         }
 
-        /* Hero Image Background */
+        /* Hero Image with Fallback */
         .hero { 
-            height: 80vh; 
+            height: 85vh; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), 
+                        url('https://i.ibb.co/2YtrCjnY/1000203412.jpg'), 
+                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -51,45 +53,38 @@
             position: fixed; width: 100%; z-index: 100; padding: 1rem 8%; 
         }
 
-        /* Card Styles with Images */
         .vol-card { 
-            background: rgba(20, 20, 20, 0.8); 
+            background: rgba(25, 25, 25, 0.9); 
             border: 1px solid rgba(212, 175, 55, 0.1); 
-            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            border-radius: 4px;
+            transition: 0.5s ease;
+            border-radius: 8px;
             overflow: hidden;
-            position: relative;
+        }
+
+        .card-img-container {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            background: #111; /* Fallback color */
         }
 
         .card-img {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
-            opacity: 0.6;
-            transition: 0.6s;
-            filter: grayscale(40%);
+            opacity: 0.7;
+            transition: 0.6s ease;
         }
 
-        .vol-card:hover .card-img { opacity: 1; filter: grayscale(0%); transform: scale(1.05); }
+        .vol-card:hover .card-img { opacity: 1; transform: scale(1.1); }
+        .vol-card:hover { border-color: var(--gold); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
 
-        .vol-card:hover { 
-            border-color: var(--gold); 
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
-        }
-        
-        .card-content { padding: 2rem; text-align: center; }
+        .card-content { padding: 1.5rem; text-align: center; }
 
-        /* Reading View */
         .reading-view { 
             position: fixed; inset: 0; background: #050505; 
             z-index: 1000; display: none; overflow-y: auto; 
-            padding: 100px 10%; opacity: 0; 
-        }
-
-        .manuscript-text { 
-            font-size: 1.5rem; line-height: 2.5; text-align: center; 
-            font-family: 'Playfair Display', serif; font-style: italic;
+            padding: 80px 10%; opacity: 0; 
         }
 
         #cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; z-index: 2000; pointer-events: none; }
@@ -97,8 +92,8 @@
 
         .btn-gold { 
             border: 1px solid var(--gold); color: var(--gold); 
-            padding: 10px 25px; text-transform: uppercase; letter-spacing: 3px; 
-            font-size: 10px; transition: 0.4s; background: transparent; margin-top: 15px; 
+            padding: 10px 25px; text-transform: uppercase; letter-spacing: 2px; 
+            font-size: 11px; transition: 0.4s; background: transparent; 
         }
         .btn-gold:hover { background: var(--gold); color: black; }
     </style>
@@ -109,22 +104,22 @@
     <div id="cursor-glow"></div>
 
     <nav class="royal-nav flex justify-between items-center">
-        <span class="gold-style text-xl">THE ETERNAL ARCHIVE</span>
-        <button onclick="downloadPDF()" class="text-[10px] tracking-widest gold-style border-b border-gold">SAVE SCROLL</button>
+        <span class="gold-style text-xl tracking-tighter">THE ETERNAL ARCHIVE</span>
+        <button onclick="downloadPDF()" class="text-[10px] tracking-widest gold-style border-b border-gold">DOWNLOAD MANUSCRIPT</button>
     </nav>
 
     <header class="hero">
         <div>
-            <h1 class="gold-style text-6xl md:text-8xl mb-4">THE MANUSCRIPTS</h1>
-            <p class="italic text-white/40 tracking-[0.3em]">Hassan's Soul Echoes</p>
+            <h1 class="gold-style text-5xl md:text-8xl mb-4">THE MANUSCRIPTS</h1>
+            <p class="italic text-white/40 tracking-[0.4em] uppercase text-xs">A Sacred Legacy by Hassan</p>
         </div>
     </header>
 
-    <main class="py-32 px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12" id="main-grid"></main>
+    <main class="py-24 px-6 md:px-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="main-grid"></main>
 
     <div id="reading-view" class="reading-view">
-        <div class="max-w-4xl mx-auto">
-            <button onclick="closeReading()" class="mb-10 text-[10px] tracking-widest text-zinc-500 hover:text-gold transition">CLOSE [ESC]</button>
+        <div class="max-w-3xl mx-auto">
+            <button onclick="closeReading()" class="mb-12 text-[10px] tracking-[0.3em] text-zinc-500 hover:text-white uppercase">← Back to Archive</button>
             <div id="content-area"></div>
         </div>
     </div>
@@ -132,36 +127,53 @@
     <audio id="bgAmbiance" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
 
     <script>
+        // Multiple fallback links for each image to ensure they open
         const myCollection = [
             {
                 title: "The Silence of the Soul",
-                image: "http://googleusercontent.com/image_collection/image_retrieval/17859309235999013121_1",
-                desc: "The inner world remains quiet when the heavy darkness begins...",
+                desc: "The inner world remains quiet when the darkness begins...",
+                links: [
+                    "https://images.unsplash.com/photo-1514917860136-ee8b18e859ec?q=80&w=800",
+                    "https://images.pexels.com/photos/268415/pexels-photo-268415.jpeg?auto=compress&cs=tinysrgb&w=800",
+                    "https://i.ibb.co/vYm6pXp/silence.jpg"
+                ],
                 content: `The inner world remains quiet when the heavy darkness begins to fall\nSearching for a meaning within the deep corridors of a lonely mind\nEvery breath we take carries the weight of a thousand unspoken words\nThe vibrant colors of the living world fade into a grey mist`
             },
             {
-                title: "When the Inner Light Fades",
-                image: "http://googleusercontent.com/image_collection/image_retrieval/8430346346316757932_0",
-                desc: "The golden glow of the morning begins to lose its ancient warmth...",
-                content: `The golden glow of the morning begins to lose its ancient warmth\nWe look toward the horizon but the sun feels like a lie\nThe fire that once burned in the chest is now cold ash\nWalking through life with eyes that no longer see the hidden magic`
+                title: "Inner Light Fades",
+                desc: "The golden glow of the morning loses its ancient warmth...",
+                links: [
+                    "https://images.unsplash.com/photo-1470252644357-5d9d8181c999?q=80&w=800",
+                    "https://images.pexels.com/photos/912364/pexels-photo-912364.jpeg?auto=compress&cs=tinysrgb&w=800"
+                ],
+                content: `The golden glow of the morning begins to lose its ancient warmth\nWe look toward the horizon but the sun feels like a lie\nThe fire that once burned in the chest is now cold ash`
             },
             {
-                title: "Echo of Vanished Spirit",
-                image: "http://googleusercontent.com/image_collection/image_retrieval/10258626030281843729_2",
+                title: "Vanished Spirit",
                 desc: "A hollow vibration travels through empty halls...",
-                content: `The sound of a soul leaving remains in the cold morning air\nA hollow vibration travels through the empty halls of the ancient house\nWe hear the ghost of a laugh that once filled the room\nThe spirit has gone but the memory still haunts the silent stone`
+                links: [
+                    "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=800",
+                    "https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=800"
+                ],
+                content: `The sound of a soul leaving remains in the cold morning air\nA hollow vibration travels through the empty halls of the ancient house\nWe hear the ghost of a laugh that once filled the room`
             },
             {
                 title: "Beyond the Breath",
-                image: "http://googleusercontent.com/image_collection/image_retrieval/11440582025626102069_0",
-                desc: "The final air leaves the lungs and returns to the wide sky...",
-                content: `The final air leaves the lungs and returns to the wide sky\nThe lungs become still like a bird that has finished its flight\nThere is a moment of peace when the struggle finally ends\nThe heart stops its drumming and the blood turns into stone`
+                desc: "The final air leaves the lungs and returns to the sky...",
+                links: [
+                    "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&w=800",
+                    "https://images.pexels.com/photos/956999/pexels-photo-956999.jpeg?auto=compress&cs=tinysrgb&w=800"
+                ],
+                content: `The final air leaves the lungs and returns to the wide sky\nThe lungs become still like a bird that has finished its flight\nThere is a moment of peace when the struggle finally ends`
             },
             {
                 title: "Architecture of Emptiness",
-                image: "http://googleusercontent.com/image_collection/image_retrieval/2931087097825281537_0",
-                desc: "Emptiness is not a hole but a structure of pure potential...",
-                content: `Emptiness is not a hole but a structure of pure silent potential\nWe build the walls of our ego to hide the vast vacuum\nThe soul is a cathedral built around a center of absolute nothingness\nWe decorate the interior with gold to forget the hollow truth`
+                desc: "Emptiness is not a hole but a structure of potential...",
+                links: [
+                    "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=800",
+                    "https://images.pexels.com/photos/380768/pexels-photo-380768.jpeg?auto=compress&cs=tinysrgb&w=800"
+                ],
+                content: `Emptiness is not a hole but a structure of pure silent potential\nWe build the walls of our ego to hide the vast vacuum\nThe soul is a cathedral built around a center of absolute nothingness`
             }
         ];
 
@@ -170,42 +182,48 @@
             myCollection.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'vol-card opacity-0 translate-y-10';
+                
+                // Logic to handle image fallbacks
+                const imgTag = `<img src="${item.links[0]}" 
+                                     class="card-img" 
+                                     onerror="this.src='${item.links[1] || ''}'; this.onerror=null;" 
+                                     alt="${item.title}">`;
+
                 card.innerHTML = `
-                    <img src="${item.image}" class="card-img" alt="${item.title}">
+                    <div class="card-img-container">${imgTag}</div>
                     <div class="card-content">
-                        <h3 class="gold-style text-2xl mb-4">${item.title}</h3>
-                        <p class="text-sm italic text-zinc-500 mb-6">${item.desc}</p>
-                        <button onclick="openReading(${index})" class="btn-gold">Read Manuscript</button>
+                        <h3 class="gold-style text-xl mb-3">${item.title}</h3>
+                        <p class="text-xs italic text-zinc-500 mb-5 leading-relaxed">${item.desc}</p>
+                        <button onclick="openReading(${index})" class="btn-gold">Read Scroll</button>
                     </div>
                 `;
                 grid.appendChild(card);
             });
 
-            gsap.to(".vol-card", { opacity: 1, y: 0, stagger: 0.2, duration: 1, delay: 0.5 });
+            gsap.to(".vol-card", { opacity: 1, y: 0, stagger: 0.15, duration: 0.8, delay: 0.5 });
             initCursor();
-            lucide.createIcons();
         }
 
         function openReading(index) {
             const item = myCollection[index];
             const area = document.getElementById('content-area');
-            const lines = item.content.split('\n').map(l => `<span class="block mb-4">${l.trim()}</span>`).join('');
+            const lines = item.content.split('\n').map(l => `<span class="block mb-6 opacity-0 translate-y-4 verse">${l.trim()}</span>`).join('');
             
             area.innerHTML = `
-                <h1 class="gold-style text-5xl text-center mb-12">${item.title}</h1>
-                <div class="manuscript-text">${lines}</div>
+                <h1 class="gold-style text-4xl text-center mb-16">${item.title}</h1>
+                <div class="text-xl md:text-2xl text-center font-serif italic text-zinc-300 leading-loose">${lines}</div>
             `;
             
             const view = document.getElementById('reading-view');
             view.style.display = 'block';
-            gsap.to(view, { opacity: 1, duration: 0.6 });
+            gsap.to(view, { opacity: 1, duration: 0.5 });
+            gsap.to(".verse", { opacity: 1, y: 0, stagger: 0.2, duration: 1, delay: 0.3 });
             document.body.style.overflow = 'hidden';
         }
 
         function closeReading() {
-            const view = document.getElementById('reading-view');
-            gsap.to(view, { opacity: 0, duration: 0.4, onComplete: () => {
-                view.style.display = 'none';
+            gsap.to("#reading-view", { opacity: 0, duration: 0.4, onComplete: () => {
+                document.getElementById('reading-view').style.display = 'none';
                 document.body.style.overflow = 'auto';
             }});
         }
@@ -227,8 +245,8 @@
 
         function downloadPDF() {
             const element = document.getElementById('content-area');
-            if(!element.innerHTML) { alert("Open a scroll first!"); return; }
-            html2pdf().from(element).save();
+            if(!element.innerHTML) return;
+            html2pdf().from(element).save('Manuscript_Hassan.pdf');
         }
 
         document.addEventListener('keydown', (e) => { if(e.key === "Escape") closeReading(); });
