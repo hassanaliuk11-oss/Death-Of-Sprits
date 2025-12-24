@@ -3,239 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hassan Jatoi | Professional Poetry Studio</title>
+    <title>Hassan Jatoi | The Infinite Scroll</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,700&family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;1,700&family=Inter:wght@300;600&family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,900&family=Montserrat:wght@100;900&family=Cormorant+Garamond:ital,wght@0,300;1,700&family=Reenie+Beanie&family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Old+Standard+TT:ital@0;1&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --gold: #FFD700; 
-            --cyan: #00f2ff;
-            --pink: #ff00ea;
-            --dark-bg: #050505; 
+        :root { --gold: #FFD700; --dark-bg: #050505; }
+        body { 
+            background-color: var(--dark-bg); 
+            color: #e5e5e5; 
+            font-family: 'Old Standard TT', serif; 
+            margin: 0; 
+            scroll-behavior: smooth; 
         }
-        body { background-color: var(--dark-bg); color: #e5e5e5; font-family: 'Inter', sans-serif; margin: 0; }
-        
-        /* High Contrast Header */
         .glass-nav { 
-            background: rgba(0, 0, 0, 0.95); 
-            backdrop-filter: blur(20px); 
+            background: rgba(0, 0, 0, 0.98); 
             border-bottom: 2px solid var(--gold); 
-            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.1);
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            z-index: 1000; 
+            padding: 1.25rem 2rem;
         }
-
-        .nav-link { font-weight: 800; letter-spacing: 2px; transition: 0.3s; }
-        .nav-link:hover { color: var(--cyan) !important; }
-
-        /* Colorful Tools Panel */
-        .tools-grid {
-            background: #111;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            border: 1px solid #333;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        .logo-text { 
+            background: linear-gradient(to right, #FFD700, #fff, #FFD700); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            font-weight: 900; 
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.3em;
         }
-
-        .control-item { border-left: 3px solid transparent; padding-left: 15px; }
-        .item-typography { border-color: var(--cyan); }
-        .item-size { border-color: var(--gold); }
-        .item-format { border-color: #00ff88; }
-        .item-export { border-color: var(--pink); }
-
-        .label-text { font-size: 11px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        
-        /* Individual Label Colors */
-        .txt-cyan { color: var(--cyan); }
-        .txt-gold { color: var(--gold); }
-        .txt-green { color: #00ff88; }
-        .txt-pink { color: var(--pink); }
-
-        select, input[type="range"] {
-            background: #1a1a1a; color: white; border: 1px solid #444; padding: 10px; border-radius: 6px; width: 100%; outline: none;
+        .hero-section { 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
         }
-
-        .btn-action {
-            background: linear-gradient(45deg, var(--pink), #7000ff);
-            color: white; font-weight: 800; padding: 12px; border-radius: 8px; width: 100%; transition: 0.3s;
+        .main-cover { 
+            width: 100%; 
+            max-width: 400px; 
+            aspect-ratio: 1 / 1.41; 
+            position: relative; 
+            border: 4px solid var(--gold); 
+            border-radius: 10px; 
+            overflow: hidden; 
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2);
         }
-        .btn-action:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(255, 0, 234, 0.4); }
-
-        @media print { .no-print { display: none !important; } }
+        .prose-container { max-width: 800px; margin: 0 auto; padding: 100px 20px; }
+        .prose-entry { 
+            margin-bottom: 120px; 
+            text-align: center; 
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: 1.2s ease-out; 
+        }
+        .prose-entry.visible { opacity: 1; transform: translateY(0); }
+        .prose-title { 
+            font-family: 'Cinzel', serif; 
+            font-size: 2.8rem; 
+            color: var(--gold); 
+            margin-bottom: 1.5rem; 
+        }
+        .prose-body { 
+            font-size: 1.5rem; 
+            line-height: 2; 
+            color: #ffffff; 
+            white-space: pre-wrap; 
+        }
+        .divider { 
+            width: 100px; 
+            height: 1px; 
+            background: linear-gradient(90deg, transparent, var(--gold), transparent); 
+            margin: 50px auto; 
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body>
 
-    <audio id="bg-music" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-november.mp3" type="audio/mpeg">
-    </audio>
-
-    <nav class="glass-nav sticky top-0 z-50 px-8 py-5 flex items-center justify-between no-print">
-        <div class="flex items-center gap-12">
-            <div onclick="switchTab('cover')" class="cursor-pointer">
-                <span class="font-cinzel text-2xl tracking-[0.3em] text-[#FFD700]">HASSAN JATOI</span>
-            </div>
-            <div class="hidden lg:flex gap-8">
-                <button onclick="switchTab('cover')" id="nav-cover" class="nav-link text-white/50 text-xs uppercase">Cover</button>
-                <button onclick="switchTab('editor')" id="nav-editor" class="nav-link text-white/50 text-xs uppercase">Writing Room</button>
-                <button onclick="switchTab('gallery')" id="nav-gallery" class="nav-link text-white/50 text-xs uppercase">Library</button>
-                <button onclick="switchTab('coding')" id="nav-coding" class="nav-link text-white/50 text-xs uppercase">Core Coding</button>
-            </div>
-        </div>
-        <div class="flex items-center gap-6">
-            <button onclick="toggleMusic()" class="text-xs font-bold text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded" id="music-btn">🎧 MUSIC: OFF</button>
-            <button onclick="createNewPoem()" class="bg-white text-black font-black px-5 py-2 rounded-md text-xs hover:bg-[#FFD700] transition">CREATE NEW</button>
-        </div>
+    <nav class="glass-nav flex items-center justify-center">
+        <span class="logo-text text-2xl">HASSAN JATOI</span>
     </nav>
 
-    <main class="flex-1 p-8 overflow-y-auto">
-        
-        <div id="view-editor" class="hidden max-w-6xl mx-auto w-full">
-            <div class="tools-grid no-print">
-                <div class="control-item item-typography">
-                    <span class="label-text txt-cyan">1. Choose Style</span>
-                    <select id="font-family-select" onchange="updateStyle()">
-                        <option value="'Bodoni Moda', serif">Bodoni Luxe</option>
-                        <option value="'Playfair Display', serif">Playfair Display</option>
-                        <option value="'Lora', serif">Classic Lora</option>
-                        <option value="'Cinzel', serif">Cinzel Royal</option>
-                        <option value="'Dancing Script', cursive">Handwritten Ink</option>
-                        <option value="'Special Elite', cursive">Typewriter</option>
-                    </select>
-                </div>
-
-                <div class="control-item item-size">
-                    <span class="label-text txt-gold">2. Text Size: <span id="size-val">30</span>px</span>
-                    <input type="range" id="font-size-slider" min="12" max="150" value="30" oninput="updateStyle()">
-                </div>
-
-                <div class="control-item item-format">
-                    <span class="label-text txt-green">3. Paper Size</span>
-                    <select id="paper-size" onchange="applyPaperSize()">
-                        <option value="a5">A5 (Pocket Book)</option>
-                        <option value="a4">A4 (Standard)</option>
-                        <option value="a3">A3 (Art Poster)</option>
-                    </select>
-                </div>
-
-                <div class="control-item item-export">
-                    <span class="label-text txt-pink">4. Finish</span>
-                    <button onclick="window.print()" class="btn-action">SAVE AS PDF / PRINT</button>
-                </div>
-            </div>
-
-            <div id="paper-container" class="mx-auto transition-all duration-500 bg-white/5 p-10 border border-white/10 rounded-lg">
-                <input type="text" id="active-title" oninput="saveData()" placeholder="Poem Title" class="text-5xl font-cinzel text-white text-center mb-12 bg-transparent outline-none w-full border-b border-white/5 pb-4">
-                <textarea id="active-content" oninput="saveData()" placeholder="Write your masterpiece..." class="text-center leading-relaxed h-[700px] bg-transparent outline-none w-full"></textarea>
+    <section class="hero-section">
+        <div class="main-cover">
+            <img src="https://i.ibb.co/2YtrCjnY/1000203412.jpg" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-8 bg-black/30">
+                <h1 class="font-cinzel text-5xl font-bold text-white tracking-widest">HASSAN JATOI</h1>
+                <div class="h-[1px] w-16 bg-gold my-6"></div>
+                <p class="italic text-lg text-gold/80">Scroll to Explore My Prose</p>
             </div>
         </div>
+    </section>
 
-        <div id="view-cover" class="block">
-            <div class="max-w-[400px] mx-auto aspect-[1/1.41] relative group overflow-hidden rounded-xl border-4 border-[#FFD700] shadow-[0_0_50px_rgba(255,215,0,0.2)]">
-                <img src="https://i.ibb.co/2YtrCjnY/1000203412.jpg" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-700">
-                <div class="absolute inset-0 flex flex-col justify-between p-12 text-center bg-gradient-to-b from-black/60 via-transparent to-black/90">
-                    <p class="font-cinzel text-xs tracking-[0.5em] text-[#FFD700] font-bold">PREMIUM STUDIO</p>
-                    <div class="space-y-4">
-                        <h1 class="font-cinzel text-5xl text-white tracking-tighter drop-shadow-2xl">HASSAN<br>JATOI</h1>
-                        <div class="h-[2px] w-20 bg-[#FFD700] mx-auto"></div>
-                        <p class="italic font-serif-lux text-xl text-cyan-400">Digital Ink & Deep Thoughts</p>
-                    </div>
-                    <p class="text-[9px] text-white/40 tracking-[0.2em]">VER. 2025.04</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-gallery" class="hidden"><div id="gallery-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-6"></div></div>
-        <div id="view-coding" class="hidden">
-            <textarea id="json-input" class="w-full h-96 bg-black text-green-400 p-8 border border-gray-800 font-mono text-sm rounded-xl"></textarea>
-            <button onclick="injectCode()" class="mt-4 bg-green-600 px-8 py-3 rounded font-bold">SYNC DATA</button>
-        </div>
-    </main>
+    <div id="prose-list" class="prose-container"></div>
 
     <script>
-        const music = document.getElementById('bg-music');
-        let poems = JSON.parse(localStorage.getItem('hassan_v3_data')) || [
-            { id: 1, title: "Echoes", content: "Write something beautiful...", font: "'Bodoni Moda', serif", size: "30", color: "#ffffff" }
+        // ==========================================
+        // DATABASE: PASTE NEW POETRY BLOCKS BELOW
+        // ==========================================
+        const myWork = [
+            {
+                "title": "The Silent Pen",
+                "text": "In the quiet of the night, the ink begins to flow,\nStories of the heart that only the shadows know.\nEvery word a heartbeat, every line a breath,\nA dance of life hidden in the silence of death."
+            },
+            {
+                "title": "Eternal Echoes",
+                "text": "Time moves like a river, deep and vast,\nReflecting the future and mourning the past.\nWe are but echoes in an infinite hall,\nWaiting for the moment we rise or we fall."
+            }
+            // <-- Paste the next block here (Don't forget the comma above!)
         ];
-        let activeId = poems[0].id;
 
-        function updateStyle() {
-            const font = document.getElementById('font-family-select').value;
-            const size = document.getElementById('font-size-slider').value;
-            const content = document.getElementById('active-content');
-            content.style.fontFamily = font;
-            content.style.fontSize = size + "px";
-            document.getElementById('size-val').innerText = size;
-            saveData();
-        }
-
-        function applyPaperSize() {
-            const size = document.getElementById('paper-size').value;
-            const container = document.getElementById('paper-container');
-            if(size === 'a5') container.style.maxWidth = "450px";
-            if(size === 'a4') container.style.maxWidth = "850px";
-            if(size === 'a3') container.style.maxWidth = "1150px";
-        }
-
-        function toggleMusic() {
-            music.paused ? music.play() : music.pause();
-            document.getElementById('music-btn').innerText = music.paused ? "🎧 MUSIC: OFF" : "🔊 MUSIC: ON";
-            document.getElementById('music-btn').style.borderColor = music.paused ? "rgba(34, 211, 238, 0.3)" : "#00f2ff";
-        }
-
-        function renderPoem(id) {
-            const p = poems.find(x => x.id === id);
-            activeId = id;
-            document.getElementById('active-title').value = p.title;
-            document.getElementById('active-content').value = p.content;
-            document.getElementById('font-family-select').value = p.font || "'Bodoni Moda', serif";
-            document.getElementById('font-size-slider').value = p.size || "30";
-            updateStyle();
-        }
-
-        function saveData() {
-            const idx = poems.findIndex(x => x.id === activeId);
-            if(idx === -1) return;
-            poems[idx].title = document.getElementById('active-title').value;
-            poems[idx].content = document.getElementById('active-content').value;
-            poems[idx].font = document.getElementById('font-family-select').value;
-            poems[idx].size = document.getElementById('font-size-slider').value;
-            localStorage.setItem('hassan_v3_data', JSON.stringify(poems));
-        }
-
-        function switchTab(tab) {
-            ['cover', 'editor', 'gallery', 'coding'].forEach(v => {
-                document.getElementById(`view-${v}`).classList.add('hidden');
-                const nav = document.getElementById(`nav-${v}`);
-                if(nav) nav.classList.replace('text-white', 'text-white/50');
+        function renderContent() {
+            const list = document.getElementById('prose-list');
+            myWork.forEach((item, index) => {
+                const entry = document.createElement('div');
+                entry.className = 'prose-entry';
+                entry.innerHTML = `
+                    <h2 class="prose-title">${item.title}</h2>
+                    <div class="prose-body">${item.text}</div>
+                    ${index !== myWork.length - 1 ? '<div class="divider"></div>' : ''}
+                `;
+                list.appendChild(entry);
             });
-            document.getElementById(`view-${tab}`).classList.remove('hidden');
-            const activeNav = document.getElementById(`nav-${tab}`);
-            if(activeNav) activeNav.classList.replace('text-white/50', 'text-white');
-            if (tab === 'gallery') renderGallery();
-            if (tab === 'coding') document.getElementById('json-input').value = JSON.stringify(poems, null, 4);
+
+            // Animation Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { 
+                    if (entry.isIntersecting) entry.target.classList.add('visible'); 
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.prose-entry').forEach(el => observer.observe(el));
         }
 
-        function renderGallery() {
-            const grid = document.getElementById('gallery-grid');
-            grid.innerHTML = '';
-            poems.forEach(p => {
-                const card = document.createElement('div');
-                card.className = "bg-[#111] p-8 rounded-xl border-t-4 border-cyan-500 cursor-pointer hover:bg-[#1a1a1a] transition";
-                card.onclick = () => { renderPoem(p.id); switchTab('editor'); };
-                card.innerHTML = `<h3 class="font-cinzel text-sm text-white">${p.title}</h3>`;
-                grid.appendChild(card);
-            });
-        }
-
-        function createNewPoem() {
-            const n = { id: Date.now(), title: "Untitled Verse", content: "" };
-            poems.unshift(n); saveData(); renderPoem(n.id); switchTab('editor');
-        }
-
-        window.onload = () => { renderPoem(activeId); };
+        window.onload = renderContent;
     </script>
 </body>
 </html>
