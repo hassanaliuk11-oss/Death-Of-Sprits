@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>The Death of Spirits - Hassan Jatoi</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body, html { margin: 0; padding: 0; font-family: 'Georgia', serif; scroll-behavior: smooth; background: #0a0a0a; }
-        #book-content { width: 100%; background: white; margin: 0 auto; }
-        
+       body, html { 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Lora', serif; /* Yahan tabdeeli karein */
+    scroll-behavior: smooth; 
+    background: #0a0a0a; 
+}
         /* Cover Page */
         .cover-container {
             background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
@@ -16,9 +20,11 @@
             text-align: center; color: white; page-break-after: always;
             border: 15px double #d4af37; box-sizing: border-box;
         }
-        .golden-title { font-size: 65px; font-weight: bold; background: linear-gradient(to bottom, #cf972a, #f1d37e, #8d6205); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 5px; text-transform: uppercase; }
-        .author-name { font-size: 22px; margin-top: 20px; color: #f1d37e; letter-spacing: 5px; text-transform: uppercase; }
-
+        .golden-title { 
+    font-family: 'Playfair Display', serif; /* Naya font */
+    font-size: 65px; 
+    /* baqi lines waisi hi rehne dein */
+}
         /* Chapters Layout */
         .chapter-page { padding: 100px 15%; min-height: 100vh; page-break-before: always; display: flex; flex-direction: column; justify-content: center; text-align: center; box-sizing: border-box; }
         .ch-title { font-size: 32px; color: #8d6205; margin-bottom: 30px; border-bottom: 2px solid #d4af37; display: inline-block; align-self: center; padding-bottom: 5px; }
@@ -3146,248 +3152,399 @@
         <p>We are not victims of the stars, but co-creators of our reality. The external world provides the clay, but the soul provides the form. Every hardship is an invitation to prove that the spirit is made of a material that cannot be broken by fire. In the end, we are judged not by the burdens we carried, but by the grace with which we carried them. The legacy of a life is not what was built, but the love that was felt in the ruins.</p>
     </div>
 </div>
-        <div class="chapter-page" id="hundred-quotes">
+
+<div class="chapter-page" id="hundred-quotes">
     <div class="ch-header">
         <div class="ch-num">The Centenary of Wisdom</div>
         <h1 class="ch-title">100 Echoes of the Soul</h1>
     </div>
 
-    <div class="ch-content" style="column-count: 2; column-gap: 40px; font-size: 0.9em; line-height: 1.6;">
-        <ol>
-            <li>Suffering is the soil where the soul grows its deepest roots.</li>
-            <li>Silence is the only language that God speaks fluently.</li>
-            <li>Death is not an end, but a change of clothes.</li>
-            <li>The heart was made to be broken, so the Light could enter.</li>
-            <li>We are not humans having a spiritual experience; we are spirits having a human dream.</li>
-            <li>Forgiveness is the scent that the flower leaves on the heel that crushes it.</li>
-            <li>Your scars are the stars by which you find your way home.</li>
-            <li>The ego is a wall; the soul is a window.</li>
-            <li>To be nothing is the only way to become everything.</li>
-            <li>Loneliness is just the soul calling itself back to the Source.</li>
-            <li>Every goodbye is a rehearsal for the Great Departure.</li>
-            <li>The body is a cage, but the key is kept in the marrow of pain.</li>
-            <li>Tears are the prayers that the heart cannot find words for.</li>
-            <li>Don’t fear the dark; it’s where the stars reveal their secrets.</li>
-            <li>A life without struggle is a book with blank pages.</li>
-            <li>We are all just walking each other home.</li>
-            <li>The miracle is not to fly, but to stand still in the storm.</li>
-            <li>Wealth is not what you have, but what you can give away.</li>
-            <li>Love is the only thing we take with us across the threshold.</li>
-            <li>The mirror reflects the face, but the silence reflects the soul.</li>
-            <li>Pain is a guest; don’t let it become the master of the house.</li>
-            <li>Surrender is the highest form of courage.</li>
-            <li>The world is a bridge; pass over it, but build no houses upon it.</li>
-            <li>Yesterday is a memory; tomorrow is a dream; now is the Truth.</li>
-            <li>We spend our lives waiting for a miracle, not realizing we *are* one.</li>
-            <li>The soul has no gender, no name, and no shadow.</li>
-            <li>Grief is the price we pay for having the capacity to love.</li>
-            <li>The sun never truly sets; it only moves to another sky.</li>
-            <li>The mind is a noisy market; the heart is a silent temple.</li>
-            <li>Be kind to your body; it is the donkey that carries the king.</li>
-            <li>Faith is the bird that sings while the dawn is still dark.</li>
-            <li>Truth is not found in books, but in the spaces between thoughts.</li>
-            <li>The ego wants to be right; the soul wants to be free.</li>
-            <li>Everything you lose returns to you in another form.</li>
-            <li>The ocean does not fear the rain, nor the soul the sorrow.</li>
-            <li>Be the silence that witnesses the noise.</li>
-            <li>Your life is a message; make sure it’s worth reading.</li>
-            <li>Kindness is a language that even the deaf can hear.</li>
-            <li>The wound is the place where the Light enters you.</li>
-            <li>To find yourself, you must first lose yourself in the All.</li>
-            <li>Hope is the skeleton that holds the spirit upright.</li>
-            <li>Gratitude is the alchemy that turns lead into gold.</li>
-            <li>The past is a ghost; don't let it haunt your present.</li>
-            <li>Every breath is a second chance.</li>
-            <li>Humility is the crown of the wise.</li>
-            <li>The universe is not outside of you; it is breathing within you.</li>
-            <li>We are drops of water thinking we are separate from the sea.</li>
-            <li>Life is a short journey from the heart to the Heart.</li>
-            <li>The only real prison is the one we build with our fears.</li>
-            <li>Wisdom is knowing how little we actually know.</li>
-            <li>Patience is the companion of wisdom.</li>
-            <li>The soul is a mirror that needs constant cleaning.</li>
-            <li>Don't count the days; make the days count.</li>
-            <li>Every end is just a new beginning in disguise.</li>
-            <li>The stars are the eyes of the ancestors watching our struggle.</li>
-            <li>Peace is not a destination, but a way of traveling.</li>
-            <li>The highest prayer is a silent thank you.</li>
-            <li>Your character is your destiny.</li>
-            <li>To love another is to see the face of God.</li>
-            <li>The earth is a school, and death is the graduation.</li>
-            <li>Anger is a fire that burns the vessel it is kept in.</li>
-            <li>Contentment is the greatest treasure.</li>
-            <li>The spirit is like the wind; felt but never seen.</li>
-            <li>Your destiny is written in the ink of your choices.</li>
-            <li>The body decays, but the love it gave remains eternal.</li>
-            <li>We are made of stardust and stories.</li>
-            <li>Seek the One who is seeking you.</li>
-            <li>The ego is the shadow of the soul.</li>
-            <li>Life is a balance between holding on and letting go.</li>
-            <li>There is a beauty in the breaking of things.</li>
-            <li>The heart knows things the head cannot explain.</li>
-            <li>Silence is the most powerful scream.</li>
-            <li>We are all broken; that's how the music gets out.</li>
-            <li>The path is the goal.</li>
-            <li>Truth is a shoreless ocean.</li>
-            <li>Be like a tree: let the dead leaves fall.</li>
-            <li>The soul doesn't age; it only ripens.</li>
-            <li>Death is a door that opens to the Light.</li>
-            <li>The only way out is through.</li>
-            <li>What you seek is seeking you.</li>
-            <li>Love is the bridge between you and everything.</li>
-            <li>The quietest souls are the most powerful.</li>
-            <li>Forgive yourself for not being perfect.</li>
-            <li>Life is a dance, not a race.</li>
-            <li>The spirit is the captain; the body is the ship.</li>
-            <li>The desert is beautiful because it hides a well.</li>
-            <li>Every moment is a gift, that's why it's called the present.</li>
-            <li>The soul recognizes its home in the silence.</li>
-            <li>Don't fear aging; it's the seasoning of the soul.</li>
-            <li>The truth will set you free, but first it will make you miserable.</li>
-            <li>Compassion is the root of all holiness.</li>
-            <li>We are eternal beings playing with time.</li>
-            <li>The stars shine brightest in the deepest dark.</li>
-            <li>Listen to your heart; it was beating before you could speak.</li>
-            <li>Legacy is not what you leave *for* people, but what you leave *in* them.</li>
-            <li>The shadow is proof that there is light nearby.</li>
-            <li>To live is to learn how to die.</li>
-            <li>The final word is always Love.</li>
-            <li>I am the traveler, the road, and the destination.</li>
-            <li>Amen to the journey.</li>
-        </ol>
+    <div class="ch-content" style="column-count: 2; column-gap: 40px; font-size: 0.9em; line-height: 1.8;">
+        <div style="list-style-type: none; margin: 0; padding: 0;">
+            Suffering is the soil where the soul grows its deepest roots.<br>
+            Silence is the only language that God speaks fluently.<br>
+            Death is not an end, but a change of clothes.<br>
+            The heart was made to be broken, so the Light could enter.<br>
+            We are not humans having a spiritual experience; we are spirits having a human dream.<br>
+            Forgiveness is the scent that the flower leaves on the heel that crushes it.<br>
+            Your scars are the stars by which you find your way home.<br>
+            The ego is a wall; the soul is a window.<br>
+            To be nothing is the only way to become everything.<br>
+            Loneliness is just the soul calling itself back to the Source.<br>
+            Every goodbye is a rehearsal for the Great Departure.<br>
+            The body is a cage, but the key is kept in the marrow of pain.<br>
+            Tears are the prayers that the heart cannot find words for.<br>
+            Don’t fear the dark; it’s where the stars reveal their secrets.<br>
+            A life without struggle is a book with blank pages.<br>
+            We are all just walking each other home.<br>
+            The miracle is not to fly, but to stand still in the storm.<br>
+            Wealth is not what you have, but what you can give away.<br>
+            Love is the only thing we take with us across the threshold.<br>
+            The mirror reflects the face, but the silence reflects the soul.<br>
+            Pain is a guest; don’t let it become the master of the house.<br>
+            Surrender is the highest form of courage.<br>
+            The world is a bridge; pass over it, but build no houses upon it.<br>
+            Yesterday is a memory; tomorrow is a dream; now is the Truth.<br>
+            We spend our lives waiting for a miracle, not realizing we *are* one.<br>
+            The soul has no gender, no name, and no shadow.<br>
+            Grief is the price we pay for having the capacity to love.<br>
+            The sun never truly sets; it only moves to another sky.<br>
+            The mind is a noisy market; the heart is a silent temple.<br>
+            Be kind to your body; it is the donkey that carries the king.<br>
+            Faith is the bird that sings while the dawn is still dark.<br>
+            Truth is not found in books, but in the spaces between thoughts.<br>
+            The ego wants to be right; the soul wants to be free.<br>
+            Everything you lose returns to you in another form.<br>
+            The ocean does not fear the rain, nor the soul the sorrow.<br>
+            Be the silence that witnesses the noise.<br>
+            Your life is a message; make sure it’s worth reading.<br>
+            Kindness is a language that even the deaf can hear.<br>
+            The wound is the place where the Light enters you.<br>
+            To find yourself, you must first lose yourself in the All.<br>
+            Hope is the skeleton that holds the spirit upright.<br>
+            Gratitude is the alchemy that turns lead into gold.<br>
+            The past is a ghost; don't let it haunt your present.<br>
+            Every breath is a second chance.<br>
+            Humility is the crown of the wise.<br>
+            The universe is not outside of you; it is breathing within you.<br>
+            We are drops of water thinking we are separate from the sea.<br>
+            Life is a short journey from the heart to the Heart.<br>
+            The only real prison is the one we build with our fears.<br>
+            Wisdom is knowing how little we actually know.<br>
+            Patience is the companion of wisdom.<br>
+            The soul is a mirror that needs constant cleaning.<br>
+            Don't count the days; make the days count.<br>
+            Every end is just a new beginning in disguise.<br>
+            The stars are the eyes of the ancestors watching our struggle.<br>
+            Peace is not a destination, but a way of traveling.<br>
+            The highest prayer is a silent thank you.<br>
+            Your character is your destiny.<br>
+            To love another is to see the face of God.<br>
+            The earth is a school, and death is the graduation.<br>
+            Anger is a fire that burns the vessel it is kept in.<br>
+            Contentment is the greatest treasure.<br>
+            The spirit is like the wind; felt but never seen.<br>
+            Your destiny is written in the ink of your choices.<br>
+            The body decays, but the love it gave remains eternal.<br>
+            We are made of stardust and stories.<br>
+            Seek the One who is seeking you.<br>
+            The ego is the shadow of the soul.<br>
+            Life is a balance between holding on and letting go.<br>
+            There is a beauty in the breaking of things.<br>
+            The heart knows things the head cannot explain.<br>
+            Silence is the most powerful scream.<br>
+            We are all broken; that's how the music gets out.<br>
+            The path is the goal.<br>
+            Truth is a shoreless ocean.<br>
+            Be like a tree: let the dead leaves fall.<br>
+            The soul doesn't age; it only ripens.<br>
+            Death is a door that opens to the Light.<br>
+            The only way out is through.<br>
+            What you seek is seeking you.<br>
+            Love is the bridge between you and everything.<br>
+            The quietest souls are the most powerful.<br>
+            Forgive yourself for not being perfect.<br>
+            Life is a dance, not a race.<br>
+            The spirit is the captain; the body is the ship.<br>
+            The desert is beautiful because it hides a well.<br>
+            Every moment is a gift, that's why it's called the present.<br>
+            The soul recognizes its home in the silence.<br>
+            Don't fear aging; it's the seasoning of the soul.<br>
+            The truth will set you free, but first it will make you miserable.<br>
+            Compassion is the root of all holiness.<br>
+            We are eternal beings playing with time.<br>
+            The stars shine brightest in the deepest dark.<br>
+            Listen to your heart; it was beating before you could speak.<br>
+            Legacy is not what you leave *for* people, but what you leave *in* them.<br>
+            The shadow is proof that there is light nearby.<br>
+            To live is to learn how to die.<br>
+            The final word is always Love.<br>
+            I am the traveler, the road, and the destination.<br>
+            Amen to the journey.
+        </div>
     </div>
 </div>
+        
+      <div class="philosophy-collection">
 
-        <div class="philosophy-collection">
-    
     <section>
         <h2 class="ch-title">On Grief and the Architecture of Loss</h2>
-        <ul>
-            <li>1. Grief is not a hole in the world; it is the invisible weight of a love that has no place to land.</li>
-            <li>2. To mourn is to pay a debt of honor to a joy that has passed.</li>
-            <li>3. The heart does not break like glass; it breaks like a seed, cracking open to allow a larger life to emerge.</li>
-            <li>4. Grief is the geography of an absent presence.</li>
-            <li>5. We do not "move on" from grief; we become the vessel that contains it.</li>
-            <li>6. Tears are the solvent that dissolves the ego’s resistance to reality.</li>
-            <li>7. Every sorrow is a lesson in the science of impermanence.</li>
-            <li>8. The depth of your grief is the exact measurement of the height of your love.</li>
-            <li>9. To lose the world is to finally find the one who was looking at it.</li>
-            <li>10. In the cemetery of our hopes, the flowers of wisdom grow the tallest.</li>
-            <li>11. Grief is the soul’s way of unlearning the illusion of possession.</li>
-            <li>12. Darkness is not the absence of light, but the cocoon where the light matures.</li>
-            <li>13. The void left by a loved one is not empty; it is filled with the echo of their essence.</li>
-            <li>14. Despair is the gravity of the ego; hope is the levity of the spirit.</li>
-            <li>15. To weep is to acknowledge the sanctity of what was temporary.</li>
-            <li>16. Suffering is the friction that polishes the soul into a mirror of the Divine.</li>
-            <li>17. The anatomy of a broken heart reveals the plumbing of a vast compassion.</li>
-            <li>18. Loss is the tax we pay for the privilege of inhabiting time.</li>
-            <li>19. Silence is the only language large enough to hold the weight of a goodbye.</li>
-            <li>20. We are made of the stars we have lost.</li>
-        </ul>
+        <div style="list-style-type: none; margin: 0; padding: 0; line-height: 1.8;">
+            Grief is not a hole in the world; it is the invisible weight of a love that has no place to land.<br>
+            To mourn is to pay a debt of honor to a joy that has passed.<br>
+            The heart does not break like glass; it breaks like a seed, cracking open to allow a larger life to emerge.<br>
+            Grief is the geography of an absent presence.<br>
+            We do not "move on" from grief; we become the vessel that contains it.<br>
+            Tears are the solvent that dissolves the ego’s resistance to reality.<br>
+            Every sorrow is a lesson in the science of impermanence.<br>
+            The depth of your grief is the exact measurement of the height of your love.<br>
+            To lose the world is to finally find the one who was looking at it.<br>
+            In the cemetery of our hopes, the flowers of wisdom grow the tallest.<br>
+            Grief is the soul’s way of unlearning the illusion of possession.<br>
+            Darkness is not the absence of light, but the cocoon where the light matures.<br>
+            The void left by a loved one is not empty; it is filled with the echo of their essence.<br>
+            Despair is the gravity of the ego; hope is the levity of the spirit.<br>
+            To weep is to acknowledge the sanctity of what was temporary.<br>
+            Suffering is the friction that polishes the soul into a mirror of the Divine.<br>
+            The anatomy of a broken heart reveals the plumbing of a vast compassion.<br>
+            Loss is the tax we pay for the privilege of inhabiting time.<br>
+            Silence is the only language large enough to hold the weight of a goodbye.<br>
+            We are made of the stars we have lost.<br>
+        </div>
     </section>
+
+    <br>
 
     <section>
         <h2 class="ch-title">On Betrayal and the Shattering of Trust</h2>
-        <ul>
-            <li>21. Betrayal is the violent awakening from a dream of safety.</li>
-            <li>22. A broken trust is a mirror shattered; you can glue it back, but the reflection remains fractured.</li>
-            <li>23. The enemy who strikes you from the front is a teacher; the friend who stabs you from behind is an alchemist.</li>
-            <li>24. Betrayal does not change the truth; it only reveals the character of the messenger.</li>
-            <li>25. To forgive is to release a prisoner and realize that the prisoner was you.</li>
-            <li>26. The sting of betrayal is the ego’s protest against the unpredictability of the "Other."</li>
-            <li>27. Trust is the currency of the soul; spend it wisely, but do not fear bankruptcy.</li>
-            <li>28. Disappointment is the bridge between who we thought people were and who they actually are.</li>
-            <li>29. A knife in the back is often the only thing that can cut the cords of a toxic attachment.</li>
-            <li>30. The highest form of revenge is to remain unlike the one who performed the injury.</li>
-            <li>31. Betrayal is the fire that burns away the dross of false companionship.</li>
-            <li>32. We are never betrayed by those we do not love; thus, betrayal is the dark shadow of intimacy.</li>
-            <li>33. The scar of a betrayal is the map of a boundary you finally learned to draw.</li>
-            <li>34. To be misunderstood is a nuisance; to be betrayed is an initiation.</li>
-            <li>35. Fidelity is not the absence of temptation, but the presence of an integrated will.</li>
-            <li>36. Loyalty to a lie is the greatest betrayal of the self.</li>
-            <li>37. When the pedestal breaks, the idol becomes a human; forgive them for their humanity.</li>
-            <li>38. The heart grows calloused from betrayal only if it refuses to bleed.</li>
-            <li>39. Betrayal forces us to find the anchor within, rather than in the shifting sands of others.</li>
-            <li>40. Peace is found when you stop expecting the wolf to act like a lamb.</li>
-        </ul>
+        <div style="list-style-type: none; margin: 0; padding: 0; line-height: 1.8;">
+            Betrayal is the violent awakening from a dream of safety.<br>
+            A broken trust is a mirror shattered; you can glue it back, but the reflection remains fractured.<br>
+            The enemy who strikes you from the front is a teacher; the friend who stabs you from behind is an alchemist.<br>
+            Betrayal does not change the truth; it only reveals the character of the messenger.<br>
+            To forgive is to release a prisoner and realize that the prisoner was you.<br>
+            The sting of betrayal is the ego’s protest against the unpredictability of the "Other."<br>
+            Trust is the currency of the soul; spend it wisely, but do not fear bankruptcy.<br>
+            Disappointment is the bridge between who we thought people were and who they actually are.<br>
+            A knife in the back is often the only thing that can cut the cords of a toxic attachment.<br>
+            The highest form of revenge is to remain unlike the one who performed the injury.<br>
+            Betrayal is the fire that burns away the dross of false companionship.<br>
+            We are never betrayed by those we do not love; thus, betrayal is the dark shadow of intimacy.<br>
+            The scar of a betrayal is the map of a boundary you finally learned to draw.<br>
+            To be misunderstood is a nuisance; to be betrayed is an initiation.<br>
+            Fidelity is not the absence of temptation, but the presence of an integrated will.<br>
+            Loyalty to a lie is the greatest betrayal of the self.<br>
+            When the pedestal breaks, the idol becomes a human; forgive them for their humanity.<br>
+            The heart grows calloused from betrayal only if it refuses to bleed.<br>
+            Betrayal forces us to find the anchor within, rather than in the shifting sands of others.<br>
+            Peace is found when you stop expecting the wolf to act like a lamb.<br>
+        </div>
     </section>
+
+    <br>
 
     <section>
         <h2 class="ch-title">On Ethics and the Integrity of the Soul</h2>
-        <ul>
-            <li>41. Ethics is what remains when the law is not looking.</li>
-            <li>42. Character is the architecture of the soul in the dark.</li>
-            <li>43. To be "good" is not to follow a rule, but to be in harmony with the Whole.</li>
-            <li>44. Morality is the skin of society; ethics is the marrow of the individual.</li>
-            <li>45. The greatest moral failure is the refusal to see the "I" in the "Thou."</li>
-            <li>46. Virtue is its own reward because it aligns the self with the rhythm of the Universe.</li>
-            <li>47. Justice without mercy is merely organized vengeance.</li>
-            <li>48. We do not judge a life by its duration, but by its resonance.</li>
-            <li>49. The ethical path is rarely the path of least resistance.</li>
-            <li>50. To harm another is to perform surgery on one's own soul without a mask.</li>
-            <li>51. Compassion is the realization that there are no "others."</li>
-            <li>52. Integrity is the state of being undivided.</li>
-            <li>53. The weight of a conscience is the only weight that increases as you lose everything else.</li>
-            <li>54. Evil is the refusal to acknowledge the divinity of the ordinary.</li>
-            <li>55. Responsibility is the price of freedom.</li>
-            <li>56. To live ethically is to act as if your every gesture were a universal law.</li>
-            <li>57. Kindness is the highest form of intelligence.</li>
-            <li>58. The soul’s dignity is not granted by others; it is reclaimed from within.</li>
-            <li>59. Greed is the hunger of a ghost; it can never be satisfied because it has no stomach.</li>
-            <li>60. The ultimate ethical act is to remain soft in a world that rewards hardness.</li>
-        </ul>
+        <div style="list-style-type: none; margin: 0; padding: 0; line-height: 1.8;">
+            Ethics is what remains when the law is not looking.<br>
+            Character is the architecture of the soul in the dark.<br>
+            To be "good" is not to follow a rule, but to be in harmony with the Whole.<br>
+            Morality is the skin of society; ethics is the marrow of the individual.<br>
+            The greatest moral failure is the refusal to see the "I" in the "Thou."<br>
+            Virtue is its own reward because it aligns the self with the rhythm of the Universe.<br>
+            Justice without mercy is merely organized vengeance.<br>
+            We do not judge a life by its duration, but by its resonance.<br>
+            The ethical path is rarely the path of least resistance.<br>
+            To harm another is to perform surgery on one's own soul without a mask.<br>
+            Compassion is the realization that there are no "others."<br>
+            Integrity is the state of being undivided.<br>
+            The weight of a conscience is the only weight that increases as you lose everything else.<br>
+            Evil is the refusal to acknowledge the divinity of the ordinary.<br>
+            Responsibility is the price of freedom.<br>
+            To live ethically is to act as if your every gesture were a universal law.<br>
+            Kindness is the highest form of intelligence.<br>
+            The soul’s dignity is not granted by others; it is reclaimed from within.<br>
+            Greed is the hunger of a ghost; it can never be satisfied because it has no stomach.<br>
+            The ultimate ethical act is to remain soft in a world that rewards hardness.<br>
+        </div>
     </section>
+
+    <br>
 
     <section>
         <h2 class="ch-title">On Love and the Alchemy of Connection</h2>
-        <ul>
-            <li>61. Love is the recognition of oneself in the stranger.</li>
-            <li>62. To love is to grant another the power to destroy you, while trusting they won't.</li>
-            <li>63. Love is not a feeling; it is an act of the will toward the Infinite.</li>
-            <li>64. In the grammar of the heart, "I" and "You" are just different ways of saying "We."</li>
-            <li>65. True love does not possess; it witnesses.</li>
-            <li>66. The heart’s capacity is boundless; the more it gives, the more it expands.</li>
-            <li>67. Romantic love is the ladder; Divine love is the roof.</li>
-            <li>68. To love is to see the Face of God in the person sitting across from you.</li>
-            <li>69. Love is the gravity that pulls the soul back to its Source.</li>
-            <li>70. The wounds of love can only be healed by the love that caused them.</li>
-            <li>71. To be loved is to be seen; to love is to see.</li>
-            <li>72. Devotion is the steady burning of the ego in the fireplace of the heart.</li>
-            <li>73. Love is the only thing we take with us when the anatomy of the body fails.</li>
-            <li>74. Attachment says "I love you, therefore I need you." Love says "I love you, therefore I set you free."</li>
-            <li>75. The greatest intimacy is to be silent together without fear.</li>
-            <li>76. Love is the music that the soul makes when it touches the Divine.</li>
-            <li>77. Passion is a spark; compassion is the sun.</li>
-            <li>78. To love someone is to learn the song in their heart and sing it to them when they forget.</li>
-            <li>79. Loneliness is the hunger for the self; love is the feasting upon the Presence.</li>
-            <li>80. Love is the bridge between the mortal and the Eternal.</li>
-        </ul>
+        <div style="list-style-type: none; margin: 0; padding: 0; line-height: 1.8;">
+            Love is the recognition of oneself in the stranger.<br>
+            To love is to grant another the power to destroy you, while trusting they won't.<br>
+            Love is not a feeling; it is an act of the will toward the Infinite.<br>
+            In the grammar of the heart, "I" and "You" are just different ways of saying "We."<br>
+            True love does not possess; it witnesses.<br>
+            The heart’s capacity is boundless; the more it gives, the more it expands.<br>
+            Romantic love is the ladder; Divine love is the roof.<br>
+            To love is to see the Face of God in the person sitting across from you.<br>
+            Love is the gravity that pulls the soul back to its Source.<br>
+            The wounds of love can only be healed by the love that caused them.<br>
+            To be loved is to be seen; to love is to see.<br>
+            Devotion is the steady burning of the ego in the fireplace of the heart.<br>
+            Love is the only thing we take with us when the anatomy of the body fails.<br>
+            Attachment says "I love you, therefore I need you." Love says "I love you, therefore I set you free."<br>
+            The greatest intimacy is to be silent together without fear.<br>
+            Love is the music that the soul makes when it touches the Divine.<br>
+            Passion is a spark; compassion is the sun.<br>
+            To love someone is to learn the song in their heart and sing it to them when they forget.<br>
+            Loneliness is the hunger for the self; love is the feasting upon the Presence.<br>
+            Love is the bridge between the mortal and the Eternal.<br>
+        </div>
     </section>
+
+    <br>
 
     <section>
         <h2 class="ch-title">On Truth and the Clarity of Being</h2>
-        <ul>
-            <li>81. Truth is not something you find; it is something you become.</li>
-            <li>82. Honesty is the shortest distance between two souls.</li>
-            <li>83. A lie is a debt to the truth that must eventually be paid with interest.</li>
-            <li>84. The truth does not require your belief to exist.</li>
-            <li>85. Reality is that which remains when you stop believing in your own illusions.</li>
-            <li>86. To speak the truth is to align the breath with the rhythm of the stars.</li>
-            <li>87. Complexity is the disguise of the ego; simplicity is the nakedness of the truth.</li>
-            <li>88. The most dangerous lie is the one we tell ourselves to stay comfortable.</li>
-            <li>89. Truth is a fire; it warms the humble and burns the arrogant.</li>
-            <li>90. Authenticity is the courage to be as imperfect as the Creator intended.</li>
-            <li>91. Silence is often the most honest answer.</li>
-            <li>92. To seek the truth is to embark on a journey where the traveler is the destination.</li>
-            <li>93. Honesty with others is a policy; honesty with oneself is a liberation.</li>
-            <li>94. The truth is often a bitter medicine, but it is the only one that cures the soul.</li>
-            <li>95. Wisdom is the ability to see the Truth behind the facts.</li>
-            <li>96. Light does not argue with the dark; it simply occupies the space.</li>
-            <li>97. Your "Yes" should be a temple, and your "No" should be a fortress.</li>
-            <li>98. The truth is not a destination, but the light by which we walk.</li>
-            <li>99. Honesty is the transparency that allows the Divine to shine through.</li>
-            <li>100. In the final anatomy, the only thing that remains is the Truth of who you were when everything was taken away.</li>
-        </ul>
+        <div style="list-style-type: none; margin: 0; padding: 0; line-height: 1.8;">
+            Truth is not something you find; it is something you become.<br>
+            Honesty is the shortest distance between two souls.<br>
+            A lie is a debt to the truth that must eventually be paid with interest.<br>
+            The truth does not require your belief to exist.<br>
+            Reality is that which remains when you stop believing in your own illusions.<br>
+            To speak the truth is to align the breath with the rhythm of the stars.<br>
+            Complexity is the disguise of the ego; simplicity is the nakedness of the truth.<br>
+            The most dangerous lie is the one we tell ourselves to stay comfortable.<br>
+            Truth is a fire; it warms the humble and burns the arrogant.<br>
+            Authenticity is the courage to be as imperfect as the Creator intended.<br>
+            Silence is often the most honest answer.<br>
+            To seek the truth is to embark on a journey where the traveler is the destination.<br>
+            Honesty with others is a policy; honesty with oneself is a liberation.<br>
+            The truth is often a bitter medicine, but it is the only one that cures the soul.<br>
+            Wisdom is the ability to see the Truth behind the facts.<br>
+            Light does not argue with the dark; it simply occupies the space.<br>
+            Your "Yes" should be a temple, and your "No" should be a fortress.<br>
+            The truth is not a destination, but the light by which we walk.<br>
+            Honesty is the transparency that allows the Divine to shine through.<br>
+            In the final anatomy, the only thing that remains is the Truth of who you were when everything was taken away.<br>
+        </div>
+    </section>
+
+</div>
+
+        <div class="philosophy-collection">
+
+    <section>
+        <h2 class="ch-title">On Eternity and the Infinite</h2>
+        <div style="list-style-type: none; margin: 0; padding: 0; line-height: 1.8;">
+            Eternity is not a long time; it is the absence of the clock.<br>
+            The stars do not struggle to shine, and the soul does not struggle to be eternal.<br>
+            We are ripples on the ocean of infinity, momentarily forgetting we are the water.<br>
+            Time is the shadow that eternity casts on the human mind.<br>
+            To touch the present moment deeply is to touch the hem of the timeless.<br>
+            The universe is a circle whose center is everywhere and whose circumference is nowhere.<br>
+            Birth is a focused arrival; death is a boundless expansion.<br>
+            You are not a drop in the ocean; you are the entire ocean in a drop.<br>
+            The infinite cannot be measured, it can only be inhabited.<br>
+            Eternity is found in the heartbeat that happens between 'was' and 'will be'.<br>
+            We seek the shore while we are swimming in the sea of the Absolute.<br>
+            The soul is the traveler that never leaves its home in the Infinite.<br>
+            Space is the breath of God; silence is His heartbeat.<br>
+            Nothing is ever lost in the cosmos; it only changes its frequency.<br>
+            To be born is to forget; to die is to remember the stars.<br>
+            The anatomy of the moment reveals the architecture of forever.<br>
+            Infinite love is the only gravity that doesn't pull you down, but lifts you up.<br>
+            We are ancient light masquerading as temporary people.<br>
+            The soul’s destination is the same place it started: Everywhere.<br>
+            The Great Unknown is the most familiar place you have ever been.<br>
+        </div>
+    </section>
+
+    <br>
+
+    <section>
+        <h2 class="ch-title">On Suffering and the Alchemy of Sacrifice</h2>
+        <div style="list-style-type: none; margin: 0; padding: 0; line-height: 1.8;">
+            Suffering is the friction that burns away the mask of the ego.<br>
+            Sacrifice is not losing; it is trading the temporary for the eternal.<br>
+            The anvil survives the hammer by the strength of its stillness.<br>
+            A wound is a doorway; don't close it before the Light enters.<br>
+            Pain is the messenger, but the message is always 'Wake Up'.<br>
+            To suffer is to participate in the labor pains of a new consciousness.<br>
+            The cross we carry is the ladder we climb.<br>
+            Every tear shed in truth is a drop of holy water.<br>
+            There is no resurrection without a crucifixion of the self.<br>
+            Suffering ends where the resistance to reality ends.<br>
+            The darkest night is the forge where the strongest spirits are tempered.<br>
+            A broken heart is an open heart, and an open heart is a dangerous grace.<br>
+            Sacrifice is the currency of the sacred.<br>
+            The weight of the world is only heavy if you try to own it.<br>
+            Gethsemane is a garden that exists in every human chest.<br>
+            We are refined in the fire, but we are defined by how we walk through it.<br>
+            To surrender your life is the only way to keep it.<br>
+            Pain tells you where you are; love tells you who you are.<br>
+            The alchemy of prayer turns leaden sorrow into golden peace.<br>
+            Suffering is the shortest path to the realization of Mercy.<br>
+        </div>
+    </section>
+
+    <br>
+
+    <section>
+        <h2 class="ch-title">On Wisdom and the Higher Intellect</h2>
+        <div style="list-style-type: none; margin: 0; padding: 0; line-height: 1.8;">
+            Knowledge is proud that it knows so much; Wisdom is humble that it knows no more.<br>
+            The mind is a beautiful servant but a terrible master.<br>
+            True intelligence is the ability to hold two opposing truths in one heart.<br>
+            Wisdom is the art of seeing the invisible in the visible.<br>
+            The head asks 'Why?'; the heart answers 'Because'.<br>
+            Logic can take you from A to B; intuition can take you to the Source.<br>
+            To know the self is to know the universe and its gods.<br>
+            A wise man is a student until his final breath.<br>
+            Thinking is a ripple; knowing is the depth of the pool.<br>
+            The greatest wisdom is to be kind when you have the power to be cruel.<br>
+            Silence is the sanctuary of the thinker.<br>
+            Words are the leaves of the tree; silence is the fruit.<br>
+            To unlearn is often more important than to learn.<br>
+            The ego thinks it is the sun; the soul knows it is the light.<br>
+            Reason is the candle; faith is the sun.<br>
+            Wisdom is the fragrance of a life well-lived.<br>
+            Do not seek the footprints of the men of old; seek what they sought.<br>
+            The intellect sees the parts; the spirit sees the Whole.<br>
+            Clarity is the result of a mind that has stopped trying to control the wind.<br>
+            The only real ignorance is the belief that you are separate from the All.<br>
+        </div>
+    </section>
+
+    <br>
+
+    <section>
+        <h2 class="ch-title">On the Void and the Fullness of Emptiness</h2>
+        <div style="list-style-type: none; margin: 0; padding: 0; line-height: 1.8;">
+            The void is not a lack of being, but a luxury of space.<br>
+            Emptiness is the vessel that allows the Divine to pour itself in.<br>
+            To be empty of 'self' is to be full of 'Grace'.<br>
+            The sky is empty, and that is why it can hold the sun.<br>
+            We fear the vacuum, not realizing it is the womb of creation.<br>
+            In the hollow of the flute, the music finds its voice.<br>
+            The architecture of the void is the foundation of the stars.<br>
+            To be 'nothing' is to be the canvas for the Great Artist.<br>
+            Emptiness is the only state that cannot be broken.<br>
+            The soul seeks the silence of the void to hear the song of the Source.<br>
+            A cup is only useful when it is not full.<br>
+            The great 'No' of the void is the path to the ultimate 'Yes'.<br>
+            Zero is the most powerful number in the mathematics of the spirit.<br>
+            Don't fill the silence; let the silence fill you.<br>
+            The void is the mirror where God sees His own reflection.<br>
+            Naked we came, and naked we return—the void is our first and last home.<br>
+            When you lose everything, you realize you are the space in which everything happens.<br>
+            The fullness of life is found in the emptiness of the ego.<br>
+            The void is the pause between two heartbeats where the Infinite resides.<br>
+            Nothingness is the only thing that cannot be improved upon.<br>
+        </div>
+    </section>
+
+    <br>
+
+    <section>
+        <h2 class="ch-title">On the Final Arrival and the Great Homecoming</h2>
+        <div style="list-style-type: none; margin: 0; padding: 0; line-height: 1.8;">
+            The end of the journey is the discovery that you never left.<br>
+            Death is the final unveiling of the face we have always had.<br>
+            Home is not a place, but a state of absolute surrender.<br>
+            The Great Arrival is the moment the wave remembers it is the sea.<br>
+            We are all pilgrims traveling toward the light of our own souls.<br>
+            The last breath is the first breath of the real life.<br>
+            To die is to finally step out of the movie and into the theater.<br>
+            The homecoming is silent, for there are no words left to say.<br>
+            Arrival is not reaching a destination; it is realizing the Traveler is the Goal.<br>
+            The soul does not go 'away'; it goes 'within'.<br>
+            Every sunset on earth is a sunrise in the spirit.<br>
+            The grave is the doorway to the garden.<br>
+            We spend our lives building a house, only to realize we are the Air.<br>
+            The final surgery removes the 'I' so the 'Am' can remain.<br>
+            The homecoming is the end of the loneliness of being a person.<br>
+            God is the host, and the soul is the long-awaited guest.<br>
+            In the Great Arrival, the map is burned, and the land is embraced.<br>
+            The light at the end of the tunnel is the light from within your own chest.<br>
+            The story is over, but the Author is just beginning.<br>
+            Amen to the beginning of the Silence.<br>
+        </div>
     </section>
 
 </div>
