@@ -3,39 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <title>The Death of Spirits - Hassan Jatoi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    
     <style>
-       body, html { 
-    margin: 0; 
-    padding: 0; 
-    font-family: 'Lora', serif; /* Yahan tabdeeli karein */
-    scroll-behavior: smooth; 
-    background: #0a0a0a; 
-}
-        /* Cover Page */
+        /* Modern Background & Body Settings */
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Lora', serif; 
+            scroll-behavior: smooth; 
+            background: #121212; /* Deep modern charcoal */
+            color: #e0e0e0;
+        }
+
+        /* Reading Progress Bar */
+        #progress-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 5px;
+            background: rgba(255,255,255,0.1); z-index: 2000;
+        }
+        #progress-bar { height: 100%; background: #d4af37; width: 0%; transition: 0.2s; }
+
+        /* Book Container */
+        #book-content { width: 100%; margin: 0 auto; }
+
+        /* Cover Page - Thori zyada modern aur cinematic */
         .cover-container {
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
             background-size: cover; background-position: center; height: 100vh;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center; color: white; page-break-after: always;
-            border: 15px double #d4af37; box-sizing: border-box;
+            border: 20px solid rgba(212, 175, 55, 0.2); box-sizing: border-box;
         }
+        
         .golden-title { 
-    font-family: 'Playfair Display', serif; /* Naya font */
-    font-size: 65px; 
-    /* baqi lines waisi hi rehne dein */
-}
-        /* Chapters Layout */
-        .chapter-page { padding: 100px 15%; min-height: 100vh; page-break-before: always; display: flex; flex-direction: column; justify-content: center; text-align: center; box-sizing: border-box; }
-        .ch-title { font-size: 32px; color: #8d6205; margin-bottom: 30px; border-bottom: 2px solid #d4af37; display: inline-block; align-self: center; padding-bottom: 5px; }
-        .ch-content { 
-    font-size: 24px; 
-    line-height: 1.6; 
-    font-style: normal; /* Isse Italic khatam ho jayega */
-    color: #333; 
-    font-weight: 400; 
-}
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(40px, 8vw, 80px); 
+            font-weight: bold; 
+            background: linear-gradient(to bottom, #cf972a, #f1d37e, #8d6205); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            letter-spacing: 8px; text-transform: uppercase; 
+            margin: 0;
+        }
 
+        /* Chapter Layout - Clean & Readable */
+        .chapter-page { 
+            padding: 80px 10%; 
+            min-height: 100vh; 
+            page-break-before: always; 
+            display: flex; flex-direction: column; 
+            align-items: center; 
+            box-sizing: border-box;
+        }
+
+        /* Glassmorphism Card: Text parhne ke liye behtareen background */
+        .content-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 60px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .ch-title { 
+            font-family: 'Playfair Display', serif;
+            font-size: 36px; color: #f1d37e; 
+            margin-bottom: 40px; border-bottom: 1px solid #d4af37;
+            padding-bottom: 10px; width: 100%;
+        }
+
+        /* Content Styling: Italic Khatam, Parhne mein asaan */
+        .ch-content { 
+            font-size: 20px; line-height: 1.8; 
+            font-style: normal; /* No Italic */
+            color: #d1d1d1; font-weight: 400; 
+            text-align: left;
+        }
+        
+        .ch-content p { margin-bottom: 20px; }
         /* UI Button */
         .download-btn { position: fixed; bottom: 30px; right: 30px; background: #8d6205; color: white; padding: 15px 25px; border: none; border-radius: 50px; cursor: pointer; z-index: 1000; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
     </style>
