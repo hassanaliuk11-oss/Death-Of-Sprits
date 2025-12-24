@@ -8,36 +8,98 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700;900&family=Cinzel+Decorative:wght@700&family=Spectral:ital,wght@0,300;1,300&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700&family=Spectral:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
     
     <style>
-        :root { --gold: #d4af37; --bg: #020202; }
+        :root { --gold: #d4af37; --bg: #050505; }
         * { cursor: none !important; }
-        body { background: var(--bg); color: #c4c4c4; font-family: 'Spectral', serif; overflow-x: hidden; }
-
-        /* Gold Styling */
-        .gold-style {
-            background: linear-gradient(135deg, #fdf2d0, #d4af37, #a67c00);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        
+        body { 
+            background: var(--bg); 
+            color: #d1d1d1; 
+            font-family: 'Spectral', serif; 
+            overflow-x: hidden;
         }
 
-        /* Layout Classes */
-        .royal-nav { background: rgba(2,2,2,0.9); border-bottom: 1px solid rgba(212,175,55,0.1); position: fixed; width: 100%; z-index: 100; padding: 1rem 5%; }
-        .hero { height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; border-bottom: 1px solid rgba(212,175,55,0.1); }
-        .vol-card { background: rgba(20,20,20,0.5); border: 1px solid rgba(212,175,55,0.1); padding: 2rem; transition: 0.5s; text-align: center; }
-        .vol-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        /* Hero Image Background */
+        .hero { 
+            height: 80vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .gold-style {
+            background: linear-gradient(135deg, #fdf2d0 0%, #d4af37 50%, #a67c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Cinzel Decorative', cursive;
+        }
+
+        .royal-nav { 
+            background: rgba(5, 5, 5, 0.9); 
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2); 
+            position: fixed; width: 100%; z-index: 100; padding: 1rem 8%; 
+        }
+
+        /* Card Styles with Images */
+        .vol-card { 
+            background: rgba(20, 20, 20, 0.8); 
+            border: 1px solid rgba(212, 175, 55, 0.1); 
+            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: 0.6s;
+            filter: grayscale(40%);
+        }
+
+        .vol-card:hover .card-img { opacity: 1; filter: grayscale(0%); transform: scale(1.05); }
+
+        .vol-card:hover { 
+            border-color: var(--gold); 
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+        }
         
+        .card-content { padding: 2rem; text-align: center; }
+
         /* Reading View */
-        .reading-view { position: fixed; inset: 0; background: #010101; z-index: 1000; display: none; overflow-y: auto; padding: 80px 10%; opacity: 0; transition: 0.6s; }
-        .manuscript-text { font-size: 1.5rem; line-height: 2.2; text-align: center; font-style: italic; max-width: 800px; margin: 0 auto; }
-        .verse-line { display: block; margin-bottom: 1rem; }
-        
-        /* Cursor */
-        #cursor-dot { position: fixed; width: 5px; height: 5px; background: white; border-radius: 50%; z-index: 2000; pointer-events: none; }
+        .reading-view { 
+            position: fixed; inset: 0; background: #050505; 
+            z-index: 1000; display: none; overflow-y: auto; 
+            padding: 100px 10%; opacity: 0; 
+        }
+
+        .manuscript-text { 
+            font-size: 1.5rem; line-height: 2.5; text-align: center; 
+            font-family: 'Playfair Display', serif; font-style: italic;
+        }
+
+        #cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; z-index: 2000; pointer-events: none; }
         #cursor-glow { position: fixed; width: 40px; height: 40px; border: 1px solid var(--gold); border-radius: 50%; z-index: 1999; pointer-events: none; transition: 0.1s; }
 
-        .btn-gold { border: 1px solid var(--gold); color: var(--gold); padding: 10px 25px; text-transform: uppercase; letter-spacing: 3px; font-size: 10px; transition: 0.4s; background: transparent; margin-top: 15px; }
+        .btn-gold { 
+            border: 1px solid var(--gold); color: var(--gold); 
+            padding: 10px 25px; text-transform: uppercase; letter-spacing: 3px; 
+            font-size: 10px; transition: 0.4s; background: transparent; margin-top: 15px; 
+        }
         .btn-gold:hover { background: var(--gold); color: black; }
     </style>
 </head>
@@ -47,22 +109,22 @@
     <div id="cursor-glow"></div>
 
     <nav class="royal-nav flex justify-between items-center">
-        <span class="font-decorative gold-style text-2xl">THE ETERNAL ARCHIVE</span>
-        <button onclick="downloadPDF()" class="text-[9px] tracking-[0.3em] gold-style font-bold border-b border-gold">DOWNLOAD PDF</button>
+        <span class="gold-style text-xl">THE ETERNAL ARCHIVE</span>
+        <button onclick="downloadPDF()" class="text-[10px] tracking-widest gold-style border-b border-gold">SAVE SCROLL</button>
     </nav>
 
     <header class="hero">
         <div>
-            <h1 class="font-decorative gold-style text-5xl md:text-7xl mb-4">THE MANUSCRIPTS</h1>
-            <p class="italic text-white/20">"Voice of the Silent Soul"</p>
+            <h1 class="gold-style text-6xl md:text-8xl mb-4">THE MANUSCRIPTS</h1>
+            <p class="italic text-white/40 tracking-[0.3em]">Hassan's Soul Echoes</p>
         </div>
     </header>
 
-    <main class="py-20 px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="main-grid"></main>
+    <main class="py-32 px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12" id="main-grid"></main>
 
     <div id="reading-view" class="reading-view">
         <div class="max-w-4xl mx-auto">
-            <button onclick="closeReading()" class="mb-10 text-[10px] tracking-widest text-white/30 hover:text-white transition">CLOSE [ESC]</button>
+            <button onclick="closeReading()" class="mb-10 text-[10px] tracking-widest text-zinc-500 hover:text-gold transition">CLOSE [ESC]</button>
             <div id="content-area"></div>
         </div>
     </div>
@@ -70,140 +132,56 @@
     <audio id="bgAmbiance" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
 
     <script>
-        // ==========================================
-        // DATABASE: APNI NAI POETRY YAHA DALEIN
-        // ==========================================
         const myCollection = [
             {
                 title: "The Silence of the Soul",
+                image: "http://googleusercontent.com/image_collection/image_retrieval/17859309235999013121_1",
                 desc: "The inner world remains quiet when the heavy darkness begins...",
-                content: `The inner world remains quiet when the heavy darkness begins to fall
-                Searching for a meaning within the deep corridors of a lonely mind
-                Every breath we take carries the weight of a thousand unspoken words
-                The vibrant colors of the living world fade into a grey mist
-                We walk through crowded streets yet feel the hollow echo of nothingness` 
-                // Note: Aap upar poori poetry paste kar sakte hain.
+                content: `The inner world remains quiet when the heavy darkness begins to fall\nSearching for a meaning within the deep corridors of a lonely mind\nEvery breath we take carries the weight of a thousand unspoken words\nThe vibrant colors of the living world fade into a grey mist`
             },
             {
                 title: "When the Inner Light Fades",
+                image: "http://googleusercontent.com/image_collection/image_retrieval/8430346346316757932_0",
                 desc: "The golden glow of the morning begins to lose its ancient warmth...",
-                content: `The golden glow of the morning begins to lose its ancient warmth
-                We look toward the horizon but the sun feels like a lie
-                The fire that once burned in the chest is now cold ash
-                Walking through life with eyes that no longer see the hidden magic`
+                content: `The golden glow of the morning begins to lose its ancient warmth\nWe look toward the horizon but the sun feels like a lie\nThe fire that once burned in the chest is now cold ash\nWalking through life with eyes that no longer see the hidden magic`
             },
-
             {
-                title: "The Echo of a Vanished Spirit",
-                desc: "A hollow vibration travels through the empty halls of the ancient house...",
-                content: `The sound of a soul leaving remains in the cold morning air
-                A hollow vibration travels through the empty halls of the ancient house
-                We hear the ghost of a laugh that once filled the room
-                The spirit has gone but the memory still haunts the silent stone
-                Every footstep we take triggers an echo of someone no longer here
-                The air feels thin as if the essence has been sucked away
-                We are listening for a voice that has been lost to time
-                The wind carries a melody that nobody can truly remember or sing
-                It is the sound of a dream that died before it woke
-                A vanished spirit leaves a footprint in the dust of the mind
-                We follow the trail but it leads into a thick grey mist
-                The echo is a reminder of the beauty we failed to keep
-                We reach out for a shadow that disappears when we get close
-                The spirit was a fire that left only a cold black mark
-                We are tracing the lines of a story with no final page
-                The silence is not empty but filled with a ghostly ringing sound
-                It is the vibration of a string that has snapped in half
-                We feel the presence of a void where a heart once beat
-                The echo grows faint as the years wash over the broken shore
-                We are searching for the source of the sound in the dark
-                But the spirit has traveled beyond the reach of our mortal ears
-                The world feels lighter yet more lonely without that heavy golden spark
-                We are talking to walls that have forgotten the names of kings
-                The echo of the spirit is a map to a hidden grave
-                We dig in the sand but find only the white bleached bones
-                The spirit was the water and we are the dry cracked earth
-                We hear the rain falling in a dream that never comes true
-                The echo is a cage made of the things we never said
-                We are trapped in the resonance of a long and final goodbye
-                The vanished spirit is a star that exploded a million years ago
-                We see the light but the fire is already dead and gone
-                The echo is the only thing left of a once great king
-                We are the servants of a palace that has no living master
-                The sound of the spirit is a whistle in a deep canyon
-                It bounces back but it is not the same voice anymore
-                The echo is distorted by the walls of our own many fears
-                We are afraid of the quiet that follows the final fading note
-                The spirit has crossed the river leaving us on the muddy bank
-                We hear the splashing of oars in the middle of the night
-                But there is no boat and there is no ferryman to see
-                The echo is a haunting of the things we took for granted
-                We realize the value only when the air becomes perfectly still now
-                The vanished spirit is a bird that has flown into the sun
-                The song remains in the trees but the branches are all bare
-                We are collecting the echoes in a jar of broken thick glass
-                They cannot be held and they cannot be heard by the world
-                The spirit was a secret that the universe decided to take back
-                We are left with the riddle and no way to solve it
-                The echo is a pulse in the wrist of a dead hand
-                It is a trick of the mind and a trick of time
-                The spirit was the light and the echo is the long shadow
-                We are walking in the shadow looking for the sun behind us
-                The echo is a bridge that leads to a place of ghosts
-                We are afraid to cross but we cannot stay on this side
-                The vanished spirit is a perfume that lingers in a velvet dress
-                The person is gone but the scent makes the heart ache so
-                The echo is a letter written in ink that fades in light
-                We read the words but the meaning is lost to the wind
-                The spirit was a giant and we are the tiny crawling ants
-                We live in the footprint of a soul that has walked away
-                The echo is the sound of a door closing in the distance
-                It is the finality of a life that has reached the end
-                We are waiting for the echo to stop so we can sleep
-                But the spirit is restless and the sound will never truly die
-                The echo is a seed that falls on a bed of rock
-                It cannot grow but it refuses to be turned into dust today
-                The vanished spirit is a cloud that has turned into thin air
-                The sky is blue but we remember the shape of the storm
-                The echo is a mirror that reflects the sound of our grief
-                We are crying out to a heaven that is busy with others
-                The spirit was the truth and the echo is the beautiful lie
-                We believe the lie because the truth is too hard to bear
-                The echo is a chain that binds us to the very past
-                We must break the sound to find the silence of the peace
-                The spirit has vanished into the great and the infinite golden sea
-                We are the ripples that remain on the surface for a while
-                The echo is the end of the story of the human soul
-                We are the ones who must listen to the very last breath
-                The spirit is gone but the echo is ours to keep forever
-                It is the music of the dead and the song of life
-                The echo is the proof that we were once truly alive together
-                We will join the spirit when our own echo finally starts now`
+                title: "Echo of Vanished Spirit",
+                image: "http://googleusercontent.com/image_collection/image_retrieval/10258626030281843729_2",
+                desc: "A hollow vibration travels through empty halls...",
+                content: `The sound of a soul leaving remains in the cold morning air\nA hollow vibration travels through the empty halls of the ancient house\nWe hear the ghost of a laugh that once filled the room\nThe spirit has gone but the memory still haunts the silent stone`
             },
-
-            Title 4: Beyond the Breath: The End of Being
-The final air leaves the lungs and returns to the wide sky The lungs become still like a bird that has finished its flight There is a moment of peace when the struggle finally ends now The body is a heavy anchor dropped into a deep silent sea We move beyond the rhythm of the rising and the falling chest The heart stops its drumming and the blood turns into cold stone Being is a flame that has used all of its flickering oil The light goes out and the smoke drifts into the dark night We are more than the skin and the bone and the meat The essence escapes through the mouth like a soft white winter mist The world of the senses is left behind like an old coat We can no longer feel the heat or the bite of cold The thoughts that once raced are now quiet like a frozen lake The end of being is the start of a much longer journey We cross the border where the maps have no more printed names The ego dissolves like a sugar cube in a glass of water There is no more I or me in the vastness of space We are part of the atoms and the dust of the stars The breath was the string that tied the soul to the earth Now the string is cut and the balloon flies into the sun The memories of a life are flashing like a dying light bulb Then there is only the grand silence of the very infinite We are moving beyond the need for words and for spoken names The struggle for power and for gold is a distant tiny joke Being was a temporary mask worn for a very short play today The curtain has fallen and the actors have gone to their rest The end is not a wall but a window to the unknown We look through the glass and see the truth of the universe The breath was a loan that we had to pay back eventually The bank of life is closed and the ledgers are all balanced We are floating in a void that feels like a warm hug The fear of death is a shadow that disappears in the light Beyond the breath there is no pain and there is no sorrow The heavy burden of the self is lifted from the tired shoulders We are like a drop of rain falling into the great ocean Individual identity is lost in the blue of the deep spirit sea The clock on the wall has no power over the timeless soul We are living in the space between the seconds of a dream The end of being is the ultimate freedom from all the chains We do not need the eyes to see the glory of God The spirit is a traveler that has finally reached the front door The key is the silence that comes after the last long sigh We are dancing in a place where there is no gravity at all The music is the vibration of the entire created world of light Beyond the breath there is a garden with no dying flowers now The sun never sets because the light comes from the inside out We are meeting the ones who left the party before we did The end of being is a homecoming for a very weary child The body was a cage but the spirit was always the bird The door is wide open and the sky is a deep blue We are breathing the air of a world that has no pollution The soul is a diamond that has been polished by the life Now it shines with a brilliance that we cannot even imagine here The breath was a cage that kept the light from spreading far The end of being is the expansion of the mind into space We are everywhere and nowhere at the same exact time today The physical world is a shadow of the real world beyond us We were dreaming of life but now we are truly awake forever The silence is a song that we have always known the words Beyond the breath there is no time and there is no space We are the pulse of the stars and the heat of suns The end of being is the beginning of the great eternal life We are the weavers of the dream and the dream itself now The body is a memory that the earth will slowly eat away But the spirit is a flame that can never be put out We are moving toward the center of the big bright white light The breath was the first step on a very long winding road The end is the destination we have been seeking for so long We are free from the hunger and free from the deep thirst Beyond the breath there is only the truth of the holy love We are the energy that moves the planets in their round orbits The end of being is a transition into the pure holy spirit We are shedding the weight of the world like a dead skin The soul is a fire that burns without any wood or coal We are the light and we are the dark and everything between The breath was a whisper in the middle of a loud storm The end is the quiet after the wind has died down now We are sailing on a ship with no sails and no oars The current of the universe is taking us to the distant shore Beyond the breath there is a peace that passes all understanding We are the ones who have finished the race and won gold The end of being is the greatest mystery of the human heart We are finally home in the arms of the great creator now
-       
-      : The Architecture of Emptiness
-Emptiness is not a hole but a structure of pure silent potential We build the walls of our ego to hide the vast vacuum The soul is a cathedral built around a center of absolute nothingness We decorate the interior with gold to forget the hollow truth inside True wisdom is understanding the space between the pillars of our thoughts The architecture of the self is designed to contain the uncontainable spirit We are afraid of the void because we cannot own its silence Every room in the mind is a box meant to trap light But the emptiness is the only thing that is truly eternal here We spend our lives filling the gaps with noise and useless things The master architect knows that the beauty is in the open space A cup is only useful because of the empty part in middle Our being is a vessel waiting to be poured into the infinite The structure of our grief is built on the foundation of loss We walk through the corridors of a heart that has no furniture The emptiness is a mirror that shows the true face of God We are trying to map a territory that has no solid ground The architecture of silence is the highest form of human prayer now We must dismantle the roof to see the stars of the truth The void is not an ending but the source of all creation The blueprints of the soul are written in the ink of silence We are the architects of our own internal and lonely prisons today The bars of the cage are made of our very own desires To be empty is to be full of the entire breathing universe The walls are falling down and the wind is blowing through us We are becoming the space that holds the sun and the moon The architecture of emptiness is the freedom from all defined shapes We are the house and the guest and the empty room together The spirit breathes best when there is nothing left to hold onto We are the architects of a temple that has no solid walls The emptiness is the solid rock upon which we must now stand Deep philosophy is the art of unlearning the world we built here We are returning to the state of the original and holy void The structure of our life is a shadow of a higher emptiness We are the ones who must live in the house of no-thing The architecture of the spirit is the science of the inner space We are finding the home that we never really truly left behind The emptiness is the only bridge to the heart of the one  
-        // <--- WORK HERE HASSAN (Aapko bas is line ke upar naya bracket { } add karna hai) --->
-
+            {
+                title: "Beyond the Breath",
+                image: "http://googleusercontent.com/image_collection/image_retrieval/11440582025626102069_0",
+                desc: "The final air leaves the lungs and returns to the wide sky...",
+                content: `The final air leaves the lungs and returns to the wide sky\nThe lungs become still like a bird that has finished its flight\nThere is a moment of peace when the struggle finally ends\nThe heart stops its drumming and the blood turns into stone`
+            },
+            {
+                title: "Architecture of Emptiness",
+                image: "http://googleusercontent.com/image_collection/image_retrieval/2931087097825281537_0",
+                desc: "Emptiness is not a hole but a structure of pure potential...",
+                content: `Emptiness is not a hole but a structure of pure silent potential\nWe build the walls of our ego to hide the vast vacuum\nThe soul is a cathedral built around a center of absolute nothingness\nWe decorate the interior with gold to forget the hollow truth`
+            }
         ];
 
-        // ==========================================
-        // SYSTEM LOGIC (Isko mat chhediye ga)
-        // ==========================================
         function init() {
             const grid = document.getElementById('main-grid');
             myCollection.forEach((item, index) => {
                 const card = document.createElement('div');
-                card.className = 'vol-card';
+                card.className = 'vol-card opacity-0 translate-y-10';
                 card.innerHTML = `
-                    <h3 class="font-header gold-style text-2xl mb-4">${item.title}</h3>
-                    <p class="text-sm italic text-zinc-500">${item.desc}</p>
-                    <button onclick="openReading(${index})" class="btn-gold">Read Scroll</button>
+                    <img src="${item.image}" class="card-img" alt="${item.title}">
+                    <div class="card-content">
+                        <h3 class="gold-style text-2xl mb-4">${item.title}</h3>
+                        <p class="text-sm italic text-zinc-500 mb-6">${item.desc}</p>
+                        <button onclick="openReading(${index})" class="btn-gold">Read Manuscript</button>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
+
+            gsap.to(".vol-card", { opacity: 1, y: 0, stagger: 0.2, duration: 1, delay: 0.5 });
             initCursor();
             lucide.createIcons();
         }
@@ -211,23 +189,25 @@ Emptiness is not a hole but a structure of pure silent potential We build the wa
         function openReading(index) {
             const item = myCollection[index];
             const area = document.getElementById('content-area');
-            const lines = item.content.split('\n').map(l => `<span class="verse-line">${l.trim()}</span>`).join('');
+            const lines = item.content.split('\n').map(l => `<span class="block mb-4">${l.trim()}</span>`).join('');
             
             area.innerHTML = `
-                <h1 class="font-decorative gold-style text-4xl md:text-6xl text-center mb-10">${item.title}</h1>
+                <h1 class="gold-style text-5xl text-center mb-12">${item.title}</h1>
                 <div class="manuscript-text">${lines}</div>
             `;
             
             const view = document.getElementById('reading-view');
             view.style.display = 'block';
-            setTimeout(() => view.style.opacity = '1', 50);
+            gsap.to(view, { opacity: 1, duration: 0.6 });
             document.body.style.overflow = 'hidden';
         }
 
         function closeReading() {
             const view = document.getElementById('reading-view');
-            view.style.opacity = '0';
-            setTimeout(() => { view.style.display = 'none'; document.body.style.overflow = 'auto'; }, 600);
+            gsap.to(view, { opacity: 0, duration: 0.4, onComplete: () => {
+                view.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }});
         }
 
         function initCursor() {
@@ -247,7 +227,7 @@ Emptiness is not a hole but a structure of pure silent potential We build the wa
 
         function downloadPDF() {
             const element = document.getElementById('content-area');
-            if(!element.innerHTML) { alert("Please open a manuscript first to export it!"); return; }
+            if(!element.innerHTML) { alert("Open a scroll first!"); return; }
             html2pdf().from(element).save();
         }
 
