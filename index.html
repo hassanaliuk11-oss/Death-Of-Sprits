@@ -3,128 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hassan Jatoi | Creative Studio</title>
+    <title>Hassan Jatoi | Professional Poetry Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,700&family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,700&family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;1,700&family=Inter:wght@300;600&family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,900&family=Montserrat:wght@100;900&family=Cormorant+Garamond:ital,wght@0,300;1,700&family=Reenie+Beanie&family=Special+Elite&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #c5a059; --dark-bg: #0a0a0a; }
-        body { background-color: var(--dark-bg); color: #e5e5e5; font-family: 'Inter', sans-serif; }
-        .font-serif-lux { font-family: 'Bodoni Moda', serif; }
-        .font-cinzel { font-family: 'Cinzel', serif; }
-        .font-lora { font-family: 'Lora', serif; }
-        .glass-nav { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .poem-card { background: #111; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
-        .poem-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        input, textarea { background: transparent !important; border: none !important; outline: none !important; width: 100%; }
-        .btn-gold { background: var(--gold); color: black; font-weight: 600; padding: 0.5rem 1.5rem; border-radius: 4px; transition: all 0.3s ease; }
-        #json-input { font-family: 'Courier New', monospace; background: #000 !important; color: #0f0 !important; border: 1px solid #333 !important; padding: 20px; }
-        @media print { .no-print { display: none !important; } body { background: white !important; color: black !important; } }
+        body { background-color: var(--dark-bg); color: #e5e5e5; font-family: 'Inter', sans-serif; margin: 0; cursor: none; overflow-x: hidden; }
+        #cursor { width: 20px; height: 20px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.1s ease; transform: translate(-50%, -50%); }
+        .ambient-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--x) var(--y), rgba(197, 160, 89, 0.08) 0%, transparent 50%); pointer-events: none; z-index: -1; }
+        .a5-cover { width: 100%; max-width: 400px; aspect-ratio: 1 / 1.41; margin: 20px auto; position: relative; box-shadow: 0 40px 80px rgba(0,0,0,0.9); border: 1px solid rgba(197, 160, 89, 0.15); overflow: hidden; background: #000; cursor: pointer; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        .a5-cover:hover { transform: translateY(-10px) scale(1.02); border-color: var(--gold); }
+        .cover-image { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: 1s; }
+        .glass-nav { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+        .btn-gold { background: var(--gold); color: black; font-weight: 700; padding: 0.6rem 1.4rem; border-radius: 2px; font-size: 10px; letter-spacing: 2px; transition: 0.4s; }
+        .btn-gold:hover { letter-spacing: 4px; box-shadow: 0 0 20px rgba(197, 160, 89, 0.3); }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; background: rgba(255,255,255,0.02); padding: 12px; border-radius: 4px; margin-bottom: 20px; }
+        #paper-container { transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
+        .stats-badge { position: absolute; right: -50px; top: 0; writing-mode: vertical-rl; font-size: 10px; opacity: 0.3; letter-spacing: 2px; }
+        @media print { .no-print, #cursor { display: none !important; } }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body onmousemove="updateCursor(event)">
 
-    <nav class="glass-nav sticky top-0 z-50 px-6 py-4 flex items-center justify-between no-print">
-        <div class="flex items-center gap-8">
-            <div class="flex flex-col cursor-pointer" onclick="switchTab('gallery')">
-                <span class="font-cinzel text-lg tracking-widest text-[#c5a059]">HASSAN JATOI</span>
-                <span class="text-[8px] tracking-[0.4em] opacity-40 uppercase">Creative Studio</span>
+    <div id="cursor"></div>
+    <div class="ambient-glow" id="glow"></div>
+
+    <audio id="bg-music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-november.mp3" type="audio/mpeg">
+    </audio>
+
+    <nav class="glass-nav sticky top-0 z-50 px-8 py-5 flex items-center justify-between no-print">
+        <div class="flex items-center gap-10">
+            <div onclick="switchTab('cover')" class="cursor-pointer">
+                <span class="font-cinzel text-xl tracking-[0.3em] text-[#c5a059] font-bold">JATOI STUDIO</span>
             </div>
-            <div class="hidden md:flex gap-6 text-[10px] font-bold uppercase tracking-widest opacity-60">
-                <button onclick="switchTab('editor')" id="nav-editor" class="text-[#c5a059]">Editor</button>
-                <button onclick="switchTab('gallery')" id="nav-gallery">Library</button>
-                <button onclick="switchTab('coding')" id="nav-coding">Coding</button>
+            <div class="hidden lg:flex gap-8 text-[9px] font-bold uppercase tracking-[0.2em] opacity-40">
+                <button onclick="switchTab('cover')" id="nav-cover" class="hover:text-[#c5a059] transition">Gallery</button>
+                <button onclick="switchTab('editor')" id="nav-editor" class="hover:text-[#c5a059] transition">Read/Write</button>
+                <button onclick="switchTab('gallery')" id="nav-gallery" class="hover:text-[#c5a059] transition">Archive</button>
             </div>
         </div>
-        <button onclick="createNewPoem()" class="btn-gold text-[10px] uppercase">New Verse</button>
+        <div class="flex items-center gap-6">
+            <button onclick="toggleMusic()" class="text-[9px] tracking-widest opacity-40 hover:opacity-100" id="music-btn">AUDIO: OFF</button>
+            <button onclick="createNewPoem()" class="btn-gold">NEW MANUSCRIPT</button>
+        </div>
     </nav>
 
-    <main class="flex-1 flex flex-col p-6 lg:p-12 overflow-y-auto">
+    <main class="flex-1 p-6 overflow-y-auto">
         
-        <div id="view-editor" class="flex-1 flex flex-col">
-            <div class="max-w-3xl mx-auto w-full flex flex-col gap-10">
-                <div class="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden no-print">
-                    <img id="active-img" src="" class="w-full h-full object-cover brightness-50">
-                    <div class="absolute bottom-6 left-6 flex gap-4">
-                        <select onchange="updateFont(this.value)" class="bg-black/40 backdrop-blur-md border border-white/10 rounded px-3 py-1 text-[10px]">
-                            <option value="font-serif-lux">Bodoni Luxe</option>
-                            <option value="font-lora">Classic Lora</option>
-                            <option value="font-cinzel">Cinzel Decorative</option>
-                        </select>
+        <div id="view-cover" class="block animate-fade">
+            <div class="a5-cover" onclick="toggleMusic()">
+                <img src="https://i.ibb.co/2YtrCjnY/1000203412.jpg" id="main-cover-img" class="cover-image">
+                <div class="absolute inset-0 flex flex-col justify-between p-12 text-center bg-gradient-to-b from-black/20 via-transparent to-black">
+                    <p class="font-cinzel text-[10px] tracking-[1em] text-[#c5a059]">EST. 2025</p>
+                    <div>
+                        <h1 class="font-cinzel text-5xl text-white tracking-tighter mb-4">HASSAN JATOI</h1>
+                        <div class="h-[1px] w-12 bg-[#c5a059] mx-auto mb-6"></div>
+                        <p class="italic font-serif-lux text-xl opacity-50">Private Collection</p>
                     </div>
+                    <p class="text-[7px] opacity-30 tracking-[0.5em] uppercase">Click image for music</p>
                 </div>
+            </div>
+        </div>
 
-                <div class="space-y-6">
-                    <input type="text" id="active-title" oninput="saveData()" placeholder="Title..." class="text-4xl md:text-6xl font-cinzel text-white/90">
-                    <div class="w-20 h-1 bg-[#c5a059] opacity-60"></div>
-                    <textarea id="active-content" oninput="saveData()" placeholder="Write here..." class="text-xl md:text-2xl leading-relaxed min-h-[400px] text-white/70"></textarea>
+        <div id="view-editor" class="hidden max-w-3xl mx-auto w-full">
+            <div class="tools-grid no-print">
+                <div class="flex flex-col gap-2">
+                    <span class="text-[8px] uppercase text-[#c5a059]">Font</span>
+                    <select id="font-family-select" onchange="updateStyle()" class="bg-black text-[10px] border border-white/10 p-2">
+                        <option value="'Bodoni Moda', serif">Bodoni Luxe</option>
+                        <option value="'Playfair Display', serif">Playfair Display</option>
+                        <option value="'Special Elite', cursive">Typewriter</option>
+                        <option value="'Dancing Script', cursive">Poet's Pen</option>
+                    </select>
                 </div>
+                <div class="flex flex-col gap-2">
+                    <span class="text-[8px] uppercase text-[#c5a059]">Size</span>
+                    <input type="range" id="font-size-slider" min="14" max="70" value="28" oninput="updateStyle()">
+                </div>
+                <div class="flex flex-col gap-2">
+                    <span class="text-[8px] uppercase text-[#c5a059]">Mood</span>
+                    <button onclick="autoImage()" class="bg-white/5 text-[9px] py-2 border border-white/10 hover:bg-[#c5a059] hover:text-black transition">✨ AUTO IMAGE</button>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <span class="text-[8px] uppercase text-[#c5a059]">Export</span>
+                    <button onclick="window.print()" class="bg-white/5 text-[9px] py-2 border border-white/10">PDF PRINT</button>
+                </div>
+            </div>
+
+            <div id="paper-container" class="relative py-20 px-10">
+                <div class="stats-badge no-print" id="word-count">WORDS: 0 | 0 MIN READ</div>
+                <input type="text" id="active-title" oninput="saveData()" placeholder="Manuscript Title" class="text-5xl font-cinzel text-white text-center mb-16 bg-transparent outline-none w-full tracking-tighter">
+                <textarea id="active-content" oninput="handleTyping()" placeholder="Let the silence speak..." class="text-center leading-[2] h-[500px] bg-transparent outline-none w-full font-serif-lux italic"></textarea>
+            </div>
+
+            <div class="flex justify-center gap-12 mt-10 opacity-20 hover:opacity-100 transition duration-500 no-print">
+                <button onclick="share('whatsapp')" class="text-xs hover:text-[#c5a059]">WHATSAPP</button>
+                <button onclick="share('twitter')" class="text-xs hover:text-[#c5a059]">X.COM</button>
+                <button onclick="share('copy')" class="text-xs hover:text-[#c5a059]">COPY TEXT</button>
             </div>
         </div>
 
         <div id="view-gallery" class="hidden">
-            <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-        </div>
-
-        <div id="view-coding" class="hidden max-w-4xl mx-auto w-full">
-            <h2 class="font-cinzel text-[#c5a059] mb-4 uppercase">Direct Poetry Injection</h2>
-            <textarea id="json-input" class="w-full h-96 rounded-lg mb-4"></textarea>
-            <button onclick="injectCode()" class="btn-gold">Inject Data</button>
+            <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 p-10"></div>
         </div>
     </main>
 
     <script>
-        // ==========================================
-        // 1. COPY PASTE YOUR POETRY HERE 
-        // ==========================================
-        const myPoetryDatabase = [
-            {
-                "title": "Silent Night",
-                "content": "The stars are whispering to the moon,\nMorning comes far too soon.",
-                "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
-                "font": "font-serif-lux"
+        const music = document.getElementById('bg-music');
+        
+        // --- POETRY ADD KARNE KI JAGHA ---
+        // Yahan aap apni jitni chahein poetry add kar sakte hain.
+        // Title: Poetry ka naam
+        // Content: Poetry ki lines (\n ka matlab hai next line)
+        const permanentPoems = [
+            { 
+                id: 1, 
+                title: "Mohabbat", 
+                content: "Mohabbat ki koi manzil nahi hai,\nYe rasta hai magar hasil nahi hai.", 
+                font: "'Bodoni Moda', serif", 
+                size: "28", 
+                img: "https://images.unsplash.com/photo-1516589174184-c68526574af5?w=800" 
             },
-            {
-                "title": "Eternal Flame",
-                "content": "Love is not a seasonal flower,\nIt is a soul's quiet power.",
-                "image": "https://images.unsplash.com/photo-1499198116522-4a6235013d2d?w=800",
-                "font": "font-lora"
+            { 
+                id: 2, 
+                title: "Tanhai", 
+                content: "Ye raat ki khamoshi aur meri tanhai,\nYaad teri phir se palkon pe hai aayi.", 
+                font: "'Playfair Display', serif", 
+                size: "30", 
+                img: "https://images.unsplash.com/photo-1470252649358-969e7c7282c9?w=800" 
+            },
+            { 
+                id: 3, 
+                title: "Safar", 
+                content: "Chalte chalte thak gaye hain paon,\nKash mil jaye teri zulfon ki chhaon.", 
+                font: "'Dancing Script', cursive", 
+                size: "35", 
+                img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800" 
             }
         ];
 
-        // --- Core Logic ---
-        let poems = JSON.parse(localStorage.getItem('hassan_v2_data'));
-        if (!poems || poems.length === 0) poems = myPoetryDatabase.map((p, i) => ({...p, id: i}));
+        // Local storage se data uthana ya permanent list lena
+        let poems = JSON.parse(localStorage.getItem('hassan_v3_data')) || permanentPoems;
+        
+        // Agar local storage khali hai to permanent data set kar dein
+        if (!localStorage.getItem('hassan_v3_data')) {
+            localStorage.setItem('hassan_v3_data', JSON.stringify(permanentPoems));
+        }
 
         let activeId = poems[0].id;
 
-        function init() { renderPoem(activeId); }
+        function updateCursor(e) {
+            const cursor = document.getElementById('cursor');
+            const glow = document.getElementById('glow');
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            glow.style.setProperty('--x', e.clientX + 'px');
+            glow.style.setProperty('--y', e.clientY + 'px');
+        }
+
+        function handleTyping() {
+            const text = document.getElementById('active-content').value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const time = Math.ceil(words / 200);
+            document.getElementById('word-count').innerText = `WORDS: ${words} | ${time} MIN READ`;
+            saveData();
+        }
+
+        async function autoImage() {
+            const title = document.getElementById('active-title').value || "darkness";
+            const imgUrl = `https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800`;
+            document.getElementById('main-cover-img').src = imgUrl;
+            const idx = poems.findIndex(x => x.id === activeId);
+            poems[idx].img = imgUrl;
+            saveData();
+        }
+
+        function updateStyle() {
+            const font = document.getElementById('font-family-select').value;
+            const size = document.getElementById('font-size-slider').value;
+            const content = document.getElementById('active-content');
+            content.style.fontFamily = font;
+            content.style.fontSize = size + "px";
+            saveData();
+        }
+
+        function toggleMusic() {
+            music.paused ? music.play() : music.pause();
+            document.getElementById('music-btn').innerText = music.paused ? "AUDIO: OFF" : "AUDIO: ON";
+        }
 
         function renderPoem(id) {
-            const poem = poems.find(p => p.id === id);
-            if (!poem) return;
+            const p = poems.find(x => x.id === id);
             activeId = id;
-            document.getElementById('active-title').value = poem.title;
-            document.getElementById('active-content').value = poem.content;
-            document.getElementById('active-img').src = poem.image;
-            document.getElementById('active-content').className = `text-xl md:text-2xl leading-relaxed min-h-[400px] text-white/70 ${poem.font}`;
+            document.getElementById('active-title').value = p.title || '';
+            document.getElementById('active-content').value = p.content || '';
+            document.getElementById('main-cover-img').src = p.img || "https://i.ibb.co/2YtrCjnY/1000203412.jpg";
+            document.getElementById('font-family-select').value = p.font || "'Bodoni Moda', serif";
+            document.getElementById('font-size-slider').value = p.size || "28";
+            updateStyle();
+            handleTyping();
         }
 
         function saveData() {
-            const idx = poems.findIndex(p => p.id === activeId);
+            const idx = poems.findIndex(x => x.id === activeId);
+            if(idx === -1) return;
             poems[idx].title = document.getElementById('active-title').value;
             poems[idx].content = document.getElementById('active-content').value;
-            localStorage.setItem('hassan_v2_data', JSON.stringify(poems));
+            poems[idx].font = document.getElementById('font-family-select').value;
+            poems[idx].size = document.getElementById('font-size-slider').value;
+            localStorage.setItem('hassan_v3_data', JSON.stringify(poems));
         }
 
         function switchTab(tab) {
-            ['editor', 'gallery', 'coding'].forEach(v => {
-                document.getElementById(`view-${v}`).classList.add('hidden');
-                document.getElementById(`nav-${v}`).classList.remove('text-[#c5a059]');
-            });
+            ['cover', 'editor', 'gallery'].forEach(v => document.getElementById(`view-${v}`).classList.add('hidden'));
             document.getElementById(`view-${tab}`).classList.remove('hidden');
-            document.getElementById(`nav-${tab}`).classList.add('text-[#c5a059]');
             if (tab === 'gallery') renderGallery();
-            if (tab === 'coding') document.getElementById('json-input').value = JSON.stringify(poems, null, 4);
         }
 
         function renderGallery() {
@@ -132,32 +226,32 @@
             grid.innerHTML = '';
             poems.forEach(p => {
                 const card = document.createElement('div');
-                card.className = "poem-card rounded-xl overflow-hidden cursor-pointer p-4";
+                card.className = "group relative aspect-[3/4] overflow-hidden border border-white/5 cursor-pointer";
                 card.onclick = () => { renderPoem(p.id); switchTab('editor'); };
-                card.innerHTML = `<h3 class="font-cinzel text-gold">${p.title || 'Untitled'}</h3><p class="text-xs opacity-50 truncate">${p.content}</p>`;
+                card.innerHTML = `
+                    <img src="${p.img}" class="w-full h-full object-cover opacity-30 group-hover:scale-110 transition duration-1000">
+                    <div class="absolute inset-0 flex items-center justify-center p-6 text-center">
+                        <h3 class="font-cinzel text-sm tracking-widest text-gold uppercase">${p.title}</h3>
+                    </div>
+                `;
                 grid.appendChild(card);
             });
         }
 
-        function injectCode() {
-            try {
-                const data = JSON.parse(document.getElementById('json-input').value);
-                poems = data.map((p, i) => ({...p, id: p.id || Date.now() + i}));
-                localStorage.setItem('hassan_v2_data', JSON.stringify(poems));
-                renderPoem(poems[0].id);
-                switchTab('gallery');
-            } catch (e) { alert("Invalid Code Format!"); }
-        }
-
         function createNewPoem() {
-            const newP = { id: Date.now(), title: "New Title", content: "", image: "https://picsum.photos/800/600", font: "font-serif-lux" };
-            poems.unshift(newP);
-            saveData();
-            renderPoem(newP.id);
-            switchTab('editor');
+            const n = { id: Date.now(), title: "New Verse", content: "", font: "'Bodoni Moda', serif", size: "28", img: "https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800" };
+            poems.unshift(n); saveData(); renderPoem(n.id); switchTab('editor');
         }
 
-        window.onload = init;
+        function share(p) {
+            const t = document.getElementById('active-title').value;
+            const c = document.getElementById('active-content').value;
+            const link = `*${t}*\n${c}\n\n— By Hassan Jatoi`;
+            if(p === 'whatsapp') window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(link)}`);
+            if(p === 'copy') { navigator.clipboard.writeText(link); alert("Copied!"); }
+        }
+
+        window.onload = () => { renderPoem(activeId); };
     </script>
 </body>
 </html>
