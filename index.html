@@ -3,218 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hassan's Archive | The Elite Collection</title>
+    <title>The Death of Spirits - Hassan Jatoi</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,900;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
-        :root { --gold: #c5a059; --bg: #080808; --card-bg: #121212; }
-        * { cursor: none !important; margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { margin: 0; padding: 0; font-family: 'Georgia', serif; scroll-behavior: smooth; background: #111; }
         
-        body { 
-            background: var(--bg); 
-            color: #fff; 
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
+        /* Main Book Wrapper */
+        #book-content { width: 100%; background: white; margin: 0 auto; }
+
+        /* Cover Page Style */
+        .cover-container {
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
+            background-size: cover; background-position: center; height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; color: white; page-break-after: always;
+            border: 15px double #d4af37; box-sizing: border-box;
         }
 
-        /* Luxury Loader Effect */
-        .royal-nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            padding: 1.5rem 10%; display: flex; justify-content: space-between;
-            background: linear-gradient(to bottom, rgba(8,8,8,1), transparent);
+        .golden-title {
+            font-size: 70px; font-weight: bold;
+            background: linear-gradient(to bottom, #cf972a, #f1d37e, #b58116, #f7ef8a, #8d6205);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: 5px; margin: 0; text-transform: uppercase;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
         }
 
-        /* Cinematic Hero Section */
-        .hero-section {
-            height: 100vh; position: relative; overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-        }
-        
-        .hero-bg {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, var(--bg), transparent 50%),
-                        url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
-            background-size: cover; background-position: center;
-            transform: scale(1.1);
-        }
+        .author-name { font-size: 24px; margin-top: 30px; color: #f1d37e; letter-spacing: 5px; text-transform: uppercase; }
 
-        /* Poetry Sections Style */
-        .manuscript-section {
-            padding: 15vh 10%; position: relative;
-            min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
-            align-items: center; border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-        }
+        /* Table of Contents */
+        .toc-page { padding: 60px 10%; page-break-after: always; background: #fffcf5; min-height: 100vh; }
+        .toc-title { text-align: center; color: #8d6205; font-size: 30px; text-transform: uppercase; margin-bottom: 40px; border-bottom: 2px solid #d4af37; padding-bottom: 10px; }
+        .toc-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px; }
+        .toc-list a { text-decoration: none; color: #333; border-bottom: 1px dotted #ccc; padding: 5px; }
 
-        .manuscript-img-container {
-            position: relative; width: 100%; height: 600px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5); overflow: hidden;
-        }
+        /* Chapter Layout */
+        .chapter-page { padding: 80px 15%; min-height: 100vh; page-break-before: always; background: white; box-sizing: border-box; }
+        .ch-meta { color: #8d6205; font-style: italic; font-size: 16px; text-transform: uppercase; letter-spacing: 2px; }
+        .ch-title { font-size: 40px; margin: 10px 0 50px 0; color: #111; border-left: 6px solid #d4af37; padding-left: 20px; text-transform: capitalize; }
+        .ch-content { font-size: 21px; line-height: 1.9; text-align: justify; color: #333; }
 
-        .manuscript-img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s ease; }
-        .manuscript-section:hover .manuscript-img { transform: scale(1.1); }
-
-        .manuscript-content h2 {
-            font-family: 'Bodoni Moda', serif; font-size: clamp(3rem, 5vw, 5rem);
-            color: var(--gold); line-height: 1; margin-bottom: 2rem; font-style: italic;
-        }
-
-        .poetry-text {
-            font-family: 'Bodoni Moda', serif; font-size: 1.5rem;
-            line-height: 1.8; color: #a1a1a1; border-left: 2px solid var(--gold);
-            padding-left: 30px; position: relative;
-        }
-
-        /* Numbering Style (Top Ten Style) */
-        .section-number {
-            position: absolute; top: -20px; left: -50px;
-            font-size: 8rem; font-family: 'Bodoni Moda';
-            color: rgba(197, 160, 89, 0.05); font-weight: 900; z-index: -1;
-        }
-
-        /* Floating Cursor */
-        #cursor-ball {
-            position: fixed; width: 10px; height: 10px; background: var(--gold);
-            border-radius: 50%; pointer-events: none; z-index: 9999;
-        }
-        #cursor-outline {
-            position: fixed; width: 40px; height: 40px; border: 1px solid var(--gold);
-            border-radius: 50%; pointer-events: none; z-index: 9998;
-            transition: 0.1s ease-out;
-        }
-
-        .gold-btn {
-            display: inline-block; margin-top: 40px;
-            padding: 12px 40px; border: 1px solid var(--gold);
-            color: var(--gold); text-transform: uppercase; letter-spacing: 5px;
-            font-size: 10px; transition: 0.5s;
-        }
-        .gold-btn:hover { background: var(--gold); color: #000; letter-spacing: 8px; }
-
-        @media (max-width: 900px) {
-            .manuscript-section { grid-template-columns: 1fr; text-align: center; padding: 10vh 5%; }
-            .poetry-text { border-left: none; padding-left: 0; }
+        /* Fixed Download Button */
+        .download-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            background: linear-gradient(45deg, #8d6205, #d4af37);
+            color: white; padding: 15px 30px; border: none; border-radius: 50px;
+            cursor: pointer; font-weight: bold; z-index: 1000; box-shadow: 0 5px 20px rgba(0,0,0,0.4);
         }
     </style>
 </head>
 <body>
 
-    <div id="cursor-ball"></div>
-    <div id="cursor-outline"></div>
+    <button class="download-btn" onclick="downloadPDF()">📥 DOWNLOAD PDF</button>
 
-    <nav class="royal-nav">
-        <div class="text-xs tracking-[0.6em] text-white/50">ESTD 2024</div>
-        <div class="font-black text-xl tracking-tighter" style="color:var(--gold)">HASSAN.ARCHIVE</div>
-        <button class="text-[10px] tracking-[0.4em] text-white/50 hover:text-white transition">COLLECTION CATALOGUE</button>
-    </nav>
+    <div id="book-content">
+        <div class="cover-container">
+            <h1 class="golden-title">The Death <br> of Spirits</h1>
+            <p class="author-name">Hassan Jatoi</p>
+        </div>
 
-    <section class="hero-section">
-        <div class="hero-bg"></div>
-        <div class="text-center z-10">
-            <p class="text-[10px] tracking-[0.8em] text-white/40 mb-4 uppercase">Volume I: The Sacred Scrolls</p>
-            <h1 class="text-7xl md:text-9xl font-black italic tracking-tighter" style="font-family: 'Bodoni Moda'">The Eternal <br>Manuscripts</h1>
+        <div class="toc-page">
+            <h2 class="toc-title">Table of Contents</h2>
+            <div class="toc-list">
+                <a href="#ch1">Nearly Old</a>
+                <a href="#ch2">On My Back</a>
+                <a href="#ch3">Ceiling Crack</a>
+                <a href="#ch4">Silent Roof</a>
+                <a href="#ch5">Spidery Lines</a>
+                </div>
         </div>
-    </section>
 
-    <section class="manuscript-section">
-        <div class="manuscript-img-container" id="box1">
-            <img src="https://images.unsplash.com/photo-1514917860136-ee8b18e859ec?q=80&w=1200" class="manuscript-img">
+        <div class="chapter-page" id="ch1">
+            <div class="ch-meta">Chapter One</div>
+            <h1 class="ch-title">Nearly Old</h1>
+            <div class="ch-content">
+                HASSAN_START_HERE
+            </div>
         </div>
-        <div class="manuscript-content">
-            <div class="section-number">01</div>
-            <h2>Soul's <br>Silence</h2>
-            <p class="poetry-text">
-                The inner world remains quiet,<br>
-                When heavy darkness begins to fall.<br>
-                Searching for meaning within,<br>
-                The corridors of a lonely mind.
-            </p>
-            <a href="#" class="gold-btn">Explore Verse</a>
-        </div>
-    </section>
 
-    <section class="manuscript-section" style="direction: rtl;">
-        <div class="manuscript-img-container" id="box2" style="direction: ltr;">
-            <img src="https://images.unsplash.com/photo-1470252644357-5d9d8181c999?q=80&w=1200" class="manuscript-img">
+        <div class="chapter-page" id="ch2">
+            <div class="ch-meta">Chapter Two</div>
+            <h1 class="ch-title">On My Back</h1>
+            <div class="ch-content">
+                HASSAN_START_HERE
+            </div>
         </div>
-        <div class="manuscript-content" style="direction: ltr;">
-            <div class="section-number">02</div>
-            <h2>Fading <br>Lights</h2>
-            <p class="poetry-text">
-                The golden glow of morning,<br>
-                Loses its ancient warmth.<br>
-                We look toward the horizon,<br>
-                But the sun feels like a lie.
-            </p>
-            <a href="#" class="gold-btn">Explore Verse</a>
-        </div>
-    </section>
 
-    <section class="manuscript-section">
-        <div class="manuscript-img-container" id="box3">
-            <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200" class="manuscript-img">
+        <div class="chapter-page" id="ch3">
+            <div class="ch-meta">Chapter Three</div>
+            <h1 class="ch-title">Ceiling Crack</h1>
+            <div class="ch-content">
+                HASSAN_START_HERE
+            </div>
         </div>
-        <div class="manuscript-content">
-            <div class="section-number">03</div>
-            <h2>The Vanished <br>Spirit</h2>
-            <p class="poetry-text">
-                Hollow vibrations travel through,<br>
-                The empty halls of the house.<br>
-                The spirit has gone away,<br>
-                But memory still haunts the stone.
-            </p>
-            <a href="#" class="gold-btn">Explore Verse</a>
-        </div>
-    </section>
+
+    </div>
 
     <script>
-        // GSAP ScrollTrigger for Parallax & Animations
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Hero Parallax
-        gsap.to(".hero-bg", {
-            scrollTrigger: { scrub: true },
-            y: 200,
-            scale: 1.3
-        });
-
-        // Sections Reveal
-        gsap.utils.toArray(".manuscript-section").forEach(section => {
-            gsap.from(section.querySelector(".manuscript-img-container"), {
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                },
-                opacity: 0,
-                x: -100,
-                duration: 1.5,
-                ease: "power4.out"
-            });
-            
-            gsap.from(section.querySelector(".manuscript-content"), {
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top 80%",
-                },
-                opacity: 0,
-                y: 50,
-                duration: 1.2,
-                delay: 0.3
-            });
-        });
-
-        // Luxury Cursor
-        const ball = document.getElementById('cursor-ball');
-        const outline = document.getElementById('cursor-outline');
-        
-        document.addEventListener('mousemove', (e) => {
-            gsap.to(ball, { x: e.clientX, y: e.clientY, duration: 0.1 });
-            gsap.to(outline, { x: e.clientX - 15, y: e.clientY - 15, duration: 0.3 });
-        });
+        function downloadPDF() {
+            const element = document.getElementById('book-content');
+            const opt = {
+                margin: 0,
+                filename: 'The_Death_of_Spirits_Hassan_Jatoi.pdf',
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
     </script>
 </body>
 </html>
