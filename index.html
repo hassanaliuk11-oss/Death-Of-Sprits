@@ -3,254 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Eternal Archive | Hassan's Collection</title>
+    <title>Hassan's Archive | The Elite Collection</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700&family=Spectral:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,900;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        :root { --gold: #d4af37; --bg: #050505; }
-        * { cursor: none !important; }
+        :root { --gold: #c5a059; --bg: #080808; --card-bg: #121212; }
+        * { cursor: none !important; margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
             background: var(--bg); 
-            color: #d1d1d1; 
-            font-family: 'Spectral', serif; 
+            color: #fff; 
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
-        /* Hero Image with Fallback */
-        .hero { 
-            height: 85vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), 
-                        url('https://i.ibb.co/2YtrCjnY/1000203412.jpg'), 
-                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        /* Luxury Loader Effect */
+        .royal-nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 1.5rem 10%; display: flex; justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(8,8,8,1), transparent);
         }
 
-        .gold-style {
-            background: linear-gradient(135deg, #fdf2d0 0%, #d4af37 50%, #a67c00 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-family: 'Cinzel Decorative', cursive;
+        /* Cinematic Hero Section */
+        .hero-section {
+            height: 100vh; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, var(--bg), transparent 50%),
+                        url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
+            background-size: cover; background-position: center;
+            transform: scale(1.1);
         }
 
-        .royal-nav { 
-            background: rgba(5, 5, 5, 0.9); 
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2); 
-            position: fixed; width: 100%; z-index: 100; padding: 1rem 8%; 
+        /* Poetry Sections Style */
+        .manuscript-section {
+            padding: 15vh 10%; position: relative;
+            min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+            align-items: center; border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
 
-        .vol-card { 
-            background: rgba(25, 25, 25, 0.9); 
-            border: 1px solid rgba(212, 175, 55, 0.1); 
-            transition: 0.5s ease;
-            border-radius: 8px;
-            overflow: hidden;
+        .manuscript-img-container {
+            position: relative; width: 100%; height: 600px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5); overflow: hidden;
         }
 
-        .card-img-container {
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-            background: #111; /* Fallback color */
+        .manuscript-img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s ease; }
+        .manuscript-section:hover .manuscript-img { transform: scale(1.1); }
+
+        .manuscript-content h2 {
+            font-family: 'Bodoni Moda', serif; font-size: clamp(3rem, 5vw, 5rem);
+            color: var(--gold); line-height: 1; margin-bottom: 2rem; font-style: italic;
         }
 
-        .card-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.7;
-            transition: 0.6s ease;
+        .poetry-text {
+            font-family: 'Bodoni Moda', serif; font-size: 1.5rem;
+            line-height: 1.8; color: #a1a1a1; border-left: 2px solid var(--gold);
+            padding-left: 30px; position: relative;
         }
 
-        .vol-card:hover .card-img { opacity: 1; transform: scale(1.1); }
-        .vol-card:hover { border-color: var(--gold); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
-
-        .card-content { padding: 1.5rem; text-align: center; }
-
-        .reading-view { 
-            position: fixed; inset: 0; background: #050505; 
-            z-index: 1000; display: none; overflow-y: auto; 
-            padding: 80px 10%; opacity: 0; 
+        /* Numbering Style (Top Ten Style) */
+        .section-number {
+            position: absolute; top: -20px; left: -50px;
+            font-size: 8rem; font-family: 'Bodoni Moda';
+            color: rgba(197, 160, 89, 0.05); font-weight: 900; z-index: -1;
         }
 
-        #cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; z-index: 2000; pointer-events: none; }
-        #cursor-glow { position: fixed; width: 40px; height: 40px; border: 1px solid var(--gold); border-radius: 50%; z-index: 1999; pointer-events: none; transition: 0.1s; }
-
-        .btn-gold { 
-            border: 1px solid var(--gold); color: var(--gold); 
-            padding: 10px 25px; text-transform: uppercase; letter-spacing: 2px; 
-            font-size: 11px; transition: 0.4s; background: transparent; 
+        /* Floating Cursor */
+        #cursor-ball {
+            position: fixed; width: 10px; height: 10px; background: var(--gold);
+            border-radius: 50%; pointer-events: none; z-index: 9999;
         }
-        .btn-gold:hover { background: var(--gold); color: black; }
+        #cursor-outline {
+            position: fixed; width: 40px; height: 40px; border: 1px solid var(--gold);
+            border-radius: 50%; pointer-events: none; z-index: 9998;
+            transition: 0.1s ease-out;
+        }
+
+        .gold-btn {
+            display: inline-block; margin-top: 40px;
+            padding: 12px 40px; border: 1px solid var(--gold);
+            color: var(--gold); text-transform: uppercase; letter-spacing: 5px;
+            font-size: 10px; transition: 0.5s;
+        }
+        .gold-btn:hover { background: var(--gold); color: #000; letter-spacing: 8px; }
+
+        @media (max-width: 900px) {
+            .manuscript-section { grid-template-columns: 1fr; text-align: center; padding: 10vh 5%; }
+            .poetry-text { border-left: none; padding-left: 0; }
+        }
     </style>
 </head>
-<body onclick="startAudio()">
+<body>
 
-    <div id="cursor-dot"></div>
-    <div id="cursor-glow"></div>
+    <div id="cursor-ball"></div>
+    <div id="cursor-outline"></div>
 
-    <nav class="royal-nav flex justify-between items-center">
-        <span class="gold-style text-xl tracking-tighter">THE ETERNAL ARCHIVE</span>
-        <button onclick="downloadPDF()" class="text-[10px] tracking-widest gold-style border-b border-gold">DOWNLOAD MANUSCRIPT</button>
+    <nav class="royal-nav">
+        <div class="text-xs tracking-[0.6em] text-white/50">ESTD 2024</div>
+        <div class="font-black text-xl tracking-tighter" style="color:var(--gold)">HASSAN.ARCHIVE</div>
+        <button class="text-[10px] tracking-[0.4em] text-white/50 hover:text-white transition">COLLECTION CATALOGUE</button>
     </nav>
 
-    <header class="hero">
-        <div>
-            <h1 class="gold-style text-5xl md:text-8xl mb-4">THE MANUSCRIPTS</h1>
-            <p class="italic text-white/40 tracking-[0.4em] uppercase text-xs">A Sacred Legacy by Hassan</p>
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="text-center z-10">
+            <p class="text-[10px] tracking-[0.8em] text-white/40 mb-4 uppercase">Volume I: The Sacred Scrolls</p>
+            <h1 class="text-7xl md:text-9xl font-black italic tracking-tighter" style="font-family: 'Bodoni Moda'">The Eternal <br>Manuscripts</h1>
         </div>
-    </header>
+    </section>
 
-    <main class="py-24 px-6 md:px-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="main-grid"></main>
-
-    <div id="reading-view" class="reading-view">
-        <div class="max-w-3xl mx-auto">
-            <button onclick="closeReading()" class="mb-12 text-[10px] tracking-[0.3em] text-zinc-500 hover:text-white uppercase">← Back to Archive</button>
-            <div id="content-area"></div>
+    <section class="manuscript-section">
+        <div class="manuscript-img-container" id="box1">
+            <img src="https://images.unsplash.com/photo-1514917860136-ee8b18e859ec?q=80&w=1200" class="manuscript-img">
         </div>
-    </div>
+        <div class="manuscript-content">
+            <div class="section-number">01</div>
+            <h2>Soul's <br>Silence</h2>
+            <p class="poetry-text">
+                The inner world remains quiet,<br>
+                When heavy darkness begins to fall.<br>
+                Searching for meaning within,<br>
+                The corridors of a lonely mind.
+            </p>
+            <a href="#" class="gold-btn">Explore Verse</a>
+        </div>
+    </section>
 
-    <audio id="bgAmbiance" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
+    <section class="manuscript-section" style="direction: rtl;">
+        <div class="manuscript-img-container" id="box2" style="direction: ltr;">
+            <img src="https://images.unsplash.com/photo-1470252644357-5d9d8181c999?q=80&w=1200" class="manuscript-img">
+        </div>
+        <div class="manuscript-content" style="direction: ltr;">
+            <div class="section-number">02</div>
+            <h2>Fading <br>Lights</h2>
+            <p class="poetry-text">
+                The golden glow of morning,<br>
+                Loses its ancient warmth.<br>
+                We look toward the horizon,<br>
+                But the sun feels like a lie.
+            </p>
+            <a href="#" class="gold-btn">Explore Verse</a>
+        </div>
+    </section>
+
+    <section class="manuscript-section">
+        <div class="manuscript-img-container" id="box3">
+            <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200" class="manuscript-img">
+        </div>
+        <div class="manuscript-content">
+            <div class="section-number">03</div>
+            <h2>The Vanished <br>Spirit</h2>
+            <p class="poetry-text">
+                Hollow vibrations travel through,<br>
+                The empty halls of the house.<br>
+                The spirit has gone away,<br>
+                But memory still haunts the stone.
+            </p>
+            <a href="#" class="gold-btn">Explore Verse</a>
+        </div>
+    </section>
 
     <script>
-        // Multiple fallback links for each image to ensure they open
-        const myCollection = [
-            {
-                title: "The Silence of the Soul",
-                desc: "The inner world remains quiet when the darkness begins...",
-                links: [
-                    "https://images.unsplash.com/photo-1514917860136-ee8b18e859ec?q=80&w=800",
-                    "https://images.pexels.com/photos/268415/pexels-photo-268415.jpeg?auto=compress&cs=tinysrgb&w=800",
-                    "https://i.ibb.co/vYm6pXp/silence.jpg"
-                ],
-                content: `The inner world remains quiet when the heavy darkness begins to fall\nSearching for a meaning within the deep corridors of a lonely mind\nEvery breath we take carries the weight of a thousand unspoken words\nThe vibrant colors of the living world fade into a grey mist`
-            },
-            {
-                title: "Inner Light Fades",
-                desc: "The golden glow of the morning loses its ancient warmth...",
-                links: [
-                    "https://images.unsplash.com/photo-1470252644357-5d9d8181c999?q=80&w=800",
-                    "https://images.pexels.com/photos/912364/pexels-photo-912364.jpeg?auto=compress&cs=tinysrgb&w=800"
-                ],
-                content: `The golden glow of the morning begins to lose its ancient warmth\nWe look toward the horizon but the sun feels like a lie\nThe fire that once burned in the chest is now cold ash`
-            },
-            {
-                title: "Vanished Spirit",
-                desc: "A hollow vibration travels through empty halls...",
-                links: [
-                    "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=800",
-                    "https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=800"
-                ],
-                content: `The sound of a soul leaving remains in the cold morning air\nA hollow vibration travels through the empty halls of the ancient house\nWe hear the ghost of a laugh that once filled the room`
-            },
-            {
-                title: "Beyond the Breath",
-                desc: "The final air leaves the lungs and returns to the sky...",
-                links: [
-                    "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&w=800",
-                    "https://images.pexels.com/photos/956999/pexels-photo-956999.jpeg?auto=compress&cs=tinysrgb&w=800"
-                ],
-                content: `The final air leaves the lungs and returns to the wide sky\nThe lungs become still like a bird that has finished its flight\nThere is a moment of peace when the struggle finally ends`
-            },
-            {
-                title: "Architecture of Emptiness",
-                desc: "Emptiness is not a hole but a structure of potential...",
-                links: [
-                    "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=800",
-                    "https://images.pexels.com/photos/380768/pexels-photo-380768.jpeg?auto=compress&cs=tinysrgb&w=800"
-                ],
-                content: `Emptiness is not a hole but a structure of pure silent potential\nWe build the walls of our ego to hide the vast vacuum\nThe soul is a cathedral built around a center of absolute nothingness`
-            }
-        ];
+        // GSAP ScrollTrigger for Parallax & Animations
+        gsap.registerPlugin(ScrollTrigger);
 
-        function init() {
-            const grid = document.getElementById('main-grid');
-            myCollection.forEach((item, index) => {
-                const card = document.createElement('div');
-                card.className = 'vol-card opacity-0 translate-y-10';
-                
-                // Logic to handle image fallbacks
-                const imgTag = `<img src="${item.links[0]}" 
-                                     class="card-img" 
-                                     onerror="this.src='${item.links[1] || ''}'; this.onerror=null;" 
-                                     alt="${item.title}">`;
+        // Hero Parallax
+        gsap.to(".hero-bg", {
+            scrollTrigger: { scrub: true },
+            y: 200,
+            scale: 1.3
+        });
 
-                card.innerHTML = `
-                    <div class="card-img-container">${imgTag}</div>
-                    <div class="card-content">
-                        <h3 class="gold-style text-xl mb-3">${item.title}</h3>
-                        <p class="text-xs italic text-zinc-500 mb-5 leading-relaxed">${item.desc}</p>
-                        <button onclick="openReading(${index})" class="btn-gold">Read Scroll</button>
-                    </div>
-                `;
-                grid.appendChild(card);
+        // Sections Reveal
+        gsap.utils.toArray(".manuscript-section").forEach(section => {
+            gsap.from(section.querySelector(".manuscript-img-container"), {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 0,
+                x: -100,
+                duration: 1.5,
+                ease: "power4.out"
             });
-
-            gsap.to(".vol-card", { opacity: 1, y: 0, stagger: 0.15, duration: 0.8, delay: 0.5 });
-            initCursor();
-        }
-
-        function openReading(index) {
-            const item = myCollection[index];
-            const area = document.getElementById('content-area');
-            const lines = item.content.split('\n').map(l => `<span class="block mb-6 opacity-0 translate-y-4 verse">${l.trim()}</span>`).join('');
             
-            area.innerHTML = `
-                <h1 class="gold-style text-4xl text-center mb-16">${item.title}</h1>
-                <div class="text-xl md:text-2xl text-center font-serif italic text-zinc-300 leading-loose">${lines}</div>
-            `;
-            
-            const view = document.getElementById('reading-view');
-            view.style.display = 'block';
-            gsap.to(view, { opacity: 1, duration: 0.5 });
-            gsap.to(".verse", { opacity: 1, y: 0, stagger: 0.2, duration: 1, delay: 0.3 });
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeReading() {
-            gsap.to("#reading-view", { opacity: 0, duration: 0.4, onComplete: () => {
-                document.getElementById('reading-view').style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }});
-        }
-
-        function initCursor() {
-            const dot = document.getElementById('cursor-dot');
-            const glow = document.getElementById('cursor-glow');
-            document.addEventListener('mousemove', (e) => {
-                dot.style.left = e.clientX + 'px';
-                dot.style.top = e.clientY + 'px';
-                glow.style.transform = `translate(${e.clientX - 20}px, ${e.clientY - 20}px)`;
+            gsap.from(section.querySelector(".manuscript-content"), {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1.2,
+                delay: 0.3
             });
-        }
+        });
 
-        function startAudio() {
-            const audio = document.getElementById('bgAmbiance');
-            if(audio.paused) { audio.volume = 0.1; audio.play(); }
-        }
-
-        function downloadPDF() {
-            const element = document.getElementById('content-area');
-            if(!element.innerHTML) return;
-            html2pdf().from(element).save('Manuscript_Hassan.pdf');
-        }
-
-        document.addEventListener('keydown', (e) => { if(e.key === "Escape") closeReading(); });
-        window.onload = init;
+        // Luxury Cursor
+        const ball = document.getElementById('cursor-ball');
+        const outline = document.getElementById('cursor-outline');
+        
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(ball, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            gsap.to(outline, { x: e.clientX - 15, y: e.clientY - 15, duration: 0.3 });
+        });
     </script>
 </body>
 </html>
