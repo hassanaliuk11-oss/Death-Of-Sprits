@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>The Death of Spirits - Hassan Jatoi</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+
     <style>
         /* Modern Background & Body Settings */
         body, html { 
@@ -25,9 +27,9 @@
         #progress-bar { height: 100%; background: #d4af37; width: 0%; transition: 0.2s; }
 
         /* Book Container */
-        #book-content { width: 100%; margin: 0 auto; }
+        #book-content { width: 100%; margin: 0 auto; background: #121212; }
 
-        /* Cover Page - Thori zyada modern aur cinematic */
+        /* Cover Page - Cinematic Style */
         .cover-container {
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
             background-size: cover; background-position: center; height: 100vh;
@@ -46,6 +48,8 @@
             margin: 0;
         }
 
+        .author-name { font-size: 22px; margin-top: 20px; color: #f1d37e; letter-spacing: 5px; text-transform: uppercase; }
+
         /* Chapter Layout - Clean & Readable */
         .chapter-page { 
             padding: 80px 10%; 
@@ -56,7 +60,7 @@
             box-sizing: border-box;
         }
 
-        /* Glassmorphism Card: Text parhne ke liye behtareen background */
+        /* Glassmorphism Card */
         .content-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -73,23 +77,36 @@
             font-size: 36px; color: #f1d37e; 
             margin-bottom: 40px; border-bottom: 1px solid #d4af37;
             padding-bottom: 10px; width: 100%;
+            text-align: center;
         }
 
-        /* Content Styling: Italic Khatam, Parhne mein asaan */
+        .ch-num { font-size: 14px; text-transform: uppercase; letter-spacing: 3px; color: #d4af37; margin-bottom: 10px; text-align: center; }
+
+        /* Content Styling: No Italic */
         .ch-content { 
             font-size: 20px; line-height: 1.8; 
-            font-style: normal; /* No Italic */
+            font-style: normal; 
             color: #d1d1d1; font-weight: 400; 
             text-align: left;
         }
         
-        .ch-content p { margin-bottom: 20px; }
+        .ch-content p { margin-bottom: 15px; }
+
         /* UI Button */
-        .download-btn { position: fixed; bottom: 30px; right: 30px; background: #8d6205; color: white; padding: 15px 25px; border: none; border-radius: 50px; cursor: pointer; z-index: 1000; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+        .download-btn { 
+            position: fixed; bottom: 30px; right: 30px; 
+            background: #8d6205; color: white; padding: 15px 25px; 
+            border: none; border-radius: 50px; cursor: pointer; 
+            z-index: 1000; font-weight: bold; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            transition: 0.3s;
+        }
+        .download-btn:hover { background: #d4af37; color: black; }
     </style>
 </head>
 <body>
 
+<div id="progress-container"><div id="progress-bar"></div></div>
 <button class="download-btn" onclick="downloadPDF()">📥 SAVE AS PDF</button>
 
 <div id="book-content">
@@ -98,116 +115,114 @@
         <p class="author-name">Hassan Jatoi</p>
     </div>
 
-    <div class="chapter-page" id="ch1">
-    <div class="ch-header">
-        <div class="ch-num">Chapter One</div>
-        <h1 class="ch-title">Nearly Old</h1>
-    </div>
-
-    <div class="ch-content">
-        <p>Now that I am nearly old I listen more to the ceiling than to my heart.</p>
-        <p>Lying on my back makes the body honest in ways mirrors never were.</p>
-        <p>The ceiling crack feels older than me yet we age together every night.</p>
-        <p>Gravity tells the truth without asking permission.</p>
-        <p>What once stood proudly now learns the language of surrender.</p>
-        <p>Time does not steal it rearranges.</p>
-        <p>The body remembers everything even when the mind pretends not to.</p>
-        <p>Lying flat erases shapes that once defined me.</p>
-        <p>Upright I carry history lying down I become memory.</p>
-        <p>Flesh migrates quietly without apology.</p>
-        <p>Pride does not vanish it only changes address.</p>
-        <p>Age teaches anatomy better than any book.</p>
-        <p>The ceiling watches without judgment.</p>
-        <p>Nights grow longer when the body speaks louder.</p>
-        <p>Youth leaves without saying goodbye.</p>
-        <p>Desire does not die it lowers its voice.</p>
-        <p>The body becomes a map of survived moments.</p>
-        <p>Wrinkles are sentences written by time.</p>
-        <p>Gravity is the most honest companion.</p>
-        <p>Lying still I feel years settling into place.</p>
-        <p>I no longer argue with what is falling.</p>
-        <p>The body forgives itself faster than the mind.</p>
-        <p>Once admired curves now carry quiet stories.</p>
-        <p>Aging is not loss it is exposure.</p>
-        <p>I have learned where everything goes when it lets go.</p>
-        <p>The ceiling crack feels like a timeline.</p>
-        <p>I count years by sensations not numbers.</p>
-        <p>The mirror only tells half the story.</p>
-        <p>Bedtime brings the bravest thoughts.</p>
-        <p>My body speaks fluently in truth now.</p>
-        <p>Want still exists but without performance.</p>
-        <p>Time has softened my definitions.</p>
-        <p>Attraction has learned patience.</p>
-        <p>I wonder if I am still seen or only remembered.</p>
-        <p>Desire no longer begs it waits.</p>
-        <p>The body carries humor about its decline.</p>
-        <p>Gravity and I have reached an agreement.</p>
-        <p>What disappears does not always mean gone.</p>
-        <p>I am lighter in expectations heavier in memory.</p>
-        <p>The ceiling listens better than most people.</p>
-        <p>I measure beauty differently now.</p>
-        <p>Touch has become a thought not a demand.</p>
-        <p>The body rests where it once competed.</p>
-        <p>I no longer chase reflections.</p>
-        <p>Age has stripped away unnecessary hunger.</p>
-        <p>Want remains but without urgency.</p>
-        <p>I lie here accepting the geography of myself.</p>
-        <p>The night makes peace easier.</p>
-        <p>I have stopped apologizing to time.</p>
-        <p>What once was pride is now acceptance.</p>
-        <p>The body ages honestly even when we do not.</p>
-        <p>I trust gravity more than compliments.</p>
-        <p>I am not invisible just quieter.</p>
-        <p>The ceiling crack feels familiar like an old scar.</p>
-        <p>Desire has become internal.</p>
-        <p>I no longer measure worth by reaction.</p>
-        <p>The body teaches humility gently.</p>
-        <p>I have lived inside this skin long enough to respect it.</p>
-        <p>Time has taken nothing it has only rearranged.</p>
-        <p>I lie still and feel complete in pieces.</p>
-        <p>Age has given me permission to rest.</p>
-        <p>The bed is where truth visits.</p>
-        <p>I no longer fear being ordinary.</p>
-        <p>What remains matters more than what left.</p>
-        <p>I carry warmth where youth once lived.</p>
-        <p>The body settles into itself.</p>
-        <p>Want has become memory and hope combined.</p>
-        <p>I am still here and that feels enough.</p>
-        <p>Aging has simplified my desires.</p>
-        <p>I listen to my breathing instead of longing.</p>
-        <p>The ceiling crack no longer threatens.</p>
-        <p>I have learned to stay with myself.</p>
-        <p>The body is no longer decoration.</p>
-        <p>I accept where everything rests now.</p>
-        <p>Time has slowed inside me.</p>
-        <p>I am comfortable with unfinished beauty.</p>
-        <p>The night asks nothing from me.</p>
-        <p>I lie here without expectation.</p>
-        <p>Age has taught me gentleness.</p>
-        <p>I no longer compete with who I was.</p>
-        <p>The body carries truth without cruelty.</p>
-        <p>I have survived myself.</p>
-        <p>Desire exists without demand.</p>
-        <p>I am still a woman in quiet ways.</p>
-        <p>The ceiling witnesses my peace.</p>
-        <p>Aging has softened my edges.</p>
-        <p>I am not less just different.</p>
-        <p>The body rests where the soul agrees.</p>
-        <p>I lie still and feel present.</p>
-        <p>Time has taught me how to stay.</p>
-        <p>I am enough in this moment.</p>
-        <p>The crack above me feels harmless now.</p>
-        <p>I have stopped asking to be wanted.</p>
-        <p>I exist without explanation.</p>
-        <p>The night accepts me fully.</p>
-        <p>I carry no performance into sleep.</p>
-        <p>The body finally rests in truth.</p>
-        <p>I am older and unafraid.</p>
-        <p>I lie here complete in fragments.</p>
-        <p>Nearly old and still breathing.</p>
-    </div>
-</div>
-
+    <div class="chapter-page">
+        <div class="content-card">
+            <div class="ch-num">Chapter One</div>
+            <h1 class="ch-title">Nearly Old</h1>
+            <div class="ch-content">
+                <p>Now that I am nearly old I listen more to the ceiling than to my heart.</p>
+                <p>Lying on my back makes the body honest in ways mirrors never were.</p>
+                <p>The ceiling crack feels older than me yet we age together every night.</p>
+                <p>Gravity tells the truth without asking permission.</p>
+                <p>What once stood proudly now learns the language of surrender.</p>
+                <p>Time does not steal it rearranges.</p>
+                <p>The body remembers everything even when the mind pretends not to.</p>
+                <p>Lying flat erases shapes that once defined me.</p>
+                <p>Upright I carry history lying down I become memory.</p>
+                <p>Flesh migrates quietly without apology.</p>
+                <p>Pride does not vanish it only changes address.</p>
+                <p>Age teaches anatomy better than any book.</p>
+                <p>The ceiling watches without judgment.</p>
+                <p>Nights grow longer when the body speaks louder.</p>
+                <p>Youth leaves without saying goodbye.</p>
+                <p>Desire does not die it lowers its voice.</p>
+                <p>The body becomes a map of survived moments.</p>
+                <p>Wrinkles are sentences written by time.</p>
+                <p>Gravity is the most honest companion.</p>
+                <p>Lying still I feel years settling into place.</p>
+                <p>I no longer argue with what is falling.</p>
+                <p>The body forgives itself faster than the mind.</p>
+                <p>Once admired curves now carry quiet stories.</p>
+                <p>Aging is not loss it is exposure.</p>
+                <p>I have learned where everything goes when it lets go.</p>
+                <p>The ceiling crack feels like a timeline.</p>
+                <p>I count years by sensations not numbers.</p>
+                <p>The mirror only tells half the story.</p>
+                <p>Bedtime brings the bravest thoughts.</p>
+                <p>My body speaks fluently in truth now.</p>
+                <p>Want still exists but without performance.</p>
+                <p>Time has softened my definitions.</p>
+                <p>Attraction has learned patience.</p>
+                <p>I wonder if I am still seen or only remembered.</p>
+                <p>Desire no longer begs it waits.</p>
+                <p>The body carries humor about its decline.</p>
+                <p>Gravity and I have reached an agreement.</p>
+                <p>What disappears does not always mean gone.</p>
+                <p>I am lighter in expectations heavier in memory.</p>
+                <p>The ceiling listens better than most people.</p>
+                <p>I measure beauty differently now.</p>
+                <p>Touch has become a thought not a demand.</p>
+                <p>The body rests where it once competed.</p>
+                <p>I no longer chase reflections.</p>
+                <p>Age has stripped away unnecessary hunger.</p>
+                <p>Want remains but without urgency.</p>
+                <p>I lie here accepting the geography of myself.</p>
+                <p>The night makes peace easier.</p>
+                <p>I have stopped apologizing to time.</p>
+                <p>What once was pride is now acceptance.</p>
+                <p>The body ages honestly even when we do not.</p>
+                <p>I trust gravity more than compliments.</p>
+                <p>I am not invisible just quieter.</p>
+                <p>The ceiling crack feels familiar like an old scar.</p>
+                <p>Desire has become internal.</p>
+                <p>I no longer measure worth by reaction.</p>
+                <p>The body teaches humility gently.</p>
+                <p>I have lived inside this skin long enough to respect it.</p>
+                <p>Time has taken nothing it has only rearranged.</p>
+                <p>I lie still and feel complete in pieces.</p>
+                <p>Age has given me permission to rest.</p>
+                <p>The bed is where truth visits.</p>
+                <p>I no longer fear being ordinary.</p>
+                <p>What remains matters more than what left.</p>
+                <p>I carry warmth where youth once lived.</p>
+                <p>The body settles into itself.</p>
+                <p>Want has become memory and hope combined.</p>
+                <p>I am still here and that feels enough.</p>
+                <p>Aging has simplified my desires.</p>
+                <p>I listen to my breathing instead of longing.</p>
+                <p>The ceiling crack no longer threatens.</p>
+                <p>I have learned to stay with myself.</p>
+                <p>The body is no longer decoration.</p>
+                <p>I accept where everything rests now.</p>
+                <p>Time has slowed inside me.</p>
+                <p>I am comfortable with unfinished beauty.</p>
+                <p>The night asks nothing from me.</p>
+                <p>I lie here without expectation.</p>
+                <p>Age has taught me gentleness.</p>
+                <p>I no longer compete with who I was.</p>
+                <p>The body carries truth without cruelty.</p>
+                <p>I have survived myself.</p>
+                <p>Desire exists without demand.</p>
+                <p>I am still a woman in quiet ways.</p>
+                <p>The ceiling witnesses my peace.</p>
+                <p>Aging has softened my edges.</p>
+                <p>I am not less just different.</p>
+                <p>The body rests where the soul agrees.</p>
+                <p>I lie still and feel present.</p>
+                <p>Time has taught me how to stay.</p>
+                <p>I am enough in this moment.</p>
+                <p>The crack above me feels harmless now.</p>
+                <p>I have stopped asking to be wanted.</p>
+                <p>I exist without explanation.</p>
+                <p>The night accepts me fully.</p>
+                <p>I carry no performance into sleep.</p>
+                <p>The body finally rests in truth.</p>
+                <p>I am older and unafraid.</p>
+                <p>I lie here complete in fragments.</p>
+                <p>Nearly old and still breathing.</p>
+            </div>
+        </div>
+    
     <div class="chapter-page" id="ch2">
     <div class="ch-header">
         <div class="ch-num">Chapter Two</div>
@@ -3602,19 +3617,28 @@
     </section>
 
 </div>
-        
-<script>
+ <script>
+    // Progress Bar Logic
+    window.onscroll = function() {
+        var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = (winScroll / height) * 100;
+        document.getElementById("progress-bar").style.width = scrolled + "%";
+    };
+
+    // PDF Download Logic
     function downloadPDF() {
         const element = document.getElementById('book-content');
         const opt = {
             margin: 0,
             filename: 'The_Death_of_Spirits_Hassan_Jatoi.pdf',
-            image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 2, useCORS: true },
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, backgroundColor: "#121212" },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
         html2pdf().set(opt).from(element).save();
     }
 </script>
+
 </body>
-</html>
+</html>       
