@@ -1,135 +1,137 @@
-<!DOCTYPE html>
+          <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>The Death of Spirits - Hassan Jatoi</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        :root {
-            --gold: #d4af37;
-            --soft-gold: #f1d37e;
-            --dark-bg: #0d0d0d;
-        }
-
         body, html { 
-            margin: 0; padding: 0; 
-            font-family: 'Lora', serif; 
-            background: var(--dark-bg); 
-            color: #e0e0e0;
-            overflow-x: hidden;
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Playfair Display', serif; 
+            scroll-behavior: smooth; 
+            background: #0a0a0a; 
         }
-
-        /* Ambient Background Animation */
-        .bg-glow {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%);
-            z-index: -1;
-        }
-
-        /* Reading Progress */
-        #progress-bar {
-            position: fixed; top: 0; left: 0; height: 4px;
-            background: linear-gradient(to right, var(--gold), var(--soft-gold));
-            width: 0%; z-index: 2000; box-shadow: 0 0 10px var(--gold);
-        }
-
-        /* Cinematic Cover */
+        
+        #book-content { width: 100%; background: #fffcf5; margin: 0 auto; }
+        
         .cover-container {
+            background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
+            background-size: cover; 
+            background-position: center; 
             height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
-                        url('https://i.ibb.co/2YtrCjnY/1000203412.jpg') center/cover;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; border: 2px solid var(--gold); margin: 20px;
-            position: relative; overflow: hidden;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+            text-align: center; 
+            color: white; 
+            page-break-after: always;
+            border: 20px double #d4af37; 
+            box-sizing: border-box;
         }
 
         .golden-title { 
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(50px, 10vw, 90px);
-            font-weight: 700;
-            background: linear-gradient(180deg, #fff 30%, var(--gold) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-            margin-bottom: 10px;
+            font-family: 'Cinzel', serif;
+            font-size: 70px; 
+            font-weight: bold; 
+            background: linear-gradient(to bottom, #cf972a, #f1d37e, #8d6205); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            letter-spacing: 8px; 
+            text-transform: uppercase; 
+            margin: 0;
+            line-height: 1.1;
         }
 
         .author-name { 
-            font-size: 18px; letter-spacing: 8px; color: var(--soft-gold); 
-            text-transform: uppercase; margin-top: 10px; opacity: 0.8;
+            font-family: 'Cinzel', serif;
+            font-size: 24px; 
+            margin-top: 30px; 
+            color: #f1d37e; 
+            letter-spacing: 6px; 
+            font-weight: 400;
         }
 
-        /* Modern Page Setup */
-        .chapter-page {
-            padding: 100px 5%;
-            min-height: 100vh;
-            display: flex; justify-content: center;
-            perspective: 1000px;
-        }
-
-        .content-card {
-            background: linear-gradient(145deg, rgba(30,30,30,0.9), rgba(10,10,10,0.95));
-            padding: 80px 60px;
-            border-radius: 4px;
-            border-left: 3px solid var(--gold);
-            max-width: 850px;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-            position: relative;
-            transform: rotateX(2deg);
-        }
-
-        .content-card::before {
-            content: "“";
-            position: absolute; top: 20px; left: 30px;
-            font-size: 100px; color: rgba(212, 175, 55, 0.1);
-            font-family: 'Playfair Display', serif;
+        .chapter-page { 
+            padding: 80px 12%; 
+            min-height: 100vh; 
+            page-break-before: always; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            text-align: center;
+            background: #fffcf5; 
+            border: 1px solid #eee;
         }
 
         .ch-title { 
-            font-family: 'Playfair Display', serif;
-            font-size: 42px; color: var(--gold);
-            margin-bottom: 50px; text-align: center;
-            font-style: italic;
+            font-family: 'Cinzel', serif;
+            font-size: 36px; 
+            color: #8d6205; 
+            margin-bottom: 50px; 
+            letter-spacing: 3px;
         }
 
         .ch-content { 
-            font-size: 22px; line-height: 2; color: #ccc;
-            text-align: justify; text-justify: inter-word;
+            font-family: 'Playfair Display', serif;
+            font-size: 26px; 
+            line-height: 1.8; 
+            /* Yahan Italic apply kiya gaya hai */
+            font-style: Normal; 
+            color: #222; 
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .ch-content p { margin-bottom: 25px; transition: 0.3s; }
-        .ch-content p:hover { color: #fff; text-shadow: 0 0 1px #fff; }
+        .quote-divider {
+            width: 50px;
+            height: 2px;
+            background: #d4af37;
+            margin: 30px auto;
+        }
 
-        /* UI Elements */
         .download-btn { 
-            position: fixed; bottom: 40px; right: 40px; 
-            background: transparent; color: var(--gold);
-            border: 1px solid var(--gold); padding: 12px 30px;
-            border-radius: 0; cursor: pointer; font-family: 'Playfair Display', serif;
-            font-weight: bold; letter-spacing: 2px;
-            transition: 0.4s; background: rgba(0,0,0,0.5);
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px; 
+            background: #8d6205; 
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            z-index: 1000; 
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
         }
-
-        .download-btn:hover {
-            background: var(--gold); color: black;
-            box-shadow: 0 0 20px var(--gold);
-        }
-
     </style>
 </head>
 <body>
 
-<div class="bg-glow"></div>
-<div id="progress-bar"></div>
-<button class="download-btn" onclick="downloadPDF()">DOWNLOAD MANUSCRIPT</button>
+<button class="download-btn" onclick="downloadPDF()">📥 DOWNLOAD MANUSCRIPT</button>
 
 <div id="book-content">
     <div class="cover-container">
         <h1 class="golden-title">The Death <br> of Spirits</h1>
-        <div style="width: 50px; height: 2px; background: var(--gold); margin: 20px 0;"></div>
         <p class="author-name">Hassan Jatoi</p>
     </div>
+
+    <div class="chapter-page">
+        <h1 class="ch-title">I. Nearly Old</h1>
+        <div class="ch-content">
+            It was a quiet realization, a slow softening of the world around me. To be nearly old is to finally stop fighting the wind and to start becoming the air itself. My body is a map of every war I ever lost, and every loss was a victory for the soul.
+        </div>
+    </div>
+
+</div>
 
     <div class="chapter-page">
         <div class="content-card">
@@ -146,10 +148,8 @@
                 <p>Nearly old and still breathing.</p>
             </div>
         </div>
-    </div>
-</div>
 
-
+        
     <div class="chapter-page" id="ch2">
     <div class="ch-header">
         <div class="ch-num">Chapter Two</div>
@@ -3543,25 +3543,18 @@
         </div>
     </section>
 
-<script>
-    window.onscroll = function() {
-        var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        var scrolled = (winScroll / height) * 100;
-        document.getElementById("progress-bar").style.width = scrolled + "%";
-    };
-
+            <script>
     function downloadPDF() {
         const element = document.getElementById('book-content');
         const opt = {
-            margin: 0.2,
-            filename: 'The_Death_of_Spirits_Manuscript.pdf',
-            html2canvas: { scale: 2, backgroundColor: "#0d0d0d" },
+            margin: 0,
+            filename: 'The_Death_of_Spirits_Hassan.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 3, useCORS: true },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
         html2pdf().set(opt).from(element).save();
     }
-</script>
-
-</body>
-</html>
+  </script>
+    </body>
+        </html>
