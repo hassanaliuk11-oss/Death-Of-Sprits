@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE DEATH OF SPRITS> | HASSAN JATOI</title>
+    <title>Hassan Jatoi | The Eternal Archive</title>
     
     <!-- External Assets -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
-    <!-- Massive Font Library Import -->
-    <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Almendra&family=Amiri:ital@1&family=Baskervville:ital@1&family=Beau+Rivage&family=Bodoni+Moda:ital,opsz,wght@1,6..96,400&family=Castoro+Titling&family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Crimson+Pro:ital,wght@1,200&family=Dancing+Script&family=EB+Garamond:ital@1&family=Eczar&family=Fance&family=Faurder+One&family=Federo&family=Fondamento&family=Fraunces:ital,opsz,wght@1,9..144,300&family=Gilda+Display&family=Gloria+Hallelujah&family=Great+Vibes&family=Grenze+Gotisch&family=IM+Fell+English+SC&family=Inria+Serif:ital@1&family=Italiana&family=Josefin+Sans:wght@300&family=Jura:wght@300&family=La+Belle+Aurore&family=Libre+Baskerville:ital@1&family=Lobster+Two:ital@1&family=Lora:ital@1&family=Lustria&family=Marcellus&family=Montserrat:wght@200&family=Nanum+Myeongjo&family=Niconne&family=Old+Standard+TT:ital@1&family=Oranienbaum&family=Pinyon+Script&family=Playfair+Display+SC&family=Quicksand:wght@300&family=Quintessential&family=Rakkas&family=Reenie+Beanie&family=Rosarivo:ital@1&family=Sacramento&family=Shadows+Into+Light&family=Spectral:ital,wght@1,200&family=Syncopate:wght@400;700&family=Tangerine:wght@700&family=UnifrakturMaguntia&family=Vidaloka&family=Yantra+Roman&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Marcellus&family=Pinyon+Script&display=swap" rel="stylesheet">
     
     <style>
         :root { 
             --gold: #d4af37; 
             --soft-white: #e5e5e5;
-            --dark-bg: #0a0a0a; 
-            --glass: rgba(15, 15, 15, 0.98);
+            --dark-bg: #050505; 
+            --glass: rgba(10, 10, 10, 0.95);
         }
         
+        * { cursor: none !important; } /* Custom Cursor Implementation */
+
         body { 
             background-color: var(--dark-bg); 
             color: var(--soft-white); 
@@ -27,25 +29,40 @@
             scroll-behavior: smooth; 
             font-family: 'Marcellus', serif;
             overflow-x: hidden;
+            transition: background 1s ease;
+        }
+
+        #custom-cursor {
+            position: fixed; width: 10px; height: 10px; background: var(--gold);
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        #cursor-ring {
+            position: fixed; width: 40px; height: 40px; border: 1px solid var(--gold);
+            border-radius: 50%; pointer-events: none; z-index: 9998;
+            transition: all 0.15s ease-out;
+            opacity: 0.5;
         }
 
         .bg-vignette {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.85) 100%);
-            z-index: 1; pointer-events: none;
+            background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.9) 100%);
+            z-index: 2; pointer-events: none;
         }
 
         #dust-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0; opacity: 0.3;
+            pointer-events: none; z-index: 1; opacity: 0.4;
         }
 
         .nav-bar { 
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(15px);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
             position: fixed; top: 0; width: 100%; z-index: 1000; 
-            padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 1.2rem 5%; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
         }
 
         .gold-text {
@@ -55,7 +72,6 @@
             font-weight: bold;
         }
 
-        /* Cover Page Styles */
         .cover-page {
             height: 100vh;
             display: flex;
@@ -65,150 +81,186 @@
             position: relative;
             z-index: 10;
             text-align: center;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            perspective: 1000px;
         }
 
         .cover-frame {
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 4rem;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 5rem 3rem;
             position: relative;
             max-width: 90%;
+            background: rgba(212, 175, 55, 0.02);
+            backdrop-filter: blur(5px);
+            transition: transform 0.5s ease;
+            transform-style: preserve-3d;
         }
 
-        .cover-frame::before, .cover-frame::after {
-            content: '';
-            position: absolute;
-            width: 20px; height: 20px;
-            border: 2px solid var(--gold);
+        .prose-container { max-width: 850px; margin: 0 auto; padding: 100px 20px; position: relative; z-index: 10; }
+        
+        .prose-entry { 
+            margin-bottom: 150px; padding: 60px 40px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2));
+            border-radius: 4px; border-left: 1px solid rgba(212,175,55,0.3);
+            opacity: 0; transform: translateX(-20px); transition: 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        .cover-frame::before { top: -5px; left: -5px; border-right: 0; border-bottom: 0; }
-        .cover-frame::after { bottom: -5px; right: -5px; border-left: 0; border-top: 0; }
+        
+        .prose-entry.visible { opacity: 1; transform: translateX(0); }
+        
+        .prose-title { 
+            font-size: 2.5rem; margin-bottom: 2.5rem; text-align: center; 
+            font-family: 'Cinzel Decorative', serif;
+            letter-spacing: 4px;
+        }
+
+        .typing-title::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .prose-body { line-height: 2; text-align: center; color: #bbb; white-space: pre-wrap; font-size: 1.1rem; }
+
+        .btn-action {
+            background: transparent; border: 1px solid var(--gold); color: var(--gold);
+            padding: 10px 22px; font-size: 11px; letter-spacing: 3px;
+            text-transform: uppercase; cursor: none; transition: 0.4s;
+            border-radius: 2px; position: relative; overflow: hidden;
+        }
+        .btn-action:hover { background: var(--gold); color: black; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
 
         .settings-trigger {
-            position: fixed; bottom: 30px; right: 30px; z-index: 2000;
-            background: var(--gold); color: black;
-            width: 55px; height: 55px; border-radius: 50%;
+            position: fixed; bottom: 40px; right: 40px; z-index: 2000;
+            background: black; color: var(--gold);
+            width: 65px; height: 65px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--gold);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .scroll-progress-ring {
+            position: absolute; top: -5px; left: -5px; width: 75px; height: 75px;
+            transform: rotate(-90deg); pointer-events: none;
+        }
+        .scroll-progress-ring circle {
+            fill: none; stroke: var(--gold); stroke-width: 2;
+            stroke-dasharray: 235.6; stroke-dashoffset: 235.6;
+            transition: stroke-dashoffset 0.1s linear;
         }
 
         .settings-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.92); backdrop-filter: blur(12px);
+            background: rgba(0,0,0,0.96); backdrop-filter: blur(20px);
             z-index: 1999; display: none; align-items: center; justify-content: center;
         }
 
         .settings-card {
-            background: var(--glass); border: 1px solid rgba(212,175,55,0.2);
-            padding: 30px; border-radius: 20px; width: 95%; max-width: 450px;
+            background: var(--glass); border: 1px solid rgba(212,175,55,0.3);
+            padding: 40px; border-radius: 5px; width: 90%; max-width: 400px;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
         }
 
-        .prose-container { max-width: 800px; margin: 0 auto; padding: 100px 20px; position: relative; z-index: 10; }
-        .prose-entry { 
-            margin-bottom: 100px; padding: 50px 35px;
-            background: rgba(255, 255, 255, 0.015);
-            border-radius: 24px; border: 1px solid rgba(255,255,255,0.03);
-            opacity: 0; transform: translateY(30px); transition: 1.2s ease-out;
+        .audio-wave {
+            display: flex; align-items: flex-end; gap: 2px; height: 15px;
         }
-        .prose-entry.visible { opacity: 1; transform: translateY(0); }
-        .prose-title { font-size: 2.2rem; margin-bottom: 2rem; text-align: center; font-family: 'Cinzel Decorative', serif; }
-        .prose-body { line-height: 1.8; text-align: center; color: #ddd; white-space: pre-wrap; }
-
-        .btn-action {
-            background: transparent; border: 1px solid var(--gold); color: var(--gold);
-            padding: 8px 18px; font-size: 10px; letter-spacing: 2px;
-            text-transform: uppercase; cursor: pointer; transition: 0.3s;
-            border-radius: 4px;
+        .wave-bar {
+            width: 2px; background: var(--gold); animation: wave 1s ease-in-out infinite;
         }
-        .btn-action:hover { background: var(--gold); color: black; }
-
-        .scroll-line { 
-            position: fixed; top: 0; left: 0; height: 2px; 
-            background: linear-gradient(to right, var(--gold), #fff); z-index: 1100; width: 0%;
+        @keyframes wave {
+            0%, 100% { height: 3px; }
+            50% { height: 15px; }
         }
 
         @media (max-width: 768px) {
-            .cover-frame { padding: 2rem; }
-            .prose-title { font-size: 1.6rem; }
-        }
-
-        @media print {
-            .no-print { display: none !important; }
-            body { background: white; color: black; }
-            .prose-entry { break-inside: avoid; border: none; background: none; color: black; }
-            .prose-body { color: black; }
-            .gold-text { color: black !important; -webkit-text-fill-color: black !important; }
+            .cover-frame { padding: 3rem 1.5rem; }
+            .prose-title { font-size: 1.8rem; }
+            * { cursor: auto !important; }
+            #custom-cursor, #cursor-ring { display: none; }
         }
     </style>
 </head>
-<body onclick="handleInteraction()">
+<body onclick="initAudio()">
 
-    <div class="scroll-line" id="scrollProgress"></div>
-    <div class="bg-vignette no-print"></div>
-    <canvas id="dust-canvas" class="no-print"></canvas>
+    <!-- Custom Cursor -->
+    <div id="custom-cursor"></div>
+    <div id="cursor-ring"></div>
+
+    <div class="bg-vignette"></div>
+    <canvas id="dust-canvas"></canvas>
 
     <nav class="nav-bar no-print">
-        <div class="flex flex-col">
-            <span class="gold-text text-lg tracking-[0.2em] font-royal uppercase">Hassan Jatoi</span>
-            <span class="text-[7px] opacity-40 tracking-[0.3em]">Eternal Archive v2.0</span>
+        <div class="flex items-center gap-4">
+            <div class="flex flex-col">
+                <span class="gold-text text-xl tracking-[0.3em] uppercase">Hassan Jatoi</span>
+                <span class="text-[8px] opacity-40 tracking-[0.4em]">IMMERSIIVE EXPERIENCE</span>
+            </div>
         </div>
-        <div class="flex gap-3">
-            <button class="btn-action" id="audioBtn" onclick="toggleAudio()">Play</button>
+        <div class="flex items-center gap-6">
+            <div id="audioVisualizer" class="audio-wave opacity-0 transition-opacity duration-500">
+                <div class="wave-bar" style="animation-delay: 0.1s"></div>
+                <div class="wave-bar" style="animation-delay: 0.3s"></div>
+                <div class="wave-bar" style="animation-delay: 0.2s"></div>
+                <div class="wave-bar" style="animation-delay: 0.4s"></div>
+            </div>
+            <button class="btn-action" onclick="toggleAudio()" id="audioStatus">Play</button>
             <button class="btn-action" onclick="downloadPDF()">Export</button>
         </div>
     </nav>
 
     <div id="capture-area">
-        <!-- New Cover Page -->
-        <div class="cover-page">
-            <div class="cover-frame">
-                <div class="w-40 h-40 mx-auto rounded-full border-2 border-gold/40 p-1 mb-10 overflow-hidden">
-                    <img src="https://i.ibb.co/2YtrCjnY/1000203412.jpg" alt="Hassan Jatoi" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000">
+        <div class="cover-page" id="parallax-scene">
+            <div class="cover-frame shadow-2xl">
+                <div class="w-48 h-48 mx-auto rounded-full border border-gold/30 p-2 mb-12 overflow-hidden bg-black/40">
+                    <img src="https://i.ibb.co/2YtrCjnY/1000203412.jpg" alt="Hassan Jatoi" class="w-full h-full object-cover grayscale brightness-75 hover:grayscale-0 hover:brightness-100 transition-all duration-1000">
                 </div>
-                <h1 class="gold-text text-5xl md:text-7xl font-royal tracking-[0.3em] uppercase mb-4">Hassan Jatoi</h1>
-                <div class="h-[1px] w-32 bg-gold/40 mx-auto mb-6"></div>
-                <p class="text-sm tracking-[0.6em] uppercase opacity-60 mb-12">The Eternal Archive</p>
-                <p class="font-royal text-[10px] tracking-[0.2em] opacity-40 italic">A Collection of Unspoken Truths & Silent Grief</p>
+                <h1 class="gold-text text-6xl md:text-8xl tracking-[0.4em] uppercase mb-6 drop-shadow-lg">JATOI</h1>
+                <div class="h-[1px] w-48 bg-gradient-to-right from-transparent via-gold to-transparent mx-auto mb-8"></div>
+                <p class="text-xs tracking-[0.8em] uppercase opacity-50 mb-14 font-light">The Eternal Silence of Soul</p>
+                <div class="text-[9px] tracking-[0.3em] uppercase opacity-30 flex flex-col gap-2 italic">
+                    <span>Archive Entry No. 1000203412</span>
+                    <span>© 2024 - Unspoken Legacy</span>
+                </div>
             </div>
-            <div class="absolute bottom-10 animate-bounce no-print">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="opacity-20"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+            <div class="absolute bottom-12 flex flex-col items-center gap-4 no-print opacity-30">
+                <span class="text-[8px] tracking-[0.5em] uppercase">Begin Journey</span>
+                <div class="w-[1px] h-12 bg-gold/50 animate-pulse"></div>
             </div>
         </div>
 
         <div id="prose-list" class="prose-container">
-            <!-- Dynamic Items -->
+            <!-- Dynamic Content -->
         </div>
     </div>
 
-    <!-- Settings Trigger -->
-    <div class="settings-trigger no-print" onclick="toggleSettings()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    <!-- Settings & Progress -->
+    <div class="settings-trigger no-print" onclick="toggleSettings()" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+        <svg class="scroll-progress-ring"><circle id="progressCircle" cx="37.5" cy="37.5" r="37.5"></circle></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     </div>
 
-    <!-- Settings Overlay -->
-    <div id="settingsMenu" class="settings-overlay no-print">
-        <div class="settings-card">
-            <h3 class="gold-text mb-6 text-center tracking-[0.2em] uppercase text-xs">Aesthetic Controls</h3>
-            <div class="mb-6">
-                <label class="block text-[8px] uppercase tracking-widest text-gold/80 mb-2">Typography</label>
-                <select id="moodSelect" onchange="updateStyles()" class="w-full bg-black border border-gold/30 p-2 rounded text-[10px] text-white">
-                    <option value="'Marcellus', serif">Marcellus (Default)</option>
-                    <option value="'Cinzel Decorative', cursive">Cinzel (Royal)</option>
-                    <option value="'Cormorant Garamond', serif">Garamond (Poetic)</option>
-                    <option value="'Pinyon Script', cursive">Pinyon (Calligraphy)</option>
-                </select>
+    <div id="settingsMenu" class="settings-overlay no-print" onclick="toggleSettings()">
+        <div class="settings-card" onclick="event.stopPropagation()">
+            <h3 class="gold-text mb-8 text-center tracking-[0.3em] uppercase text-sm">Library Settings</h3>
+            <div class="space-y-8">
+                <div>
+                    <label class="text-[9px] uppercase tracking-widest text-gold/60 mb-3 block">Typeface Mood</label>
+                    <select id="moodSelect" onchange="updateStyles()" class="w-full bg-black border border-gold/20 p-3 text-xs text-white">
+                        <option value="'Marcellus', serif">Standard Elegance</option>
+                        <option value="'Cinzel Decorative', cursive">Royal Antiquity</option>
+                        <option value="'Cormorant Garamond', serif">Poetic Melancholy</option>
+                        <option value="'Pinyon Script', cursive">Handwritten Ghost</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[9px] uppercase tracking-widest text-gold/60 mb-3 block">Text Magnitude: <span id="sizeVal">18px</span></label>
+                    <input type="range" id="sizeSlider" min="14" max="28" value="18" oninput="updateStyles()" class="w-full accent-gold">
+                </div>
+                <button class="btn-action w-full py-3 mt-4" onclick="toggleSettings()">Return to Archive</button>
             </div>
-            <div class="mb-8">
-                <label class="block text-[8px] uppercase tracking-widest text-gold/80 mb-2">Size: <span id="sizeVal">18px</span></label>
-                <input type="range" id="sizeSlider" min="14" max="28" value="18" oninput="updateStyles()" class="w-full accent-gold">
-            </div>
-            <button class="btn-action w-full py-2" onclick="toggleSettings()">Close</button>
         </div>
     </div>
 
-    <audio id="pianoAudio" loop preload="auto" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio>
-    <audio id="windAudio" loop preload="auto" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3"></audio>
+    <!-- Hidden Audio Elements -->
+    <audio id="pianoAudio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio>
 
     <script>
         const myWork = [
@@ -219,12 +271,43 @@
             {
                 "title": "A Symphony of Loss",
                 "text": "The house is full of echoes that do not belong to me.\nI hear the turn of a key in a door that has been locked for years.\nThe silence is a heavy shroud, woven from the threads of everything we never said."
+            },
+            {
+                "title": "The Last Ink",
+                "text": "If my pen could bleed, the page would be a crimson lake.\nI write to remember what it felt like to be whole.\nNow, I am just a collection of fragments,\nDancing in the wind of a forgotten winter."
             }
         ];
 
-        const pianoAudio = document.getElementById('pianoAudio');
-        const windAudio = document.getElementById('windAudio');
-        let initialized = false;
+        // Custom Cursor Logic
+        const cursor = document.getElementById('custom-cursor');
+        const ring = document.getElementById('cursor-ring');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            ring.style.left = (e.clientX - 15) + 'px';
+            ring.style.top = (e.clientY - 15) + 'px';
+        });
+
+        function expandCursor() {
+            cursor.style.transform = 'scale(4)';
+            cursor.style.opacity = '0.3';
+            ring.style.transform = 'scale(1.5)';
+        }
+        function shrinkCursor() {
+            cursor.style.transform = 'scale(1)';
+            cursor.style.opacity = '1';
+            ring.style.transform = 'scale(1)';
+        }
+
+        // Typing Effect Logic
+        function typeWriter(element, text, i = 0) {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                setTimeout(() => typeWriter(element, text, i + 1), 50);
+            } else {
+                element.classList.remove('typing-title');
+            }
+        }
 
         function render() {
             const list = document.getElementById('prose-list');
@@ -233,13 +316,127 @@
                 const div = document.createElement('div');
                 div.className = 'prose-entry';
                 div.innerHTML = `
-                    <h2 class="prose-title gold-text">${item.title}</h2>
+                    <h2 class="prose-title gold-text" data-title="${item.title}"></h2>
                     <div class="prose-body">${item.text}</div>
                 `;
                 list.appendChild(div);
             });
             updateStyles();
             observe();
+        }
+
+        function observe() {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(e => { 
+                    if(e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        const titleEl = e.target.querySelector('.prose-title');
+                        if(titleEl && titleEl.innerHTML === '') {
+                            titleEl.classList.add('typing-title');
+                            typeWriter(titleEl, titleEl.getAttribute('data-title'));
+                        }
+                    } 
+                });
+            }, { threshold: 0.2 });
+            document.querySelectorAll('.prose-entry').forEach(el => observer.observe(el));
+        }
+
+        // Parallax Effect
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth/2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight/2) * 0.01;
+            const scene = document.getElementById('parallax-scene');
+            scene.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            
+            // Interaction with particles
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Audio Management
+        const piano = document.getElementById('pianoAudio');
+        let audioStarted = false;
+
+        function initAudio() {
+            if(!audioStarted) {
+                audioStarted = true;
+                piano.volume = 0;
+                piano.play();
+                fadeIn(piano, 0.2);
+                document.getElementById('audioStatus').innerText = "Mute";
+                document.getElementById('audioVisualizer').classList.remove('opacity-0');
+            }
+        }
+
+        function toggleAudio() {
+            if(piano.paused) {
+                piano.play();
+                document.getElementById('audioStatus').innerText = "Mute";
+                document.getElementById('audioVisualizer').classList.remove('opacity-0');
+            } else {
+                piano.pause();
+                document.getElementById('audioStatus').innerText = "Play";
+                document.getElementById('audioVisualizer').classList.add('opacity-0');
+            }
+        }
+
+        function fadeIn(audio, target) {
+            let vol = 0;
+            const interval = setInterval(() => {
+                if (vol < target) {
+                    vol += 0.01;
+                    audio.volume = vol;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 50);
+        }
+
+        // Scroll Progress
+        window.onscroll = () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 235.6;
+            document.getElementById("progressCircle").style.strokeDashoffset = 235.6 - scrolled;
+        };
+
+        // Particles with Mouse Avoidance
+        const canvas = document.getElementById('dust-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouseX = 0, mouseY = 0;
+
+        function initParticles() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            particles = Array.from({length: 120}, () => ({
+                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                s: Math.random() * 1.5, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3,
+                originX: 0, originY: 0
+            }));
+        }
+
+        function animate() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            particles.forEach(p => {
+                // Avoid Mouse Logic
+                const dx = mouseX - p.x;
+                const dy = mouseY - p.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if(dist < 100) {
+                    p.x -= dx * 0.02;
+                    p.y -= dy * 0.02;
+                }
+
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(212,175,55,${Math.random() * 0.2 + 0.1})`;
+                ctx.arc(p.x, p.y, p.s, 0, Math.PI*2);
+                ctx.fill();
+                
+                p.x+=p.vx; p.y+=p.vy;
+                if(p.x<0)p.x=canvas.width; if(p.x>canvas.width)p.x=0;
+                if(p.y<0)p.y=canvas.height; if(p.y>canvas.height)p.y=0;
+            });
+            requestAnimationFrame(animate);
         }
 
         function toggleSettings() {
@@ -257,68 +454,11 @@
             });
         }
 
-        function observe() {
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.prose-entry').forEach(el => observer.observe(el));
-        }
-
-        async function handleInteraction() {
-            if(!initialized) {
-                initialized = true;
-                pianoAudio.volume = 0.2;
-                windAudio.volume = 0.05;
-                try {
-                    await pianoAudio.play().catch(() => {});
-                    await windAudio.play().catch(() => {});
-                    document.getElementById('audioBtn').innerText = "Playing";
-                } catch(e) {}
-            }
-        }
-
-        function toggleAudio() {
-            if(pianoAudio.paused) {
-                pianoAudio.play(); windAudio.play();
-                document.getElementById('audioBtn').innerText = "Playing";
-            } else {
-                pianoAudio.pause(); windAudio.pause();
-                document.getElementById('audioBtn').innerText = "Mute";
-            }
-        }
-
-        window.onscroll = () => {
-            const scrolled = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            document.getElementById("scrollProgress").style.width = scrolled + "%";
-        };
-
-        const canvas = document.getElementById('dust-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function initParticles() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            particles = Array.from({length: 80}, () => ({
-                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                s: Math.random() * 1.2, vx: (Math.random()-0.5)*0.2, vy: (Math.random()-0.5)*0.2
-            }));
-        }
-        function animate() {
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            ctx.fillStyle = "rgba(212,175,55,0.15)";
-            particles.forEach(p => {
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
-                p.x+=p.vx; p.y+=p.vy;
-                if(p.x<0)p.x=canvas.width; if(p.x>canvas.width)p.x=0;
-                if(p.y<0)p.y=canvas.height; if(p.y>canvas.height)p.y=0;
-            });
-            requestAnimationFrame(animate);
-        }
-
         function downloadPDF() {
             const element = document.getElementById('capture-area');
             html2pdf().from(element).set({
-                margin: 0, filename: 'Hassan_Jatoi_Archive.pdf',
-                html2canvas: { scale: 2, useCORS: true }, 
+                margin: 5, filename: 'Hassan_Jatoi_Archive.pdf',
+                html2canvas: { scale: 2, backgroundColor: '#050505' }, 
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             }).save();
         }
