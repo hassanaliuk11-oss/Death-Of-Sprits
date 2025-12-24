@@ -7,22 +7,20 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Old+Standard+TT:ital@0;1&family=Playfair+Display:ital,wght@0,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;1,600&family=Italianno&family=Montserrat:wght@100;300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Old+Standard+TT:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,300;1,600&family=Italianno&family=Montserrat:wght@100;300;900&family=Spectral:ital,wght@0,200;1,800&family=Dancing+Script:wght@400;700&family=EB+Garamond:ital,wght@0,400;1,800&display=swap" rel="stylesheet">
     
     <style>
-        :root { --gold: #FFD700; --dark-bg: #050505; --cyan: #00d2ff; }
+        :root { --gold: #FFD700; --dark-bg: #050505; }
         
-        /* General Layout */
         body { 
             background-color: var(--dark-bg); 
             color: #e5e5e5; 
             margin: 0; 
             scroll-behavior: smooth; 
             font-family: 'Old Standard TT', serif;
-            transition: background 0.5s ease;
         }
 
-        /* Nav Bar - HUD Style */
+        /* Nav Bar */
         .glass-nav { 
             background: rgba(0, 0, 0, 0.95); 
             border-bottom: 1px solid rgba(255, 215, 0, 0.2); 
@@ -30,79 +28,74 @@
             padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
         }
 
-        .nav-logo {
-            font-family: 'Cinzel', serif;
-            background: linear-gradient(to right, #FFD700, #fff, #FFD700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700; letter-spacing: 0.3em;
-        }
-
         .hud-btn {
             background: rgba(255, 215, 0, 0.05); border: 1px solid var(--gold); color: var(--gold);
             padding: 6px 14px; border-radius: 2px; font-size: 10px; cursor: pointer;
-            transition: 0.3s; font-family: 'Cinzel', serif; letter-spacing: 1px;
+            transition: 0.3s; font-family: 'Cinzel', serif;
         }
         .hud-btn:hover { background: var(--gold); color: black; box-shadow: 0 0 15px var(--gold); }
 
-        /* Cover Section */
-        .hero-section { height: 100vh; display: flex; align-items: center; justify-content: center; }
+        /* Hero Image with Text Overlay */
+        .hero-section { height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
         .main-cover { 
-            width: 100%; max-width: 420px; aspect-ratio: 1 / 1.41; 
-            position: relative; border: 2px solid var(--gold); overflow: hidden;
-            box-shadow: 0 0 80px rgba(0,0,0,1);
+            width: 100%; max-width: 450px; aspect-ratio: 1 / 1.41; 
+            position: relative; border: 3px solid var(--gold); overflow: hidden;
+            box-shadow: 0 0 100px rgba(0,0,0,1);
+        }
+        .cover-title {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8));
+            text-align: center; padding: 20px;
         }
 
-        /* Typography Styles */
-        .prose-container { max-width: 850px; margin: 0 auto; padding: 120px 20px; }
-        .prose-entry { margin-bottom: 150px; text-align: center; opacity: 0; transform: translateY(40px); transition: 1.5s ease-out; }
+        /* Typography Engine Classes */
+        .font-classic { font-family: 'Playfair Display', serif; }
+        .font-elegant { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+        .font-modern { font-family: 'Montserrat', sans-serif; letter-spacing: 0.2em; text-transform: uppercase; }
+        .font-script { font-family: 'Italianno', cursive; }
+        .font-vintage { font-family: 'EB Garamond', serif; }
+
+        /* Prose Content Area */
+        .prose-container { max-width: 900px; margin: 0 auto; padding: 120px 20px; }
+        .prose-entry { margin-bottom: 180px; text-align: center; opacity: 0; transform: translateY(50px); transition: 1.5s ease; }
         .prose-entry.visible { opacity: 1; transform: translateY(0); }
         
-        .prose-title { font-family: 'Cinzel', serif; font-size: 3rem; color: var(--gold); margin-bottom: 2.5rem; text-transform: uppercase; }
-        .prose-body { font-size: 1.6rem; line-height: 2.2; color: #ffffff; white-space: pre-wrap; }
+        .prose-title { font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 2rem; letter-spacing: 0.1em; }
+        .prose-body { color: #ffffff; white-space: pre-wrap; margin: 0 auto; }
         
-        /* Font Style Variations */
-        .style-elegant { font-family: 'Cormorant Garamond', serif; font-style: italic; }
-        .style-classic { font-family: 'Playfair Display', serif; }
-        .style-script { font-family: 'Italianno', cursive; font-size: 2.4rem !important; }
+        .divider { width: 80px; height: 1px; background: var(--gold); margin: 60px auto; opacity: 0.3; }
 
-        .divider { width: 150px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 60px auto; }
-
-        /* Utility Modes */
-        body.focus-mode { background-color: #000; }
+        /* A4 & Focus Modes */
         body.focus-mode .no-focus { display: none !important; }
-
-        /* A4 Print Optimization */
         @media print {
             .no-print { display: none !important; }
             body { background: white !important; color: black !important; }
-            .prose-entry { opacity: 1 !important; transform: none !important; page-break-after: always; padding-top: 2cm; }
-            .prose-title { color: black !important; font-size: 26pt; }
-            .prose-body { color: black !important; font-size: 16pt; line-height: 1.6; }
-            .divider { background: #000 !important; }
+            .prose-entry { opacity: 1 !important; transform: none !important; page-break-after: always; }
+            .prose-title, .prose-body { color: black !important; }
         }
     </style>
 </head>
-<body onclick="initExperience()" onscroll="initExperience()">
+<body onclick="initAudio()" onscroll="initAudio()">
 
     <nav class="glass-nav no-print">
-        <span class="nav-logo text-xl">HASSAN JATOI</span>
-        <div class="flex flex-wrap gap-2">
-            <button class="hud-btn" id="audioBtn" onclick="toggleAudio()">🔇 SOUND OFF</button>
+        <span class="font-cinzel text-white font-bold tracking-widest">HASSAN JATOI</span>
+        <div class="flex gap-2">
+            <button class="hud-btn" id="audioBtn">🔇 AUDIO</button>
             <button class="hud-btn" onclick="downloadPDF()">📥 PDF</button>
-            <button class="hud-btn" onclick="window.print()">🖨️ PRINT A4</button>
-            <button class="hud-btn" onclick="toggleFocus()">👁️ FOCUS</button>
+            <button class="hud-btn" onclick="window.print()">🖨️ PRINT</button>
+            <button class="hud-btn" onclick="document.body.classList.toggle('focus-mode')">👁️ FOCUS</button>
         </div>
     </nav>
 
     <div id="capture-area">
         <section class="hero-section no-print no-focus">
             <div class="main-cover">
-                <img src="https://i.ibb.co/2YtrCjnY/1000203412.jpg" class="w-full h-full object-cover opacity-60">
-                <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-8 bg-black/40">
-                    <h1 class="font-cinzel text-4xl font-bold text-white tracking-[0.2em]">THE SPIRITUAL MANUSCRIPT</h1>
-                    <div class="h-[1px] w-12 bg-gold my-6"></div>
-                    <p class="italic text-gold/80 font-serif">Scroll to Reveal the Soul</p>
+                <img src="https://i.ibb.co/2YtrCjnY/1000203412.jpg" class="w-full h-full object-cover">
+                <div class="cover-title">
+                    <h1 class="font-cinzel text-5xl font-black text-white drop-shadow-2xl">THE THINNING VEIL</h1>
+                    <div class="h-1 w-16 bg-gold my-6"></div>
+                    <p class="font-modern text-xs text-gold tracking-[0.5em]">HASSAN JATOI ARCHIVE</p>
                 </div>
             </div>
         </section>
@@ -114,75 +107,28 @@
     <audio id="bgAudio" loop></audio>
 
     <script>
-        // --- DATA SECTION ---
+        // --- 100+ STYLE COMBINATIONS CONFIGURATION ---
+        // Use "style" to pick the font, and "size" to set the text size.
         const myWork = [
             {
                 "title": "The Thinning Veil",
-                "style": "style-elegant",
-                "text": "The air grows heavy with the weight of unremembered names\nwhere once the shadows pulsed with a secret intent\nnow there is only the stagnant breath of the hollowed wood\nthe whispers that governed the tides have fallen to dust\nand the silver tracks of the moonlight find no spirits to guide\nwe walked through the valley of the forgotten echoes\nlistening for the chime of a bell that no longer rings\nevery leaf that falls is a manuscript of a lost language\na dialect of the wind that the modern ear cannot translate\nthe ancient guardians have folded their wings into the stone\nbecoming indistinguishable from the granite and the moss\nthere is a coldness in the hearth that fire cannot warm\nbecause the spark of the elemental has been extinguished\nwe look into the well and see only the reflection of the sky\nmissing the eyes that used to stare back from the deep\nthe mountains have become mere piles of silent earth\nstripped of the giants that once held up the heavy clouds\nthe rivers run toward the sea like veins drained of blood\ncarrying the ghosts of salmon and the prayers of the parched\nnothing moves in the corner of the eye anymore\nthe peripheral world has been bleached of its magic\nwe have paved over the portals and the hidden gates\nbuilding monuments of glass to our own reflection\nthe owls cry out but they are only birds now\ntheir voices no longer carry the warnings of the dead\nthe stars are distant furnaces rather than watchful ancestors\nand the dark is just a lack of light rather than a presence\nwe are becoming lonely in a world that used to be crowded\nwith the rustle of silk and the shimmer of the unseen\nthe spirits are not leaving they are simply dissolving\ninto the grey mist of a world that stopped believing\nleaving us with the heavy inheritance of the literal\nwhere a tree is only timber and the rain is only water\nand the soul is a word we use to describe a void\nthe silence is growing louder with every passing century\nuntil the last flicker of the supernatural is snuffed out\nby the steady relentless hand of the cold machines\nleaving the earth a beautiful corpse in the black of space"
+                "style": "font-elegant", // Options: font-classic, font-elegant, font-modern, font-script, font-vintage
+                "size": "1.7rem",        // Set any size (1rem to 3rem)
+                "text": "The air grows heavy with the weight of unremembered names\nwhere once the shadows pulsed with a secret intent\nnow there is only the stagnant breath of the hollowed wood\nthe whispers that governed the tides have fallen to dust..."
             }
         ];
 
-        // 20 Atmospheric Soundtracks
-        const sounds = [
-            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-            "https://actions.google.com/sounds/v1/ambiences/rain_on_roof.ogg",
-            "https://actions.google.com/sounds/v1/ambiences/forest_morning_birds.ogg",
-            "https://www.bensound.com/bensound-music/bensound-memories.mp3"
-            // You can add more .mp3 links here
-        ];
+        // Ambient Tracks
+        const ambientTracks = ["https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"];
 
-        // --- AUDIO ENGINE ---
-        let audio = document.getElementById("bgAudio");
-        let audioStarted = false;
-
-        function initExperience() {
-            if (!audioStarted) {
-                const randomTrack = sounds[Math.floor(Math.random() * sounds.length)];
-                audio.src = randomTrack;
-                audio.volume = 0.5;
-                audio.play().catch(() => {});
-                audioStarted = true;
-                document.getElementById('audioBtn').innerText = "🔊 SOUND ON";
-                document.getElementById('audioBtn').style.color = "#39FF14";
-            }
-        }
-
-        function toggleAudio() {
-            if (audio.paused) {
-                audio.play();
-                document.getElementById('audioBtn').innerText = "🔊 SOUND ON";
-            } else {
-                audio.pause();
-                document.getElementById('audioBtn').innerText = "🔇 SOUND OFF";
-                document.getElementById('audioBtn').style.color = "var(--gold)";
-            }
-        }
-
-        // --- UTILITIES ---
-        function toggleFocus() { document.body.classList.toggle('focus-mode'); }
-
-        function downloadPDF() {
-            const element = document.getElementById('capture-area');
-            const opt = {
-                margin: 0,
-                filename: 'Hassan_Jatoi_Thinning_Veil.pdf',
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: { scale: 2, backgroundColor: '#050505' },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
-        }
-
-        // --- CORE RENDER ---
         function render() {
             const container = document.getElementById('prose-list');
             myWork.forEach((item, index) => {
                 const div = document.createElement('div');
-                div.className = `prose-entry ${item.style || ''}`;
+                div.className = `prose-entry ${item.style}`;
                 div.innerHTML = `
-                    <h2 class="prose-title">${item.title}</h2>
-                    <div class="prose-body">${item.text}</div>
+                    <h2 class="prose-title text-4xl">${item.title}</h2>
+                    <div class="prose-body" style="font-size: ${item.size || '1.5rem'}">${item.text}</div>
                     ${index !== myWork.length - 1 ? '<div class="divider"></div>' : ''}
                 `;
                 container.appendChild(div);
@@ -192,6 +138,21 @@
                 entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
             }, { threshold: 0.1 });
             document.querySelectorAll('.prose-entry').forEach(el => observer.observe(el));
+        }
+
+        // Audio & PDF Logic
+        const audio = document.getElementById('bgAudio');
+        let audioStarted = false;
+        function initAudio() {
+            if(!audioStarted) {
+                audio.src = ambientTracks[0]; audio.play(); audioStarted = true;
+                document.getElementById('audioBtn').innerText = "🔊 AUDIO ON";
+            }
+        }
+        function downloadPDF() {
+            html2pdf().from(document.getElementById('capture-area')).set({
+                margin: 10, filename: 'Archive.pdf', jsPDF: { format: 'a4', orientation: 'portrait' }
+            }).save();
         }
 
         window.onload = render;
