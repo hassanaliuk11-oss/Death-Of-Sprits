@@ -4,16 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Death of Spirits - Hassan Jatoi</title>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
     <style>
         body, html { margin: 0; padding: 0; font-family: 'Georgia', serif; scroll-behavior: smooth; background: #111; }
-        
-        /* Main Book Wrapper */
-        #book-content { width: 100%; background: white; margin: 0 auto; }
-
-        /* Cover Page Style */
+        #book-content { width: 100%; background: white; }
         .cover-container {
             background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
             background-size: cover; background-position: center; height: 100vh;
@@ -21,97 +15,77 @@
             text-align: center; color: white; page-break-after: always;
             border: 15px double #d4af37; box-sizing: border-box;
         }
-
         .golden-title {
-            font-size: 70px; font-weight: bold;
-            background: linear-gradient(to bottom, #cf972a, #f1d37e, #b58116, #f7ef8a, #8d6205);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            letter-spacing: 5px; margin: 0; text-transform: uppercase;
-            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
+            font-size: 60px; font-weight: bold; background: linear-gradient(to bottom, #cf972a, #f1d37e, #8d6205);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 5px; text-transform: uppercase;
         }
-
-        .author-name { font-size: 24px; margin-top: 30px; color: #f1d37e; letter-spacing: 5px; text-transform: uppercase; }
-
-        /* Table of Contents */
-        .toc-page { padding: 60px 10%; page-break-after: always; background: #fffcf5; min-height: 100vh; }
-        .toc-title { text-align: center; color: #8d6205; font-size: 30px; text-transform: uppercase; margin-bottom: 40px; border-bottom: 2px solid #d4af37; padding-bottom: 10px; }
-        .toc-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px; }
-        .toc-list a { text-decoration: none; color: #333; border-bottom: 1px dotted #ccc; padding: 5px; }
-
-        /* Chapter Layout */
-        .chapter-page { padding: 80px 15%; min-height: 100vh; page-break-before: always; background: white; box-sizing: border-box; }
-        .ch-meta { color: #8d6205; font-style: italic; font-size: 16px; text-transform: uppercase; letter-spacing: 2px; }
-        .ch-title { font-size: 40px; margin: 10px 0 50px 0; color: #111; border-left: 6px solid #d4af37; padding-left: 20px; text-transform: capitalize; }
-        .ch-content { font-size: 21px; line-height: 1.9; text-align: justify; color: #333; }
-
-        /* Fixed Download Button */
-        .download-btn {
-            position: fixed; bottom: 30px; right: 30px;
-            background: linear-gradient(45deg, #8d6205, #d4af37);
-            color: white; padding: 15px 30px; border: none; border-radius: 50px;
-            cursor: pointer; font-weight: bold; z-index: 1000; box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-        }
+        .author-name { font-size: 24px; margin-top: 20px; color: #f1d37e; letter-spacing: 5px; }
+        
+        /* Index Style */
+        .toc-page { padding: 40px 10%; page-break-after: always; background: #fffcf5; }
+        .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; }
+        .toc-grid a { text-decoration: none; color: #333; border-bottom: 1px dotted #ccc; }
+        
+        /* Chapter Style */
+        .chapter-page { padding: 60px 15%; min-height: 100vh; page-break-before: always; border-bottom: 1px solid #eee; }
+        .ch-title { font-size: 30px; color: #8d6205; border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin-bottom: 30px; }
+        .ch-content { font-size: 19px; line-height: 1.8; text-align: justify; }
+        .download-btn { position: fixed; bottom: 20px; right: 20px; background: #8d6205; color: white; padding: 12px 20px; border: none; border-radius: 50px; cursor: pointer; z-index: 1000; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <button class="download-btn" onclick="downloadPDF()">📥 DOWNLOAD PDF</button>
+<button class="download-btn" onclick="downloadPDF()">📥 DOWNLOAD FULL PDF</button>
 
-    <div id="book-content">
-        <div class="cover-container">
-            <h1 class="golden-title">The Death <br> of Spirits</h1>
-            <p class="author-name">Hassan Jatoi</p>
-        </div>
-
-        <div class="toc-page">
-            <h2 class="toc-title">Table of Contents</h2>
-            <div class="toc-list">
-                <a href="#ch1">Nearly Old</a>
-                <a href="#ch2">On My Back</a>
-                <a href="#ch3">Ceiling Crack</a>
-                <a href="#ch4">Silent Roof</a>
-                <a href="#ch5">Spidery Lines</a>
-                </div>
-        </div>
-
-        <div class="chapter-page" id="ch1">
-            <div class="ch-meta">Chapter One</div>
-            <h1 class="ch-title">Nearly Old</h1>
-            <div class="ch-content">
-                HASSAN_START_HERE
-            </div>
-        </div>
-
-        <div class="chapter-page" id="ch2">
-            <div class="ch-meta">Chapter Two</div>
-            <h1 class="ch-title">On My Back</h1>
-            <div class="ch-content">
-                HASSAN_START_HERE
-            </div>
-        </div>
-
-        <div class="chapter-page" id="ch3">
-            <div class="ch-meta">Chapter Three</div>
-            <h1 class="ch-title">Ceiling Crack</h1>
-            <div class="ch-content">
-                HASSAN_START_HERE
-            </div>
-        </div>
-
+<div id="book-content">
+    <div class="cover-container">
+        <h1 class="golden-title">The Death <br> of Spirits</h1>
+        <p class="author-name">Hassan Jatoi</p>
     </div>
 
-    <script>
-        function downloadPDF() {
-            const element = document.getElementById('book-content');
-            const opt = {
-                margin: 0,
-                filename: 'The_Death_of_Spirits_Hassan_Jatoi.pdf',
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
-        }
-    </script>
+    <div class="toc-page">
+        <h2 style="text-align: center; color: #8d6205;">TABLE OF CONTENTS</h2>
+        <div class="toc-grid">
+            <a href="#ch1">Nearly Old</a><a href="#ch2">On My Back</a><a href="#ch3">Ceiling Crack</a><a href="#ch4">Silent Roof</a>
+            <a href="#ch5">Spidery Lines</a><a href="#ch6">Light Above</a><a href="#ch7">Waiting Plaster</a><a href="#ch8">Falling Thoughts</a>
+            <a href="#ch9">Flat Chest</a><a href="#ch10">Gravity Truth</a><a href="#ch11">Vanishing Shape</a><a href="#ch12">Hidden Weight</a>
+            <a href="#ch13">Armpit Silence</a><a href="#ch14">Wrinkled Skin</a><a href="#ch15">Lost Pride</a><a href="#ch16">Time Marks</a>
+            <a href="#ch17">Aging Flesh</a><a href="#ch18">Body Memory</a><a href="#ch19">Quiet Bones</a><a href="#ch20">Soft Collapse</a>
+            <a href="#ch21">Mirror Question</a><a href="#ch22">Honest Body</a><a href="#ch23">Upright Illusion</a><a href="#ch24">Lying Truth</a>
+            <a href="#ch25">Age Speaking</a><a href="#ch26">Flesh History</a><a href="#ch27">Gravity Wins</a><a href="#ch28">Night Still</a>
+            <a href="#ch29">Ceiling Witness</a><a href="#ch30">Silent Room</a><a href="#ch31">Old Curves</a><a href="#ch32">Memory Touch</a>
+            <a href="#ch33">Want Remains</a><a href="#ch34">Desire Fades</a><a href="#ch35">Human Need</a><a href="#ch36">Quiet Heat</a>
+            <a href="#ch37">Last Tease</a><a href="#ch38">Turning Heads</a><a href="#ch39">Doubt Rising</a><a href="#ch40">Bed Thoughts</a>
+            <a href="#ch41">Empty Space</a><a href="#ch42">Time Undressed</a><a href="#ch43">Age Without Shame</a><a href="#ch44">Soft Defiance</a>
+            <a href="#ch45">Body Confession</a><a href="#ch46">Years Showing</a><a href="#ch47">Earned Lines</a><a href="#ch48">Flesh Truth</a>
+            <a href="#ch49">Private Questions</a><a href="#ch50">Still Woman</a><a href="#ch51">Silent Smile</a><a href="#ch52">Aging Grace</a>
+            <a href="#ch53">Body Alone</a><a href="#ch54">Night Weight</a><a href="#ch55">Honest Want</a><a href="#ch56">Warm Memory</a>
+            <a href="#ch57">Past Curves</a><a href="#ch58">Present Flesh</a><a href="#ch59">Quiet Desire</a><a href="#ch60">Time Pressure</a>
+            <a href="#ch61">Old Fire</a><a href="#ch62">Ash Warm</a><a href="#ch63">Breathing Still</a><a href="#ch64">Not Invisible</a>
+            <a href="#ch65">Seen Before</a><a href="#ch66">Felt Once</a><a href="#ch67">Gravity Talk</a><a href="#ch68">Body Diary</a>
+            <a href="#ch69">Ceiling Nights</a><a href="#ch70">Flat Reality</a><a href="#ch71">Upright Lies</a><a href="#ch72">Soft Ruins</a>
+            <a href="#ch73">Age Aware</a><a href="#ch74">Naked Truth</a><a href="#ch75">Quiet Humor</a><a href="#ch76">Human After All</a>
+            <a href="#ch77">Time Touch</a><a href="#ch78">Skin Story</a><a href="#ch79">Still Curious</a><a href="#ch80">Nearly Desired</a>
+            <a href="#ch81">Want Whisper</a><a href="#ch82">Silent Bed</a><a href="#ch83">Memory Weight</a><a href="#ch84">Honest Aging</a>
+            <a href="#ch85">Body Language</a><a href="#ch86">Flesh Echo</a><a href="#ch87">Time Etched</a><a href="#ch88">Quiet Pulse</a>
+            <a href="#ch89">Old Confidence</a><a href="#ch90">Unashamed Skin</a><a href="#ch91">Gravity Marks</a><a href="#ch92">Night Confession</a>
+            <a href="#ch93">Aging Heart</a><a href="#ch94">Still Alive</a><a href="#ch95">Time and Me</a><a href="#ch96">Ceiling Again</a>
+            <a href="#ch97">Body Question</a><a href="#ch98">Quiet Endurance</a><a href="#ch99">Soft Survival</a><a href="#ch100">Nearly Old Final</a>
+        </div>
+    </div>
+
+    <div class="chapter-page" id="ch1"><h1 class="ch-title">Nearly Old</h1><div class="ch-content">HASSAN_START_HERE</div></div>
+    <div class="chapter-page" id="ch2"><h1 class="ch-title">On My Back</h1><div class="ch-content">HASSAN_START_HERE</div></div>
+    <div class="chapter-page" id="ch3"><h1 class="ch-title">Ceiling Crack</h1><div class="ch-content">HASSAN_START_HERE</div></div>
+    <div class="chapter-page" id="ch4"><h1 class="ch-title">Silent Roof</h1><div class="ch-content">HASSAN_START_HERE</div></div>
+    <div class="chapter-page" id="ch5"><h1 class="ch-title">Spidery Lines</h1><div class="ch-content">HASSAN_START_HERE</div></div>
+    </div>
+
+<script>
+    function downloadPDF() {
+        const element = document.getElementById('book-content');
+        html2pdf().set({ margin:0, filename:'The_Death_of_Spirits.pdf', html2canvas:{scale:2, useCORS:true}, jsPDF:{unit:'in', format:'a4'} }).from(element).save();
+    }
+</script>
 </body>
 </html>
