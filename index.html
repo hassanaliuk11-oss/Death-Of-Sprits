@@ -26,12 +26,11 @@
             background-color: var(--bg-color); 
             color: var(--text-color);
             font-family: var(--font-body);
-            line-height: 1.8;
+            line-height: 1.3;
             scroll-behavior: smooth;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Paper Texture effect */
         .paper-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -53,7 +52,6 @@
             background: linear-gradient(to bottom, var(--bg-color), transparent);
         }
 
-        /* Link Styling for Name */
         .author-link {
             text-decoration: none;
             color: inherit;
@@ -86,34 +84,36 @@
             transition: all 0.3s ease;
         }
 
-        /* POETRY LINES SIZES & DROP CAP */
+        /* CENTERED POETRY LINES */
         .lines {
-            font-size: 16px; 
-            font-weight: 800; 
-            font-style: normal;
-            width: 85%;
+            font-size: 19px; 
+            font-weight: 700; 
+            width: 90%;
+            max-width: 800px;
             margin: 0 auto;
             text-align: center;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
+        /* Refined Title for Center Alignment */
         .lines p:first-of-type::first-letter {
             font-family: var(--font-display);
-            float: left;
-            font-size: 4.5rem;
+            font-size: 5rem;
             line-height: 1;
-            padding-top: 4px;
-            padding-right: 12px;
-            padding-left: 3px;
+            margin-bottom: 10px;
             font-weight: 900;
             color: #000;
             text-transform: uppercase;
+            display: block; /* Centering the first letter specifically */
+            text-align: center;
         }
 
         @media (min-width: 1024px) {
             .header-nav span { font-size: 18px; }
-            .lines { font-size: 18px; max-width: 800px; }
-            .save-btn { font-size: 12px; }
+            .lines { font-size: 22px; }
         }
 
         #book-content {
@@ -123,7 +123,6 @@
             z-index: 5;
         }
 
-        /* Cover Section */
         .cover {
             height: 100vh;
             display: flex;
@@ -137,27 +136,27 @@
 
         .cover h1 {
             font-family: var(--font-display);
-            font-size: clamp(45px, 12vw, 95px);
+            font-size: clamp(40px, 10vw, 85px);
             font-weight: 900;
-            letter-spacing: -2px;
+            letter-spacing: -1px;
             text-transform: uppercase;
             margin: 0;
-            line-height: 0.9;
+            line-height: 1;
         }
 
         .cover-logo {
-            margin-top: 40px;
-            height: 150px; 
+            margin-top: 50px;
+            height: 160px; 
             width: auto;
             border-radius: 50%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
         }
 
         .cover p {
-            margin-top: 30px;
+            margin-top: 40px;
             font-family: var(--font-head);
-            font-size: 16px;
-            letter-spacing: 12px;
+            font-size: 18px;
+            letter-spacing: 15px;
             text-transform: uppercase;
             font-weight: bold;
             opacity: 0.8;
@@ -169,7 +168,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 100px 10%;
+            padding: 40px 10%;
             box-sizing: border-box;
             page-break-before: always;
             text-align: center;
@@ -178,41 +177,40 @@
         .chapter-title {
             font-family: var(--font-head);
             font-size: 14px;
-            letter-spacing: 7px;
+            letter-spacing: 10px;
             text-transform: uppercase;
             font-weight: bold;
             color: var(--accent-color);
-            margin-bottom: 80px;
+            margin-bottom: 20px;
         }
 
         .chapter-title::after {
             content: "";
             display: block;
-            width: 50px;
-            height: 1px;
+            width: 30px;
+            height: 2px;
             background: #000;
-            margin: 25px auto 0;
-            opacity: 0.2;
+            margin: 15px auto 0;
+            opacity: 0.15;
         }
 
         .lines p {
-            margin-bottom: 3.5rem;
+            margin-bottom: 0.3rem; /* Minimum gap */
             position: relative;
-            clear: both;
+            width: 100%;
         }
 
-        /* Colourful Footer Lines */
         .colour-footer {
             width: 100%;
             display: flex;
             flex-direction: column;
-            margin-top: 150px;
+            margin-top: 60px;
             padding-bottom: 40px;
         }
         .c-line { 
             width: 100%; 
-            height: 12px; 
-            margin-bottom: 2px;
+            height: 15px; 
+            margin-bottom: 3px;
         }
         .c-1 { background-color: #ff5f5f; } 
         .c-2 { background-color: #5fafff; } 
@@ -221,9 +219,8 @@
         @media print {
             .header-nav, .paper-overlay, .author-link::after { display: none; }
             body { background: #fff; }
-            .poem-section { min-height: auto; padding: 2in 0; }
-            .colour-footer { margin-top: 50px; }
-            /* Ensure links don't show URLs in print unless desired */
+            .poem-section { min-height: auto; padding: 1in 0; }
+            .colour-footer { margin-top: 40px; }
             a { text-decoration: none; color: black; }
         }
     </style>
@@ -255,12 +252,50 @@
 
     <!-- POEM 1 -->
     <section class="poem-section">
-        <div class="chapter-title">I. Nearly Old</div>
+        <div class="chapter-title">I Nearly Old</div>
         <div class="lines">
-            <p>Now that I am nearly old I listen more to the ceiling than to my heart.</p>
-            <p>Lying on my back makes the body honest in ways mirrors never were.</p>
+            <p>Now that I am nearly old I listen more to the ceiling than to my heart</p>
+            <p>Lying on my back makes the body honest in ways mirrors never were</p>
         </div>
     </section>
+
+    <!-- POEM 2 -->
+    <section class="poem-section">
+        <div class="chapter-title">II On My Back</div>
+        <div class="lines">
+            <p>Lying on my back the world stops being a stage and starts being a witness</p>
+            <p>There is no posture to maintain here no chin to hold high for the sake of pride</p>
+        </div>
+    </section>
+
+    <!-- POEM 3 -->
+    <section class="poem-section">
+        <div class="chapter-title">III The Unsaid Words</div>
+        <div class="lines">
+            <p>Silence is not the absence of sound but the presence of too many words at once</p>
+            <p>We speak in exhales when the heart is too heavy to carry the vowels of our grief</p>
+        </div>
+    </section>
+
+    <!-- POEM 4 -->
+    <section class="poem-section">
+        <div class="chapter-title">IV Shadow Play</div>
+        <div class="lines">
+            <p>Everything we love eventually turns into a shadow we try to catch in the dark</p>
+            <p>The spirit does not die it simply gets tired of wearing a name that no longer fits</p>
+        </div>
+    </section>
+
+    <!-- POEM 5 -->
+    <section class="poem-section">
+        <div class="chapter-title">V Final Breath</div>
+        <div class="lines">
+            <p>The end is a soft closing of a door you didn't know was open all this time</p>
+            <p>We are but whispers in a room full of shouting looking for a place to rest</p>
+        </div>
+    </section>
+
+    
 
     <!-- POEM 2 -->
     <section class="poem-section">
@@ -1701,34 +1736,7 @@
         <p>I am the silence. I am the peace. I am the ending that is actually the most beautiful, sunrise-filled beginning.</p>
     </div>
 </section>
-
-<script>
-    function downloadPDF() {
-        const element = document.getElementById('book-content');
-        const opt = {
-            margin: 0,
-            filename: 'The_Death_of_Spirits_Manuscript.pdf',
-            image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 3, backgroundColor: '#fdfaf5' },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        };
-        html2pdf().set(opt).from(element).save();
-    }
-</script>
-
-</body>
-</html>
-
-
-
-
-   
-
-    
-    
-      
-                
-           
+     
 </div>
 <div class="chapter-page" id="ch41">
     <div class="ch-header">
@@ -3840,8 +3848,6 @@
         </div>
     </section>
 
-    <br>
-
     <section>
         <h2 class="ch-title">On the Final Arrival and the Great Homecoming</h2>
         <div style="list-style-type: none; margin: 0; padding: 0; line-height: 1.8;">
@@ -3868,18 +3874,28 @@
         </div>
     </section>
 
-            <script>
+<!-- COLOURFUL FOOTER -->
+    <footer class="colour-footer">
+        <div class="c-line c-1"></div>
+        <div class="c-line c-2"></div>
+        <div class="c-line c-3"></div>
+    </footer>
+</div>
+
+<script>
     function downloadPDF() {
         const element = document.getElementById('book-content');
         const opt = {
             margin: 0,
-            filename: 'The_Death_of_Spirits_Hassan.pdf',
+            filename: 'The_Death_of_Spirits_Manuscript.pdf',
             image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 3, useCORS: true },
+            html2canvas: { scale: 3, backgroundColor: '#fdfaf5' },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
         html2pdf().set(opt).from(element).save();
     }
-  </script>
-    </body>
-        </html>
+</script>
+
+</body>
+</html>
+           
