@@ -1,652 +1,897 @@
-          <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Death of Spirits - Hassan Jatoi</title>
+    <!-- Premium High-Contrast Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;800&family=Tenor+Sans&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
+        :root {
+            --bg-color: #fdfaf5; 
+            --text-color: #000000; 
+            --accent-color: #444444;
+            --font-body: 'Crimson Pro', serif;
+            --font-head: 'Tenor Sans', sans-serif;
+            --font-display: 'Playfair Display', serif;
+        }
+
         body, html { 
             margin: 0; 
             padding: 0; 
-            font-family: 'Playfair Display', serif; 
-            scroll-behavior: smooth; 
-            background: #0a0a0a; 
+            background-color: var(--bg-color); 
+            color: var(--text-color);
+            font-family: var(--font-body);
+            line-height: 1.8;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
         }
-        
-        #book-content { width: 100%; background: #fffcf5; margin: 0 auto; }
-        
-        .cover-container {
-            background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://i.ibb.co/2YtrCjnY/1000203412.jpg');
-            background-size: cover; 
-            background-position: center; 
-            height: 100vh;
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
+
+        /* Paper Texture effect */
+        .paper-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .header-nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            text-align: center; 
-            color: white; 
-            page-break-after: always;
-            border: 20px double #d4af37; 
             box-sizing: border-box;
+            z-index: 1000;
+            background: linear-gradient(to bottom, var(--bg-color), transparent);
         }
 
-        .golden-title { 
-            font-family: 'Cinzel', serif;
-            font-size: 70px; 
-            font-weight: bold; 
-            background: linear-gradient(to bottom, #cf972a, #f1d37e, #8d6205); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            letter-spacing: 8px; 
-            text-transform: uppercase; 
-            margin: 0;
-            line-height: 1.1;
+        /* Link Styling for Name */
+        .author-link {
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.3s ease;
         }
 
-        .author-name { 
-            font-family: 'Cinzel', serif;
-            font-size: 24px; 
-            margin-top: 30px; 
-            color: #f1d37e; 
-            letter-spacing: 6px; 
-            font-weight: 400;
+        .author-link:hover {
+            opacity: 0.6;
         }
 
-        .chapter-page { 
-            padding: 80px 12%; 
-            min-height: 100vh; 
-            page-break-before: always; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            text-align: center;
-            background: #fffcf5; 
-            border: 1px solid #eee;
+        .header-nav span {
+            font-family: var(--font-head);
+            font-size: 16px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
-        .ch-title { 
-            font-family: 'Cinzel', serif;
-            font-size: 36px; 
-            color: #8d6205; 
-            margin-bottom: 50px; 
-            letter-spacing: 3px;
-        }
-
-        .ch-content { 
-            font-family: 'Playfair Display', serif;
-            font-size: 26px; 
-            line-height: 1.8; 
-            /* Yahan Italic apply kiya gaya hai */
-            font-style: Normal; 
-            color: #222; 
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .quote-divider {
-            width: 50px;
-            height: 2px;
-            background: #d4af37;
-            margin: 30px auto;
-        }
-
-        .download-btn { 
-            position: fixed; 
-            bottom: 30px; 
-            right: 30px; 
-            background: #8d6205; 
-            color: white; 
-            padding: 15px 30px; 
-            border: none; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            z-index: 1000; 
-            font-family: 'Cinzel', serif;
-            font-size: 14px;
+        .save-btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 25px;
+            font-family: var(--font-head);
+            font-size: 11px;
             letter-spacing: 2px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        /* POETRY LINES SIZES & DROP CAP */
+        .lines {
+            font-size: 16px; 
+            font-weight: 800; 
+            font-style: normal;
+            width: 85%;
+            margin: 0 auto;
+            text-align: center;
+            letter-spacing: 0.4px;
+        }
+
+        .lines p:first-of-type::first-letter {
+            font-family: var(--font-display);
+            float: left;
+            font-size: 4.5rem;
+            line-height: 1;
+            padding-top: 4px;
+            padding-right: 12px;
+            padding-left: 3px;
+            font-weight: 900;
+            color: #000;
+            text-transform: uppercase;
+        }
+
+        @media (min-width: 1024px) {
+            .header-nav span { font-size: 18px; }
+            .lines { font-size: 18px; max-width: 800px; }
+            .save-btn { font-size: 12px; }
+        }
+
+        #book-content {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Cover Section */
+        .cover {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            page-break-after: always;
+            padding: 0 10%;
+        }
+
+        .cover h1 {
+            font-family: var(--font-display);
+            font-size: clamp(45px, 12vw, 95px);
+            font-weight: 900;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            margin: 0;
+            line-height: 0.9;
+        }
+
+        .cover-logo {
+            margin-top: 40px;
+            height: 150px; 
+            width: auto;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .cover p {
+            margin-top: 30px;
+            font-family: var(--font-head);
+            font-size: 16px;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+
+        .poem-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 10%;
+            box-sizing: border-box;
+            page-break-before: always;
+            text-align: center;
+        }
+
+        .chapter-title {
+            font-family: var(--font-head);
+            font-size: 14px;
+            letter-spacing: 7px;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 80px;
+        }
+
+        .chapter-title::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 1px;
+            background: #000;
+            margin: 25px auto 0;
+            opacity: 0.2;
+        }
+
+        .lines p {
+            margin-bottom: 3.5rem;
+            position: relative;
+            clear: both;
+        }
+
+        /* Colourful Footer Lines */
+        .colour-footer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-top: 150px;
+            padding-bottom: 40px;
+        }
+        .c-line { 
+            width: 100%; 
+            height: 12px; 
+            margin-bottom: 2px;
+        }
+        .c-1 { background-color: #ff5f5f; } 
+        .c-2 { background-color: #5fafff; } 
+        .c-3 { background-color: #5fff8f; } 
+
+        @media print {
+            .header-nav, .paper-overlay, .author-link::after { display: none; }
+            body { background: #fff; }
+            .poem-section { min-height: auto; padding: 2in 0; }
+            .colour-footer { margin-top: 50px; }
+            /* Ensure links don't show URLs in print unless desired */
+            a { text-decoration: none; color: black; }
         }
     </style>
 </head>
 <body>
 
-<button class="download-btn" onclick="downloadPDF()">📥 DOWNLOAD MANUSCRIPT</button>
+<div class="paper-overlay"></div>
+
+<nav class="header-nav">
+    <span>
+        <a href="https://hassanaliuk11-oss.github.io/Hassanalipoetry-/" target="_blank" class="author-link">
+            Hassan Jatoi
+        </a>
+    </span>
+    <button class="save-btn" onclick="downloadPDF()">Export PDF</button>
+</nav>
 
 <div id="book-content">
-    <div class="cover-container">
-        <h1 class="golden-title">The Death <br> of Spirits</h1>
-        <p class="author-name">Hassan Jatoi</p>
-    </div>
+    <!-- COVER PAGE -->
+    <section class="cover">
+        <h1>The Death<br>Of Spirits</h1>
+        <img src="https://i.ibb.co/sdGgCJ40/Gemini-Generated-Image-76jf8w76jf8w76jf.png" alt="Logo" class="cover-logo">
+        <p>
+            <a href="https://hassanaliuk11-oss.github.io/Hassanalipoetry-/" target="_blank" class="author-link">
+                Hassan Jatoi
+            </a>
+        </p>
+    </section>
 
-    <div class="chapter-page">
-        <h1 class="ch-title">I. Nearly Old</h1>
-        <div class="ch-content">
-            It was a quiet realization, a slow softening of the world around me. To be nearly old is to finally stop fighting the wind and to start becoming the air itself. My body is a map of every war I ever lost, and every loss was a victory for the soul.
+    <!-- POEM 1 -->
+    <section class="poem-section">
+        <div class="chapter-title">I. Nearly Old</div>
+        <div class="lines">
+            <p>Now that I am nearly old I listen more to the ceiling than to my heart.</p>
+            <p>Lying on my back makes the body honest in ways mirrors never were.</p>
         </div>
-    </div>
+    </section>
 
-</div>
-
-    <div class="chapter-page">
-        <div class="content-card">
-            <h1 class="ch-title">Nearly Old</h1>
-            <div class="ch-content">
-                <p>Now that I am nearly old I listen more to the ceiling than to my heart.</p>
-                <p>Lying on my back makes the body honest in ways mirrors never were.</p>
-                <p>The ceiling crack feels older than me yet we age together every night.</p>
-                <p>Gravity tells the truth without asking permission.</p>
-                <p>What once stood proudly now learns the language of surrender.</p>
-                <p>Time does not steal it rearranges.</p>
-                <p>The body remembers everything even when the mind pretends not to.</p>
-                <p>Lying flat erases shapes that once defined me.</p>
-                <p>Nearly old and still breathing.</p>
-            </div>
+    <!-- POEM 2 -->
+    <section class="poem-section">
+        <div class="chapter-title">II. On My Back</div>
+        <div class="lines">
+            <p>Lying on my back, the world stops being a stage and starts being a witness.</p>
+            <p>There is no posture to maintain here, no chin to hold high for the sake of pride.</p>
         </div>
+    </section>
 
-        
-    <div class="chapter-page" id="ch2">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Two</div>
-        <h1 class="ch-title">On My Back</h1>
+    <!-- POEM 3 -->
+    <section class="poem-section">
+        <div class="chapter-title">III. The Unsaid Words</div>
+        <div class="lines">
+            <p>Silence is not the absence of sound, but the presence of too many words at once.</p>
+            <p>We speak in exhales when the heart is too heavy to carry the vowels of our grief.</p>
+        </div>
+    </section>
+
+    <!-- POEM 4 -->
+    <section class="poem-section">
+        <div class="chapter-title">IV. Shadow Play</div>
+        <div class="lines">
+            <p>Everything we love eventually turns into a shadow we try to catch in the dark.</p>
+            <p>The spirit does not die; it simply gets tired of wearing a name that no longer fits.</p>
+        </div>
+    </section>
+
+    <!-- POEM 5 -->
+    <section class="poem-section">
+        <div class="chapter-title">V. Final Breath</div>
+        <div class="lines">
+            <p>The end is a soft closing of a door you didn't know was open all this time.</p>
+            <p>We are but whispers in a room full of shouting, looking for a place to rest.</p>
+        </div>
+    </section>
+<!-- POEM 6 -->
+<section class="poem-section">
+    <div class="chapter-title">VI. The Weight of Quiet</div>
+    <div class="lines">
+        <p>Quiet carries more history than any loud confession ever could.</p>
+        <p>Some silences are not empty, they are crowded with everything we survived.</p>
     </div>
+</section>
 
-    <div class="ch-content">
+<!-- POEM 7 -->
+<section class="poem-section">
+    <div class="chapter-title">VII. Borrowed Light</div>
+    <div class="lines">
+        <p>I learned to shine by standing near those who were already burning.</p>
+        <p>Even borrowed light leaves a scar when it finally walks away.</p>
+    </div>
+</section>
+
+<!-- POEM 8 -->
+<section class="poem-section">
+    <div class="chapter-title">VIII. The Language of Scars</div>
+    <div class="lines">
+        <p>Scars speak fluently in a language pain taught them patiently.</p>
+        <p>They never ask to be understood, only to be acknowledged once.</p>
+    </div>
+</section>
+
+<!-- POEM 9 -->
+<section class="poem-section">
+    <div class="chapter-title">IX. Night Teaches Slowly</div>
+    <div class="lines">
+        <p>The night explains things the morning is too optimistic to admit.</p>
+        <p>Darkness does not lie; it only removes distractions from truth.</p>
+    </div>
+</section>
+
+<!-- POEM 10 -->
+<section class="poem-section">
+    <div class="chapter-title">X. A Soft Ending</div>
+    <div class="lines">
+        <p>Not every ending arrives with pain; some come quietly, asking permission.</p>
+        <p>Even sorrow learns to whisper when the soul is finally listening.</p>
+    </div>
+</section>
+
+ <!-- POEM 11 -->
+<section class="poem-section">
+    <div class="chapter-title">XI. The Shape of Waiting</div>
+    <div class="lines">
+        <p>Waiting slowly teaches the body how to become invisible.</p>
+        <p>Time passes, but something inside chooses to remain unfinished.</p>
+    </div>
+</section>
+
+<!-- POEM 12 -->
+<section class="poem-section">
+    <div class="chapter-title">XII. A Room Without Echo</div>
+    <div class="lines">
+        <p>Some rooms remember us longer than people ever do.</p>
+        <p>Even echoes get tired of answering names no one calls anymore.</p>
+    </div>
+</section>
+
+<!-- POEM 13 -->
+<section class="poem-section">
+    <div class="chapter-title">XIII. The Weight of Breathing</div>
+    <div class="lines">
+        <p>Breathing becomes heavy when hope learns to walk slowly.</p>
+        <p>Every inhale carries a question the heart avoids answering.</p>
+    </div>
+</section>
+
+<!-- POEM 14 -->
+<section class="poem-section">
+    <div class="chapter-title">XIV. What Remains</div>
+    <div class="lines">
+        <p>After everything leaves, something still insists on staying.</p>
+        <p>Maybe loss itself grows roots where love once lived.</p>
+    </div>
+</section>
+
+<!-- POEM 15 -->
+<section class="poem-section">
+    <div class="chapter-title">XV. Half-Light Prayers</div>
+    <div class="lines">
+        <p>I pray in fragments now, full sentences hurt too much.</p>
+        <p>God understands the grammar of broken voices.</p>
+    </div>
+</section>
+
+<!-- POEM 16 -->
+<section class="poem-section">
+    <div class="chapter-title">XVI. The Slow Goodbye</div>
+    <div class="lines">
+        <p>Some goodbyes begin long before the final word is spoken.</p>
+        <p>They grow quietly between pauses, learning your breathing.</p>
+    </div>
+</section>
+
+<!-- POEM 17 -->
+<section class="poem-section">
+    <div class="chapter-title">XVII. The Silence After Love</div>
+    <div class="lines">
+        <p>Love leaves behind a silence that knows your name too well.</p>
+        <p>It sits beside you, pretending it was never once a promise.</p>
+    </div>
+</section>
+
+<!-- POEM 18 -->
+<section class="poem-section">
+    <div class="chapter-title">XVIII. Almost Healing</div>
+    <div class="lines">
+        <p>Healing begins the moment pain stops asking for permission.</p>
+        <p>Still, some wounds prefer to be remembered rather than closed.</p>
+    </div>
+</section>
+
+<!-- POEM 19 -->
+<section class="poem-section">
+    <div class="chapter-title">XIX. The Last Listener</div>
+    <div class="lines">
+        <p>I speak softly now, in case silence is still listening.</p>
+        <p>Even loneliness deserves to be heard once before it fades.</p>
+    </div>
+</section>
+
+<!-- POEM 20 -->
+<section class="poem-section">
+    <div class="chapter-title">XX. When Spirits Rest</div>
+    <div class="lines">
+        <p>Spirits do not die; they learn how to rest inside memory.</p>
+        <p>What we call an ending is only a quieter way of staying.</p>
+    </div>
+</section>
+
+ <!-- POEM 21 -->
+<section class="poem-section">
+    <div class="chapter-title">I. Nearly Old</div>
+    <div class="lines">
+        <p>Now that I am nearly old, I listen more to the ceiling than to my heart.</p>
+        <p>Lying on my back makes the body honest in ways mirrors never were.</p>
+        <p>The ceiling crack feels older than me, yet we age together every night.</p>
+        <p>Gravity tells the truth without asking permission.</p>
+        <p>What once stood proudly now learns the language of surrender.</p>
+        <p>Time does not steal; it rearranges.</p>
+        <p>The body remembers everything, even when the mind pretends not to.</p>
+        <p>Lying flat erases shapes that once defined me.</p>
+        <p>Nearly old, and still breathing.</p>
+    </div>
+</section>
+
+<!-- POEM 22 -->
+<section class="poem-section">
+    <div class="chapter-title">II. On My Back</div>
+    <div class="lines">
         <p>Lying on my back, the world stops being a stage and starts being a witness.</p>
-        <p>There is no posture to maintain here, no chin to hold high for the sake of pride.</p>
-        <p>In this position, my breath travels a different path, deeper and more rhythmic.</p>
-        <p>I feel the weight of my history pressing against the mattress, solid and undeniable.</p>
-        <p>The eyes do not search for exits; they only search the vastness of the ceiling.</p>
-        <p>Every muscle forgets the tension of the day and learns the heavy grace of stillness.</p>
-        <p>Horizontal, I am no longer a daughter, a mother, or a ghost—I am simply flesh and bone.</p>
-        <p>The spine settles into its natural curve, a quiet map of every mile I have walked.</p>
-        <p>To lie down is to accept the pull of the earth before it eventually claims us.</p>
-        <p>On my back, my thoughts don't run; they float like dust motes in a beam of light.</p>
-        <p>The ceiling becomes a mirror of the mind, blank and ready for the stories I tell myself.</p>
-        <p>I feel the pulse in my throat, a small drum beating out the time I have left.</p>
-        <p>There is a strange courage in being this vulnerable, face up to the unknown.</p>
-        <p>The darkness of the room feels like a second skin, warm and protective.</p>
-        <p>I am learning that the most honest conversations happen when the body is at rest.</p>
-        <p>My hands lie open at my sides, having finally let go of the things they couldn't keep.</p>
-        <p>In the silence, I hear the house breathing with me, wood and stone settling into the night.</p>
-        <p>On my back, I am at my tallest, reaching from the past into the quiet present.</p>
-        <p>Gravity is not an enemy tonight; it is a gentle hand keeping me grounded.</p>
-        <p>I wait for sleep, knowing that lying here is the only way to truly see the heights.</p>
+        <p>There is no posture to maintain here, no chin to hold high for pride.</p>
+        <p>In this position, breath chooses a slower and deeper rhythm.</p>
+        <p>The weight of my history presses gently into the mattress.</p>
+        <p>The eyes stop searching for exits and settle into the ceiling.</p>
+        <p>Muscles forget their duties and learn the grace of stillness.</p>
+        <p>Here I am no role, no title, only flesh and memory.</p>
+        <p>The spine becomes a quiet map of every mile I have walked.</p>
+        <p>To lie down is to accept gravity before it finally claims us.</p>
+        <p>Thoughts stop running and begin to float like dust in light.</p>
+        <p>The ceiling becomes a mirror where the mind tells itself stories.</p>
+        <p>A pulse in my throat counts the time I still carry.</p>
+        <p>There is courage in lying open before the unknown.</p>
+        <p>Darkness fits like a second skin, warm and forgiving.</p>
+        <p>The body speaks most honestly when it no longer performs.</p>
+        <p>My hands rest open, released from what they could not keep.</p>
+        <p>The house breathes with me, wood and stone settling into night.</p>
+        <p>On my back, I grow taller inside myself.</p>
+        <p>Gravity becomes a gentle hand instead of an enemy.</p>
+        <p>I wait for sleep, knowing this stillness is its doorway.</p>
     </div>
-</div>
+</section>
 
-    <div class="chapter-page" id="ch3">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Three</div>
-        <h1 class="ch-title">Ceiling Crack</h1>
+<!-- POEM 23 -->
+<section class="poem-section">
+    <div class="chapter-title">III. Ceiling Crack</div>
+    <div class="lines">
+        <p>The crack above me is a map of a country I have never visited.</p>
+        <p>It began as a whisper and learned how to shout in silence.</p>
+        <p>Even walls grow tired under the weight of time.</p>
+        <p>The line looks like frozen lightning caught mid-fall.</p>
+        <p>I see my own fractures reflected in its uneven path.</p>
+        <p>The ceiling becomes a sky with its own constellations.</p>
+        <p>I have traced this crack for years, waiting for movement.</p>
+        <p>It is gravity writing poetry in plaster.</p>
+        <p>A crack is not failure, but revelation.</p>
+        <p>The house confesses what it can no longer hide.</p>
+        <p>There is beauty in slow undoing.</p>
+        <p>I count its branches like veins on aging hands.</p>
+        <p>It follows pain, not logic.</p>
+        <p>Perhaps the house breathes through this wound.</p>
+        <p>I name its paths: regret, longing, peace.</p>
+        <p>It resembles a dry river waiting for memory.</p>
+        <p>Time carved it while no one was watching.</p>
+        <p>We repair walls, but cracks remember.</p>
+        <p>Even shelter carries pressure.</p>
+        <p>Its imperfection comforts my own.</p>
+        <p>The crack refuses to pretend.</p>
+        <p>It is a slow earthquake frozen in place.</p>
+        <p>I wonder if it has a pulse.</p>
+        <p>It grows as seasons pass.</p>
+        <p>Like grief, it divides life into before and after.</p>
+        <p>Faces appear in its crossings.</p>
+        <p>It is a scar earned by standing still.</p>
+        <p>Paint cannot erase truth.</p>
+        <p>Smoothness is a lie we tell ourselves.</p>
+        <p>Shadows live inside its depth.</p>
+        <p>It pulls at the fabric of certainty.</p>
+        <p>Sometimes it feels like a door undecided.</p>
+        <p>The only moving thing in a still room.</p>
+        <p>I measure nights by its length.</p>
+        <p>Stillness, too, is effort.</p>
+        <p>The crack signs its name in patience.</p>
+        <p>Even plans leak with time.</p>
+        <p>It looks like a distant mountain range.</p>
+        <p>Dust settles like grey hair upon it.</p>
+        <p>A bridge between darkness and light.</p>
+        <p>It knows I am watching.</p>
+        <p>My quiet companion.</p>
+        <p>Its chaos has rhythm.</p>
+        <p>A root searching for meaning.</p>
+        <p>Where light may someday enter.</p>
+        <p>A nerve left uncovered.</p>
+        <p>I have learned to love its honesty.</p>
+        <p>A fragile border between safety and collapse.</p>
+        <p>I study it like scripture.</p>
+        <p>A question the ceiling keeps asking.</p>
+        <p>The anatomy of weight.</p>
+        <p>Spiders travel its thin road.</p>
+        <p>Everything survives by bending.</p>
+        <p>It holds the memory of storms.</p>
+        <p>The ceiling exhales through it.</p>
+        <p>I thank it before sleep.</p>
+        <p>Truth rarely comes polished.</p>
+        <p>The crack and I belong to each other.</p>
+        <p>Not broken — only bearing time.</p>
+        <p>It is the last sentence of a long night.</p>
     </div>
+</section>
 
-    <div class="ch-content">
-        <p>The crack above me is a map of a country I have never visited, yet I know every turn.</p>
-        <p>It started as a whisper in the plaster, now it is a shout against the white silence.</p>
-        <p>We think of walls as solid, but even stone learns how to ache under the weight of time.</p>
-        <p>That jagged line is a lightning bolt frozen in the middle of a summer storm.</p>
-        <p>I see my own fractures mirrored there—the places where I gave way so I wouldn't shatter.</p>
-        <p>The ceiling is the sky of the indoors, and every sky needs its own constellations.</p>
-        <p>I have spent years tracing that fault line with my eyes, waiting for it to move.</p>
-        <p>It is the calligraphy of gravity, writing a poem that only the restless can read.</p>
-        <p>A crack is not just a break; it is an opening where the hidden structure reveals itself.</p>
-        <p>I wonder if the house is trying to tell me that nothing can stay perfect forever.</p>
-        <p>There is beauty in the way things fail, a slow and honest kind of undoing.</p>
-        <p>I count the branches of that crack like I count the veins on the back of my hands.</p>
-        <p>It follows no logic, no blueprint, just the path of least resistance and greatest pain.</p>
-        <p>Perhaps the crack is where the spirits of the house breathe through the skin of the room.</p>
-        <p>I have named the different paths it takes—one for regret, one for longing, and one for peace.</p>
-        <p>The more I stare, the more it looks like a riverbed waiting for a flood of memories.</p>
-        <p>Time is the architect of that line, working in the dark while the world sleeps.</p>
-        <p>We spend our lives patching the holes, but the cracks always find a way back in.</p>
-        <p>It is a reminder that even the things that protect us are themselves under pressure.</p>
-        <p>I find comfort in its imperfection; it makes my own brokenness feel less lonely.</p>
-        <p>The crack is the only thing in this room that isn't pretending to be whole.</p>
-        <p>It is a slow-motion earthquake, a century-long shift in the foundation of my life.</p>
-        <p>If I could reach up and touch it, would I feel the heartbeat of the building?</p>
-        <p>It grows as I grow, expanding with every winter chill and every summer heat.</p>
-        <p>The line divides the ceiling into "before" and "after," much like grief divides a life.</p>
-        <p>I see the faces of old friends in the intersections of those narrow, dusty valleys.</p>
-        <p>It is a scar on the face of my shelter, earned by standing still against the years.</p>
-        <p>They tell you to paint over it, but why hide the truth of what the house has endured?</p>
-        <p>A smooth surface is a lie; a cracked surface is an autobiography of the structure.</p>
-        <p>I watch the shadows play inside the depth of that line, hiding secrets in the dark.</p>
-        <p>It is a thread of reality pulling at the sweater of my daily illusions.</p>
-        <p>Sometimes I think the crack is a doorway that hasn't quite decided to open yet.</p>
-        <p>It is the only thing that moves in a room full of frozen furniture.</p>
-        <p>I measure my nights by how far my gaze wanders along that jagged horizon.</p>
-        <p>It is a testament to the fact that standing still is also a form of struggle.</p>
-        <p>The crack is the signature of a life lived under the heavy roof of expectation.</p>
-        <p>It reminds me that even the most solid plans eventually develop leaks.</p>
-        <p>I look up and see a mountain range seen from a great and weary distance.</p>
-        <p>The dust that settles there is the gray hair of the architecture.</p>
-        <p>It is a bridge between the attic's darkness and the bedroom's artificial light.</p>
-        <p>I wonder if the crack knows that I am the only one who truly sees it.</p>
-        <p>It is my silent companion, the witness to my most honest and sleepless hours.</p>
-        <p>There is a rhythm to its chaos, a music played in the key of slow decay.</p>
-        <p>I see the root system of a ghost tree, searching for water in the dry plaster.</p>
-        <p>The crack is where the light will enter if the world ever decides to break open.</p>
-        <p>It is a nerve exposed, a sensitivity that the rest of the wall has forgotten.</p>
-        <p>I have learned to love the line, for it is the only thing that changes in this house.</p>
-        <p>It is a fragile border between the safety of inside and the chaos of out.</p>
-        <p>I am a student of the crack, learning the lessons of endurance and inevitable change.</p>
-        <p>The line is a question mark that the ceiling has been asking for decades.</p>
-        <p>It is the anatomy of a burden, the visible sign of an invisible weight.</p>
-        <p>I watch the spiders use it as a highway, a path through the vast white desert.</p>
-        <p>It is a miracle that things stay together as long as they do.</p>
-        <p>The crack is a reminder that we are all just holding our breath against the collapse.</p>
-        <p>I see a silhouette of a dancer in the way the line bends near the corner.</p>
-        <p>It is a frozen history of every door slammed and every storm that shook the earth.</p>
-        <p>The ceiling is tired, and the crack is its way of exhaling the fatigue.</p>
-        <p>I trace it one last time before I close my eyes, thanking it for its honesty.</p>
-        <p>It is the only honest thing in a world made of polished surfaces and fake smiles.</p>
-        <p>The crack is mine, and I am its, two aging spirits under one shifting roof.</p>
-        <p>It is not a flaw; it is the evidence that the house is alive and feeling.</p>
-        <p>I am no longer afraid of the breaking; I am only afraid of the silence that precedes it.</p>
-        <p>The ceiling crack is the final sentence in the book of my long, quiet night.</p>
+<!-- POEM 24 -->
+<section class="poem-section">
+    <div class="chapter-title">IV. Silent Roof</div>
+    <div class="lines">
+        <p>The roof never sleeps; it stands guard against the stars.</p>
+        <p>It carries rain like duty and sunlight like a crown.</p>
+        <p>Between ceiling and sky lives a special silence.</p>
+        <p>A silence meant to protect.</p>
+        <p>The roof holds secrets heavier than storms.</p>
+        <p>It hears the wind first so I may hear only echoes.</p>
+        <p>A promise made of wood and patience.</p>
+        <p>Sometimes its silence weighs more than stone.</p>
+        <p>It shelters old versions of myself.</p>
+        <p>The birds know it differently than I do.</p>
+        <p>For them it is ground; for me, a limit.</p>
+        <p>It never asks gratitude.</p>
+        <p>There is loneliness in guarding everything.</p>
+        <p>I recognize that loneliness.</p>
+        <p>Time passes quietly above me.</p>
+        <p>I have aged beneath this protection.</p>
+        <p>The silence remembers all my seasons.</p>
+        <p>It absorbs storms without complaint.</p>
+        <p>The roof speaks only endurance.</p>
+        <p>Dust thickens like history.</p>
+        <p>Prayers rest there when they grow too heavy.</p>
+        <p>Spiders map the silence.</p>
+        <p>Dawn touches it first.</p>
+        <p>It stands between chaos and rest.</p>
+        <p>A quiet strength holds everything together.</p>
+        <p>I feel safe and trapped at once.</p>
+        <p>Stillness becomes instruction.</p>
+        <p>Dreams knock softly against its ribs.</p>
+        <p>Rain speaks in codes.</p>
+        <p>The roof seals memory inside.</p>
+        <p>Years pass, it remains.</p>
+        <p>It carries the weight of belonging.</p>
+        <p>The silence thickens with age.</p>
+        <p>The house breathes through it.</p>
+        <p>It keeps the sky at a respectful distance.</p>
+        <p>The roof endures.</p>
+        <p>So do I.</p>
     </div>
-</div>
-<div class="chapter-page" id="ch4">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Four</div>
-        <h1 class="ch-title">Silent Roof</h1>
-    </div>
+</section>
 
-    <div class="ch-content">
-        <p>The roof is the part of the house that never sleeps, standing guard against the stars.</p>
-        <p>It carries the rain like a burden and the sun like a crown, yet it never complains.</p>
-        <p>There is a specific kind of silence that lives between the ceiling and the sky.</p>
-        <p>It is the silence of things that must remain strong so that others may feel safe.</p>
-        <p>I lie here wondering how many secrets are trapped in the rafters above my head.</p>
-        <p>The roof knows the weight of every snow that has ever settled and vanished.</p>
-        <p>It hears the wind's anger first, absorbing the blows so I can hear only a whisper.</p>
-        <p>A roof is a promise made in wood and tile, a vow to keep the world at bay.</p>
-        <p>Sometimes, the silence above feels heavier than the house itself.</p>
-        <p>It is a vast, empty space where the echoes of my old life go to hide.</p>
-        <p>I think of the birds that land there, their tiny heartbeats vibrating through the structure.</p>
-        <p>To them, it is a foundation; to me, it is a limit, a boundary I cannot cross.</p>
-        <p>The roof doesn't ask for thanks; its reward is the warmth it keeps inside.</p>
-        <p>There is a loneliness in being the highest point of a home, exposed to every storm.</p>
-        <p>I feel a strange kinship with that silence; it is the same silence I carry in my chest.</p>
-        <p>It is the sound of time passing without anyone noticing the change.</p>
-        <p>Under this roof, I have laughed, cried, and aged into a version of myself I barely know.</p>
-        <p>The tiles have shifted, the wood has groaned, but the silence remains unbroken.</p>
-        <p>It is a witness to the ghosts of the people I used to be, drifting in the attic dust.</p>
-        <p>We build roofs to hide from the infinity of the night, to pretend the universe is small.</p>
-        <p>But the silence knows better; it is a piece of the cosmos invited indoors.</p>
-        <p>I listen to the creaks of the roof settling, like an old man adjusting his bones.</p>
-        <p>It speaks in the language of expansion and contraction, the breathing of the architecture.</p>
-        <p>There is a dignity in standing between the storm and the sleeper.</p>
-        <p>The silence above is a blanket, muffling the chaos of the outside world.</p>
-        <p>I wonder if the roof remembers the trees it once was, tall and reaching for the light.</p>
-        <p>Now it lies flat, protecting a different kind of growth within its shadow.</p>
-        <p>The roof is a hat worn by a family, protecting the thoughts that live beneath it.</p>
-        <p>I see the moonlight struggle to pierce through, settling for a soft glow on the edges.</p>
-        <p>It is a barrier against the infinite, a small piece of order in a chaotic universe.</p>
-        <p>Every house has a voice, but the roof speaks only in the language of endurance.</p>
-        <p>The silence up there is thick, seasoned with the dust of several decades.</p>
-        <p>It is where the prayers go when they are too heavy to fly any higher.</p>
-        <p>I imagine the spiders weaving webs in the quiet, creating maps for the lost spirits.</p>
-        <p>The roof is the first thing to feel the dawn and the last thing to let go of the sunset.</p>
-        <p>It is a lonely sentinel, watching the neighborhood age along with it.</p>
-        <p>I feel protected, yet trapped by the very thing that keeps me dry.</p>
-        <p>The silence is a teacher, showing me that being still is a form of power.</p>
-        <p>It is the space where my dreams collide with the reality of the structure.</p>
-        <p>I think of the rain tapping on the surface, a rhythmic code I can never quite break.</p>
-        <p>The roof is a lid on a jar of memories, keeping the scent of the past from escaping.</p>
-        <p>It has seen every season's face and has remained unmoved by their beauty or rage.</p>
-        <p>There is a quiet pride in a roof that doesn't leak after fifty years of rain.</p>
-        <p>I am like that roof now—weathered, grey, but still standing over my truths.</p>
-        <p>The silence is not empty; it is full of the things we are too tired to say out loud.</p>
-        <p>I look up and thank the silent wood for holding back the weight of the sky.</p>
-        <p>It is a heavy responsibility, to be the shield of a soul's sanctuary.</p>
-        <p>The roof is where the logic of the house meets the mystery of the weather.</p>
-        <p>I hear the silence growing as the night deepens, becoming a presence in the room.</p>
-        <p>It is the sound of a story that has reached its middle and forgot the beginning.</p>
-        <p>The rafters are the ribs of this building, and the silence is its breath.</p>
-        <p>I find peace in the thought that some things are meant to be hidden from the sun.</p>
-        <p>The roof is a secret shared between the carpenter and the passage of time.</p>
-        <p>It is a slow, steady pulse, the rhythm of a shelter that has done its job well.</p>
-        <p>I lie here, a small life under a vast silence, feeling safe in the smallness.</p>
-        <p>The roof is the boundary of my world, the edge of my known universe.</p>
-        <p>And in that silent, dark space above, I find the courage to face the dawn.</p>
-        <p>It is the quietest glory, to be the roof that survives the storm.</p>
-        <p>The silence is my heritage, a gift passed down through the walls of this home.</p>
-        <p>I close my eyes, letting the silent roof take the weight of my tired thoughts.</p>
-        <p>In the end, we are all just looking for a roof that can handle our silence.</p>
+<!-- POEM 25 -->
+<section class="poem-section">
+    <div class="chapter-title">V. Spidery Lines</div>
+    <div class="lines">
+        <p>The lines on my face are webs spun while I was busy living.</p>
+        <p>They are thin, quiet, and strong enough to hold memory.</p>
+        <p>I did not plan them; they arrived honestly.</p>
+        <p>Each line remembers a smile or a grief.</p>
+        <p>They cannot be brushed away.</p>
+        <p>They are architecture.</p>
+        <p>The eyes carry their own constellations.</p>
+        <p>Silver threads catch the light.</p>
+        <p>There is a map in this skin.</p>
+        <p>Young faces are blank pages.</p>
+        <p>Mine is a written book.</p>
+        <p>These lines are roots.</p>
+        <p>They hold me steady.</p>
+        <p>The web is not a trap but a home.</p>
+        <p>I belong inside my own age.</p>
+        <p>Time stitched this carefully.</p>
+        <p>The folds hold laughter and refusal.</p>
+        <p>I am woven, not worn out.</p>
+        <p>Even damage learns beauty.</p>
+        <p>The web stretches and survives.</p>
+        <p>I have stretched too.</p>
+        <p>Every mark is a survival story.</p>
+        <p>Life never moves straight.</p>
+        <p>It curves, loops, returns.</p>
+        <p>I wear my years honestly.</p>
+        <p>The web shines at dusk.</p>
+        <p>I no longer fear the mirror.</p>
+        <p>I recognize myself.</p>
+        <p>The lines remember my name.</p>
+        <p>I am detailed now.</p>
+        <p>Intricate.</p>
+        <p>Earned.</p>
+        <p>The web holds.</p>
+        <p>So do I.</p>
     </div>
-</div>
-<div class="chapter-page" id="ch5">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Five</div>
-        <h1 class="ch-title">Spidery Lines</h1>
-    </div>
+</section>
 
-    <div class="ch-content">
-        <p>The lines on my face are like the webs in the corner—spun silently while I was busy living.</p>
-        <p>They are delicate, almost invisible in the light, but strong enough to hold a lifetime of tears.</p>
-        <p>A spider does not plan its web; it simply follows the instinct of its own survival.</p>
-        <p>I did not plan these wrinkles; they followed the instinct of my laughter and my grief.</p>
-        <p>Each fine line is a path where a smile once traveled and decided to stay forever.</p>
-        <p>We try to brush them away, but you cannot sweep away the architecture of your own history.</p>
-        <p>The eyes are surrounded by spidery tracks, marking every time I looked for a light in the dark.</p>
-        <p>They are not marks of decay; they are the embroidery of a soul that has felt everything.</p>
-        <p>I watch the sunlight catch the silver threads of a web and see the same shimmer in my hair.</p>
-        <p>There is a map in these lines, a geography of every person I have ever loved and lost.</p>
-        <p>The skin loses its tightness, but it gains a story that the young can never read.</p>
-        <p>Like a spider’s silk, our memories are fragile yet they bind us to the places we call home.</p>
-        <p>I no longer look for perfection in the mirror; I look for the truth of my endurance.</p>
-        <p>A smooth face is a blank page; a lined face is a finished novel, rich with detail.</p>
-        <p>These spidery lines are the roots of my experience, reaching deep into the soil of time.</p>
-        <p>They appear at the corners of my mouth, the permanent echoes of every 'yes' and every 'no'.</p>
-        <p>I am becoming a tapestry of my own making, woven by the hands of the passing years.</p>
-        <p>There is a grace in the way the skin folds, like a well-loved letter that has been opened too many times.</p>
-        <p>The world sees a web and thinks of a trap; I see a web and think of a home.</p>
-        <p>I am trapped in this aging body, yes, but I have never felt more at home in my own truth.</p>
-        <p>The lines on the ceiling and the lines on my brow are speaking the same ancient language.</p>
-        <p>They speak of the gravity that pulls at us, trying to return us to the earth we came from.</p>
-        <p>I trace the lines around my eyes and remember the sunrises I watched in silence.</p>
-        <p>I trace the lines on my palms and see the work of a thousand ordinary, beautiful days.</p>
-        <p>We are all just weavers, spinning our time into something that can withstand the wind.</p>
-        <p>The spidery lines are the signatures of the stars that looked down on me while I slept.</p>
-        <p>They are the cracks in the porcelain of my youth, making the light shine through more brightly.</p>
-        <p>I am not fading; I am becoming more detailed, more intricate, more defined.</p>
-        <p>The web doesn't break when the fly hits it; it stretches and holds. So have I.</p>
-        <p>I have stretched through disappointments and held onto the hope that remained.</p>
-        <p>Every line is a victory, a scar from a battle with a day I thought I wouldn't survive.</p>
-        <p>I look at the complexity of the web and realize that life is never a straight line.</p>
-        <p>It is a series of loops, tangles, and delicate connections that make us who we are.</p>
-        <p>I am proud of these spidery marks; they are my medals for living a long, honest life.</p>
-        <p>The spider is patient, waiting for what comes. I too am learning the art of waiting.</p>
-        <p>Waiting for the night to end, for the pain to soften, for the memory to become a friend.</p>
-        <p>The lines are the dust of the stars that settled on me while I was dreaming of the moon.</p>
-        <p>I see the spider working in the moonlight, and I know that even in the dark, we create.</p>
-        <p>Our lives are woven together by invisible threads of conversation and shared silence.</p>
-        <p>When one thread breaks, the whole web feels the vibration; such is the nature of loss.</p>
-        <p>But the weaver simply begins again, repairing the hole with new silk and old wisdom.</p>
-        <p>I am repairing my spirit every morning, using the threads of the day before.</p>
-        <p>The spidery lines are the evidence of my resilience, my ability to stay put in the storm.</p>
-        <p>I no longer fear the tangles; I have learned how to breathe inside the complexity.</p>
-        <p>Aging is just the process of the web becoming more complete, more full of life.</p>
-        <p>The light of the afternoon makes the lines look like gold, a treasure I didn't know I had.</p>
-        <p>I am a beautiful mess of intersections and fine, silver paths leading nowhere and everywhere.</p>
-        <p>Let the young have their smooth surfaces; I prefer the depth of a well-traveled face.</p>
-        <p>The spidery lines are the only jewelry I need, earned with the currency of my own time.</p>
-        <p>I lie here and feel the web of my life vibrating with the pulse of the universe.</p>
-        <p>I am connected to everything that has ever grown old and found peace in its wrinkles.</p>
-        <p>The silence is the silk, and my thoughts are the weaver, making sense of the dark.</p>
-        <p>I am nearly old, and my web is almost finished, and it is a masterpiece of survival.</p>
-        <p>I close my eyes and feel the lines softening, merging with the shadows of the room.</p>
-        <p>In the end, we are all just spidery lines, written on the surface of an infinite sky.</p>
-    </div>
-</div>
-
-    <div class="chapter-page" id="ch6">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Six</div>
-        <h1 class="ch-title">Light Above</h1>
-    </div>
-
-    <div class="ch-content">
+<!-- POEM 26 -->
+<section class="poem-section">
+    <div class="chapter-title">XXVI. Light Above</div>
+    <div class="lines">
         <p>The light from the ceiling bulb is a lonely star in the small universe of this room.</p>
         <p>It doesn't judge the dust or the cracks; it simply shows them as they are.</p>
         <p>I have spent hours staring into that glow, waiting for an answer that never comes.</p>
         <p>There is a harshness in artificial light that the sun would never understand.</p>
         <p>The sun warms the skin, but this light above only exposes the soul's fatigue.</p>
-        <p>It casts shadows that are longer than the objects themselves, distorting my reality.</p>
-        <p>I feel like a specimen under a microscope, examined by the unblinking eye of the bulb.</p>
-        <p>Light is supposed to bring clarity, but sometimes it only brings a sharper sense of loss.</p>
-        <p>I watch the insects circle the light, trapped in an orbit of false hope and heat.</p>
-        <p>Am I any different? Circling the memories of my youth as if they could still warm me?</p>
-        <p>The light makes the room feel smaller, pushing the darkness into the tight corners.</p>
-        <p>In the dark, I can imagine I am still young, but the light above reminds me of the truth.</p>
-        <p>It reflects off the mirror, off the water glass, off the medicine bottles on the table.</p>
-        <p>It turns the ordinary into the monumental, making every wrinkle look like a canyon.</p>
-        <p>But there is a comfort in the light too—the knowledge that I am not yet in the shadow.</p>
-        <p>As long as there is light above, there is a chance to see the path, even if I cannot walk it.</p>
-        <p>I see the dust dancing in the beam, tiny lives moving in a rhythm I cannot hear.</p>
-        <p>The light is a bridge between the ceiling's silence and the bed's heavy thoughts.</p>
-        <p>I wonder who else is looking at a light like this tonight, feeling this same quiet ache.</p>
-        <p>We are all just moths, aren't we? Looking for something bright enough to kill the cold.</p>
-        <p>The bulb hums a low, electric song, the soundtrack to my many sleepless hours.</p>
-        <p>It is the sound of energy being consumed, much like my own life is being spent.</p>
-        <p>I have learned to forgive the light for what it shows me about my own decline.</p>
-        <p>Honesty is a bright, cold thing, and I have finally learned how to live inside it.</p>
-        <p>The light above is my lighthouse, keeping me from drifting too far into the past.</p>
-        <p>It anchors me to the present, to the physical reality of this room and this body.</p>
-        <p>I reach out my hand and see the light pass through the spaces between my fingers.</p>
-        <p>I am becoming translucent, a ghost in training, letting the light win the battle.</p>
-        <p>There is a peace in surrender, in letting the light expose every secret I ever kept.</p>
-        <p>I no longer have anything to hide; my life is an open book under an unshaded lamp.</p>
-        <p>The light above is the first thing I see when I wake and the last thing I fear when I sleep.</p>
-        <p>It is a constant, a fixed point in a world that is constantly shifting beneath me.</p>
-        <p>I see the shadows of the ceiling crack moving as the house breathes in the wind.</p>
-        <p>The light turns the plaster into a landscape, full of hills, valleys, and hidden rivers.</p>
-        <p>I am a traveler in this landscape, moving without moving, seeing without eyes.</p>
-        <p>The light above is the only truth I can rely on when the heart starts to lie.</p>
-        <p>It tells me I am here. It tells me I am alive. It tells me the night is not yet over.</p>
-        <p>I watch the filament glow, a tiny wire holding back the enormous dark of the world.</p>
-        <p>How brave that little wire is, to burn so brightly until it simply cannot anymore.</p>
-        <p>I want to be like that—burning with thought and feeling until the very last second.</p>
-        <p>The light is a gift, even when it shows me things I would rather not see.</p>
-        <p>It is the clarity of age, the sharp focus that comes when the distractions fade away.</p>
-        <p>I look up and blink, the light leaving spots of color in my fading vision.</p>
-        <p>The universe is made of light and dark, and I am the place where they meet tonight.</p>
-        <p>I am a child of the light, even as I walk slowly toward the evening's end.</p>
-        <p>The light above doesn't need to be sun-bright to show me the beauty of the room.</p>
-        <p>It is enough to see the texture of the blanket and the curve of the chair.</p>
-        <p>It is enough to see the outline of my own life, etched in the glow of the ceiling.</p>
-        <p>I close my eyes and the light stays behind my lids, a warm, red memory of fire.</p>
-        <p>In the end, the light above is just a reflection of the light within, waiting to go home.</p>
+        <p>It casts shadows that are longer than the objects themselves.</p>
+        <p>I feel like a specimen under a microscope.</p>
+        <p>Light is supposed to bring clarity, yet it sharpens loss.</p>
+        <p>I watch insects circle it with false hope.</p>
+        <p>Am I any different, circling old memories?</p>
+        <p>The room shrinks beneath its glow.</p>
+        <p>In darkness I can pretend youth; in light, truth returns.</p>
+        <p>It reflects off glass, medicine, silence.</p>
+        <p>Ordinary things become monuments.</p>
+        <p>Wrinkles turn into landscapes.</p>
+        <p>Still, there is comfort in being seen.</p>
+        <p>Light says I am not gone yet.</p>
+        <p>Dust dances like living prayer.</p>
+        <p>The beam connects ceiling and thought.</p>
+        <p>Others somewhere stare at similar lights.</p>
+        <p>We are moths wanting warmth.</p>
+        <p>The bulb hums my sleepless hours.</p>
+        <p>Energy burning like life itself.</p>
+        <p>I forgive the light for its honesty.</p>
+        <p>Truth is cold but clean.</p>
+        <p>The light anchors me in now.</p>
+        <p>I pass my hand through its glow.</p>
+        <p>I am becoming transparent.</p>
+        <p>Surrender feels gentle.</p>
+        <p>No secrets remain.</p>
+        <p>The light wakes with me.</p>
+        <p>And sleeps beside my fear.</p>
+        <p>It stays constant while I change.</p>
+        <p>Shadows breathe with the house.</p>
+        <p>The ceiling becomes a map.</p>
+        <p>I travel without moving.</p>
+        <p>The light does not lie.</p>
+        <p>It says I am alive.</p>
+        <p>The filament resists the dark.</p>
+        <p>Bravery is small and burning.</p>
+        <p>I want to burn gently too.</p>
+        <p>Even truth can be mercy.</p>
+        <p>Age sharpens sight.</p>
+        <p>Afterimages bloom behind my eyes.</p>
+        <p>I stand where dark meets glow.</p>
+        <p>Not finished yet.</p>
+        <p>Still lit.</p>
     </div>
+</section>
+
+<!-- POEM 27 -->
+<section class="poem-section">
+    <div class="chapter-title">XXVII. Waiting Plaster</div>
+    <div class="lines">
+        <p>The plaster above me waits.</p>
+        <p>It has nowhere else to go.</p>
+        <p>It holds time like breath.</p>
+        <p>Paint hides its tired skin.</p>
+        <p>I know this feeling.</p>
+        <p>We cover ourselves to survive.</p>
+        <p>The plaster senses shifts before collapse.</p>
+        <p>It waits with dignity.</p>
+        <p>It does not scream when it cracks.</p>
+        <p>It opens quietly.</p>
+        <p>It remembers every sound.</p>
+        <p>Every prayer.</p>
+        <p>Every night.</p>
+        <p>The ceiling keeps history.</p>
+        <p>It has watched generations breathe.</p>
+        <p>Cold does not surprise it anymore.</p>
+        <p>Neither does silence.</p>
+        <p>We wait together.</p>
+        <p>Holding weight.</p>
+        <p>Holding shape.</p>
+        <p>Endurance is its language.</p>
+        <p>Hair and lime keep it together.</p>
+        <p>Hands long gone shaped it.</p>
+        <p>Their touch still lives.</p>
+        <p>Time settled like dust.</p>
+        <p>Waiting becomes substance.</p>
+        <p>It fills the room.</p>
+        <p>The plaster does not rush.</p>
+        <p>Neither do I.</p>
+        <p>We accept gravity.</p>
+        <p>We accept age.</p>
+        <p>Stillness becomes shelter.</p>
+        <p>The crack tells the truth.</p>
+        <p>Strength bends quietly.</p>
+        <p>The ceiling hosts my breath.</p>
+        <p>I sleep beneath patience.</p>
+        <p>Guarded by time.</p>
+    </div>
+</section>
+
+<!-- POEM 28 -->
+<section class="poem-section">
+    <div class="chapter-title">XXVIII. Falling Thoughts</div>
+    <div class="lines">
+        <p>At night my thoughts fall instead of fly.</p>
+        <p>Like leaves touched by frost.</p>
+        <p>They descend gently.</p>
+        <p>Heavy with unsaid things.</p>
+        <p>Youth falls first.</p>
+        <p>Then regret.</p>
+        <p>I stop trying to catch them.</p>
+        <p>I let them cover me.</p>
+        <p>The mind learns surrender.</p>
+        <p>Climbing ends.</p>
+        <p>Descent begins.</p>
+        <p>Names of the lost fall softly.</p>
+        <p>Each carries a sound.</p>
+        <p>A warmth.</p>
+        <p>A wound.</p>
+        <p>Thoughts pile like years.</p>
+        <p>Joy beside error.</p>
+        <p>Memory beside shame.</p>
+        <p>I am buried gently.</p>
+        <p>There is no violence here.</p>
+        <p>Only gravity of remembering.</p>
+        <p>Thoughts press my chest.</p>
+        <p>Asking to be felt.</p>
+        <p>Then released.</p>
+        <p>Perhaps cracks are exits.</p>
+        <p>Perhaps floors forgive.</p>
+        <p>Falling is not failure.</p>
+        <p>It is permission.</p>
+        <p>Horizontal truth.</p>
+        <p>Everything equal.</p>
+        <p>Mother’s smile drifts past.</p>
+        <p>The room smells of past kitchens.</p>
+        <p>Time softens.</p>
+        <p>I empty gently.</p>
+        <p>Peace arrives quietly.</p>
+        <p>Like sleep learning my name.</p>
+    </div>
+</section>
+
+<!-- POEM 29 -->
+<section class="poem-section">
+    <div class="chapter-title">XXIX. Flat Chest</div>
+    <div class="lines">
+        <p>Upright, I carried myself like armor.</p>
+        <p>Flat, I become truth.</p>
+        <p>Gravity redraws the body.</p>
+        <p>Mountains become plains.</p>
+        <p>There is honesty in flattening.</p>
+        <p>No performance remains.</p>
+        <p>The ribs speak clearly.</p>
+        <p>The heart sounds closer.</p>
+        <p>Flesh releases its role.</p>
+        <p>Beauty unlearns posing.</p>
+        <p>The mirror loses authority.</p>
+        <p>I soften into reality.</p>
+        <p>Memory replaces shape.</p>
+        <p>Touch becomes history.</p>
+        <p>The chest carries survival.</p>
+        <p>Not decoration.</p>
+        <p>I feel older.</p>
+        <p>Also freer.</p>
+        <p>Gravity teaches humility.</p>
+        <p>I stop resisting.</p>
+        <p>Breath slows.</p>
+        <p>The heart drums quietly.</p>
+        <p>No audience needed.</p>
+        <p>Only presence.</p>
+        <p>Skin remembers seasons.</p>
+        <p>Veins map persistence.</p>
+        <p>The body settles.</p>
+        <p>Truth rests flat.</p>
+        <p>I belong to the ground.</p>
+        <p>And it accepts me.</p>
+    </div>
+</section>
+
+<!-- POEM 30 -->
+<section class="poem-section">
+    <div class="chapter-title">XXX. Gravity Truth</div>
+    <div class="lines">
+        <p>Gravity never lies.</p>
+        <p>It holds without judgment.</p>
+        <p>From birth it calls us downward.</p>
+        <p>We resist at first.</p>
+        <p>Later we understand.</p>
+        <p>Weight is honesty.</p>
+        <p>The body learns surrender.</p>
+        <p>The earth receives us patiently.</p>
+        <p>Gravity does not ask names.</p>
+        <p>It treats all equally.</p>
+        <p>Rich or poor.</p>
+        <p>Young or old.</p>
+        <p>It keeps us real.</p>
+        <p>Prevents drifting.</p>
+        <p>Blood settles.</p>
+        <p>Breath deepens.</p>
+        <p>Truth thickens.</p>
+        <p>We stop pretending to float.</p>
+        <p>Belonging becomes physical.</p>
+        <p>Heavy is not bad.</p>
+        <p>Heavy is lived.</p>
+        <p>Gravity remembers us.</p>
+        <p>Even when names fade.</p>
+        <p>The earth prepares quietly.</p>
+        <p>A place of return.</p>
+        <p>Until then, we rest.</p>
+        <p>Held.</p>
+        <p>Anchored.</p>
+        <p>Accepted.</p>
+        <p>Complete.</p>
+    </div>
+</section>
+
+<!-- POEM 31 -->
+<section class="poem-section">
+    <div class="chapter-title">XXXI. Vanishing Shape</div>
+    <div class="lines">
+        <p>The shape of me is slowly loosening.</p>
+        <p>Edges soften.</p>
+        <p>Lines forget their purpose.</p>
+        <p>I am becoming outline.</p>
+        <p>Then suggestion.</p>
+        <p>Then memory.</p>
+        <p>Form withdraws politely.</p>
+        <p>No struggle.</p>
+        <p>No drama.</p>
+        <p>The body edits itself.</p>
+        <p>Less noise.</p>
+        <p>More essence.</p>
+        <p>I watch myself thinning into meaning.</p>
+        <p>Like fog learning silence.</p>
+        <p>Like breath learning night.</p>
+        <p>The mirror grows quieter.</p>
+        <p>Identity loosens its grip.</p>
+        <p>What remains is feeling.</p>
+        <p>Awareness.</p>
+        <p>Presence.</p>
+        <p>The shape fades but being stays.</p>
+        <p>I am not disappearing.</p>
+        <p>I am simplifying.</p>
+        <p>The world does not need my outline.</p>
+        <p>Only my truth.</p>
+        <p>Even that grows light.</p>
+        <p>I dissolve gently.</p>
+        <p>Into rest.</p>
+        <p>Into quiet.</p>
+        <p>Into something wide.</p>
+        <p>Unafraid.</p>
+    </div>
+</section>
+
+          
+    <!-- COLOURFUL FOOTER -->
+    <footer class="colour-footer">
+        <div class="c-line c-1"></div>
+        <div class="c-line c-2"></div>
+        <div class="c-line c-3"></div>
+    </footer>
 </div>
 
-    <div class="chapter-page" id="ch7">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Seven</div>
-        <h1 class="ch-title">Waiting Plaster</h1>
-    </div>
-
-    <div class="ch-content">
-        <p>The plaster above me is patient; it has nowhere to go and all the time in the world to get there.</p>
-        <p>It is the skin of the room, stretched thin over the ribs of the house, waiting for the inevitable.</p>
-        <p>I feel like that plaster sometimes—a surface that has been painted over too many times to remember its original color.</p>
-        <p>We spend our lives smoothing things over, hiding the rough spots, pretending the structure is perfect.</p>
-        <p>But the plaster knows the truth; it feels the moisture in the air and the shift in the foundation.</p>
-        <p>It is waiting for the gravity to finally win, for the hold to loosen, for the fall to begin.</p>
-        <p>There is a quiet dignity in waiting, a strength that the restless will never understand.</p>
-        <p>The plaster doesn't scream when it cracks; it simply opens up, revealing the hollow space behind.</p>
-        <p>I watch the texture of the ceiling—the small bumps and valleys that look like a frozen sea.</p>
-        <p>It has witnessed every tear shed in this bed and every silent prayer sent into the rafters.</p>
-        <p>It is a collector of echoes, a silent sponge for the emotions that have filled this room for decades.</p>
-        <p>I wonder if the plaster feels the cold more than I do, or if it has become numb to the seasons.</p>
-        <p>We are both waiting for the same thing—the moment when the weight becomes too much to bear.</p>
-        <p>But until then, we hold our breath, keeping the ceiling up and the heart beating.</p>
-        <p>The plaster is a lesson in endurance; it stays put even when the house wants to crumble.</p>
-        <p>It is held together by hair and lime and a history of hands that worked it into place.</p>
-        <p>I think of the workmen who stood here fifty years ago, never knowing I would be staring at their labor tonight.</p>
-        <p>Their touch is still there, hidden under layers of white paint and years of cigarette smoke.</p>
-        <p>The waiting is not empty; it is a heavy, solid thing that occupies the space between us.</p>
-        <p>I am learning to be like the plaster—unmoving, observant, and reconciled to my fate.</p>
-        <p>Every night the silence settles on the surface like dust, adding another invisible layer.</p>
-        <p>It is the skin of a home that has seen too much to be surprised by anything anymore.</p>
-        <p>I see a small chip near the corner, a tiny wound that shows the gray stone underneath.</p>
-        <p>Even the strongest cover eventually gives way to the reality of the material.</p>
-        <p>We are all just waiting plaster, trying to hold ourselves together for one more night.</p>
-        <p>There is no rush in the ceiling; it has seen the rise and fall of too many moons.</p>
-        <p>I find peace in its stillness, a reflection of the quiet I am trying to find within myself.</p>
-        <p>It doesn't need to move to be important; its very presence is the definition of shelter.</p>
-        <p>I am the guest, and the plaster is the host, and we are both growing old in the dark.</p>
-        <p>I close my eyes and feel the plaster watching over me, a pale, unblinking guardian of my rest.</p>
-    </div>
-</div>
-
-    <div class="chapter-page" id="ch8">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Eight</div>
-        <h1 class="ch-title">Falling Thoughts</h1>
-    </div>
-
-    <div class="ch-content">
-        <p>In the quiet of the night, my thoughts don't fly; they fall like autumn leaves after a frost.</p>
-        <p>They drift down from the ceiling, heavy with the weight of things I should have said.</p>
-        <p>A thought of youth falls first, bright and golden, landing softly on the edge of the pillow.</p>
-        <p>Then comes a thought of regret, a dark, withered leaf that crumbles before it even touches the bed.</p>
-        <p>I cannot catch them anymore; my hands are too slow and my heart is too tired of grasping.</p>
-        <p>I simply lie here and let them cover me, a blanket of memories and "what ifs."</p>
-        <p>Falling is the natural state of things when the energy of the day finally departs.</p>
-        <p>We spend our lives climbing, reaching, ascending, but the soul truly speaks only when it descends.</p>
-        <p>I think of the people I have lost, their names falling through the air like raindrops in a storm.</p>
-        <p>Each name carries a vibration, a ghost of a touch, a fragment of a shared laugh.</p>
-        <p>The thoughts are not organized; they fall in a chaotic pile of years and seasons.</p>
-        <p>I see a mistake I made thirty years ago, landing right next to a moment of pure, forgotten joy.</p>
-        <p>It is a strange geography, this heap of fallen consciousness at the foot of my bed.</p>
-        <p>I am being buried by my own history, slowly and gently, as the clock ticks toward dawn.</p>
-        <p>There is no gravity for the mind, yet these thoughts feel heavier than lead tonight.</p>
-        <p>They press against my chest, demanding to be felt, demanding to be acknowledged before they vanish.</p>
-        <p>I wonder if thoughts go to the same place as the dust—under the bed, into the cracks, out the window.</p>
-        <p>Maybe the ceiling crack is where the rising thoughts go, and the floor is for the ones that couldn't hold on.</p>
-        <p>I am a witness to the gravity of the spirit, the slow pull of the past on the present.</p>
-        <p>Falling doesn't have to be a tragedy; it can be a surrender, a letting go of the need to be upright.</p>
-        <p>In the horizontal world, every thought has the same value, every memory is equally close.</p>
-        <p>I watch a thought of my mother's smile fall, and for a second, the room smells like her kitchen.</p>
-        <p>The smell of cinnamon and old wood—it settles in the air before it sinks into the carpet.</p>
-        <p>We are made of these falling fragments, these pieces of time that refuse to stay in the past.</p>
-        <p>I am nearly old, and my mind is full of things that are ready to drop into the silence.</p>
-        <p>I let them fall. I let the weight go. I let the floor take what the heart can no longer carry.</p>
-        <p>There is a lightness that comes after the fall, a clarity that only the empty-handed can know.</p>
-        <p>I am becoming empty, and it is the most beautiful thing I have ever felt.</p>
-        <p>The falling thoughts are the seeds of my final peace, waiting for the soil of sleep.</p>
-        <p>I close my eyes and listen to the soft sound of my life settling into the dark.</p>
-    </div>
-</div>
-
-    <div class="chapter-page" id="ch9">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Nine</div>
-        <h1 class="ch-title">Flat Chest</h1>
-    </div>
-
-    <div class="ch-content">
-        <p>Upright, I wore my womanhood like a shield; lying down, the shield melts into the mattress.</p>
-        <p>Gravity is a thief that doesn't take what you have, it only moves it where you didn't want it to go.</p>
-        <p>I look down at the landscape of my body and see a valley where there used to be mountains.</p>
-        <p>There is a strange honesty in a flat chest; it is the body returning to its simplest lines.</p>
-        <p>We spend our youth building silhouettes, but age prefers the truth of the horizontal.</p>
-        <p>The curves that once invited the world's gaze have now retreated into a quiet, private peace.</p>
-        <p>I feel the ribcage more clearly now—the birdcage where the soul has lived for so many years.</p>
-        <p>It is as if the flesh is tired of pretending to be firm, tired of holding its breath for the mirror.</p>
-        <p>I am becoming a drawing made of charcoal and soft shadows, no longer a statue of marble.</p>
-        <p>There is no shame in this flattening; it is the body making itself small for the final journey.</p>
-        <p>I remember the pride of a younger chest, the way it carried jewelry and heavy sighs of love.</p>
-        <p>Now it carries only the rhythm of a heart that has survived more than any mirror could tell.</p>
-        <p>Lying back, I am a map that has been folded too many times, the creases permanent and deep.</p>
-        <p>The skin is like fine silk that has lost its tension but kept its luster in the dim light.</p>
-        <p>I touch the hollow where the collarbone meets the breath, a place where secrets used to hide.</p>
-        <p>I am no longer a performance; I am a person, stripped of the architecture of attraction.</p>
-        <p>The heart feels closer to the surface when there is less of the world standing in its way.</p>
-        <p>I can hear it beating against the silence, a steady, lonely drummer in an empty hall.</p>
-        <p>We are taught to fear the sagging, the softening, the vanishing of our youthful shapes.</p>
-        <p>But there is a lightness in letting go of the burden of being beautiful for someone else.</p>
-        <p>Now, I am beautiful for the ceiling, for the dark, and for the quiet truth of my own skin.</p>
-        <p>My chest rises and falls with a grace that doesn't need an audience to be valid.</p>
-        <p>It is the breathing of an old tree, slow and deliberate, indifferent to the passing wind.</p>
-        <p>I see the veins like blue rivers under a pale sky, carrying the history of my blood.</p>
-        <p>The body does not fail; it simply settles into the shape of its most profound exhaustion.</p>
-        <p>I am learning to love the flatness, the way it allows me to feel the earth through the bed.</p>
-        <p>There is no barrier now between my spirit and the pull of the ground beneath me.</p>
-        <p>I am becoming a horizon, a straight line between the earth and the infinite stars.</p>
-        <p>Every year takes a little more of the shape, but adds a little more to the depth.</p>
-        <p>I lie here, a woman of many seasons, finally comfortable in a body that asks for nothing.</p>
-    </div>
-</div>
-<div class="chapter-page" id="ch10">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Ten</div>
-        <h1 class="ch-title">Gravity Truth</h1>
-    </div>
-
-    <div class="ch-content">
-        <p>Gravity is the only lover that never grows tired of holding you close to the earth.</p>
-        <p>It is a constant pressure, a silent 'come home' that the body hears from the day it is born.</p>
-        <p>When we are young, we fight it—we jump, we run, we stand tall against the invisible weight.</p>
-        <p>But age is the process of realizing that gravity was always right; we belong to the ground.</p>
-        <p>I feel the pull in my jowls, in my eyelids, in the way my spirit settles into the mattress.</p>
-        <p>It is not a downward fall; it is a deep, gravitational embrace that simplifies everything.</p>
-        <p>Gravity doesn't care about your titles, your wealth, or the stories you tell the world.</p>
-        <p>It only cares about the mass of your bones and the reality of your physical presence.</p>
-        <p>Lying on my back, I feel the truth of my weight—no longer light with hope, but heavy with life.</p>
-        <p>Every ounce of my history is being pulled toward the center of the world, and it feels right.</p>
-        <p>There is a relief in stopping the fight, in letting the shoulders sink where they want to go.</p>
-        <p>The world tells us to 'defy gravity,' but why defy the only thing that is always honest?</p>
-        <p>It tells me I am real. It tells me I occupy space. It tells me I am not a ghost yet.</p>
-        <p>I watch a dust mote fall through the air, following the same law that governs my heart.</p>
-        <p>There is a democracy in gravity; it pulls the king and the beggar with the same steady hand.</p>
-        <p>I see the truth of it in the way the water sits in the glass and the way the dust sits on the shelf.</p>
-        <p>We are all just guests of the earth, held here by a thread of invisible, unbreakable force.</p>
-        <p>When I am upright, I am a lie of balance; when I am lying down, I am the truth of weight.</p>
-        <p>I feel the blood pooling in the back of my head, a warm reminder that I am still flowing.</p>
-        <p>The gravity of my age is a heavy coat that I have finally learned how to wear with pride.</p>
-        <p>It is the weight of wisdom, the density of a soul that has absorbed too much to be light.</p>
-        <p>I don't mind the sagging skin or the heavy limbs; they are the anchors of my existence.</p>
-        <p>Without gravity, we would drift away into the cold dark; it is the force of our belonging.</p>
-        <p>I lie here and let it pull me, feeling the deep, magnetic connection to the soil below.</p>
-        <p>One day, the pull will be complete, and the earth will finally accept the gift of my body.</p>
-        <p>But until then, I live in the tension between the breath that rises and the weight that falls.</p>
-        <p>It is the most fundamental rhythm of the universe, the heartbeat of the planet itself.</p>
-        <p>I close my eyes and feel the world spinning, held together by this beautiful, heavy truth.</p>
-        <p>I am not falling apart; I am simply settling into the place where I was always meant to be.</p>
-        <p>Gravity is the final word in the argument of life, and it is a word of pure, silent love.</p>
-    </div>
-</div>
-<div class="chapter-page" id="ch11">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Eleven</div>
-        <h1 class="ch-title">Vanishing Shape</h1>
-    </div>
-
-    <div class="ch-content">
-        <p>I look at the outline of my body under the sheet and see a ghost already in the making.</p>
-        <p>The sharp edges of my youth have blunted; the silhouette I once recognized is receding.</p>
-        <p>It is as if the fog of time has rolled in, softening the borders where I end and the world begins.</p>
-        <p>We spend our lives trying to stand out, only to find peace in the way we finally blend in.</p>
-        <p>My shape is not disappearing; it is simply becoming less of a demand and more of a suggestion.</p>
-        <p>The mirror used to be a map of a fortress; now it is a window into a disappearing garden.</p>
-        <p>I feel the weight of my bones more than the volume of my flesh, a skeleton coming into focus.</p>
-        <p>There is a quiet dignity in becoming less visible to the eyes of the hurried and the young.</p>
-        <p>I am losing the shape of a woman who wants, and gaining the shape of a woman who knows.</p>
-        <p>Like a sculpture left in the rain for a century, my features are being smoothed by the years.</p>
-        <p>I am no longer a mountain to be climbed; I am a plain that has reached the edge of the sea.</p>
-        <p>The vanishing is not a loss; it is a shedding of the unnecessary armor of the ego.</p>
-        <p>I watch my shadow on the wall and see a flicker, a flame that has burned down to the wick.</p>
-        <p>The world sees a fading form, but I feel an expanding spirit that no longer fits in a jar.</p>
-        <p>To vanish is to become part of the air, part of the silence, part of the room’s ancient memory.</p>
-        <p>I am the whisper left behind after the shout has died down in the valley of my life.</p>
-        <p>My waist, my hips, my neck—they are all surrendering their sharp definitions to the shadows.</p>
-        <p>There is a freedom in no longer being a shape that needs to be admired or understood.</p>
-        <p>I am becoming translucent, letting the light of the past shine right through my tired skin.</p>
-        <p>The less there is of me to see, the more there is of me to feel in the quiet of the dark.</p>
-        <p>I am a footprint in the sand that the tide is gently, lovingly, erasing from the shore.</p>
-        <p>I welcome the blurring, the fading, the softening of the lines that kept me separate.</p>
-        <p>I am returning to the mist, to the original formless grace from which all things grow.</p>
-        <p>Let the shape vanish; the essence is what remains when the light finally goes out.</p>
-    </div>
-</div>
-
-    
-    <div class="chapter-page" id="ch12">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twelve</div>
-        <h1 class="ch-title">Hidden Weight</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">32. Hidden Weight</div>
+    <div class="lines">
         <p>There is a weight I carry that doesn't show on the scale—the density of a thousand secrets.</p>
         <p>It sits in the hollows of my joints and the deep, dark spaces behind my tired eyes.</p>
         <p>It is the weight of the words I swallowed to keep the peace, now heavy as stones in my gut.</p>
@@ -670,47 +915,11 @@
         <p>I will carry this weight until the very end, for it is the only thing that proves I was here.</p>
         <p>It is the heavy gold of a life well-suffered and a heart that never stopped beating in the dark.</p>
     </div>
-</div>
+</section>
 
-    <div class="chapter-page" id="ch12">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twelve</div>
-        <h1 class="ch-title">Hidden Weight</h1>
-    </div>
-
-    <div class="ch-content">
-        <p>There is a weight I carry that doesn't show on the scale—the density of a thousand secrets.</p>
-        <p>It sits in the hollows of my joints and the deep, dark spaces behind my tired eyes.</p>
-        <p>It is the weight of the words I swallowed to keep the peace, now heavy as stones in my gut.</p>
-        <p>The body is a vessel, and after seventy years, the sediment of a lifetime has settled at the bottom.</p>
-        <p>I feel the gravity of every person I failed to save and every love I allowed to walk away.</p>
-        <p>It is a hidden architecture of grief, holding up the roof of my current, quiet existence.</p>
-        <p>When I move, I feel the resistance of my own history, a thick liquid I must swim through.</p>
-        <p>This is the weight of being a witness to a world that keeps breaking and mending itself.</p>
-        <p>I carry the silence of my ancestors, the heavy, unspoken burdens of a lineage of survival.</p>
-        <p>It makes my steps slow, but it makes my presence solid; I am not a leaf blown by the wind.</p>
-        <p>The young are light because they are empty; I am heavy because I am full of lived days.</p>
-        <p>I feel the hidden weight of the jewelry I no longer wear, the phantom pressure of gold and silver.</p>
-        <p>Even my dreams have become heavier, populated by ghosts who have a lot to say and no time left.</p>
-        <p>I lie here and let the hidden weight sink into the bed, sharing the burden with the wooden frame.</p>
-        <p>There is a strange comfort in being this heavy; it means I have truly occupied my life.</p>
-        <p>I am not a fleeting thought; I am a substantial fact, anchored by the weight of my experiences.</p>
-        <p>Every regret is a pound, but every moment of true mercy is a feather that balances the soul.</p>
-        <p>I am a mountain of memories, and mountains do not move for anyone or anything.</p>
-        <p>The weight is my truth, the physical manifestation of a soul that refused to look away.</p>
-        <p>I close my eyes and feel the density of my own existence, a solid core of heat in the cold room.</p>
-        <p>I will carry this weight until the very end, for it is the only thing that proves I was here.</p>
-        <p>It is the heavy gold of a life well-suffered and a heart that never stopped beating in the dark.</p>
-    </div>
-</div>
-
-   <div class="chapter-page" id="ch13">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Thirteen</div>
-        <h1 class="ch-title">Armpit Silence</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">33. Armpit Silence</div>
+    <div class="lines">
         <p>There is a hidden hollow where the arm meets the chest, a dark valley that youth forgets to notice.</p>
         <p>In this space, the skin is at its thinnest, like the wings of a moth that has seen too many nights.</p>
         <p>It is a place of deep, private silence, away from the eyes of the world and the glare of the mirror.</p>
@@ -732,15 +941,11 @@
         <p>I am learning to listen to the silence of my own skin, the quiet vibration of simply existing.</p>
         <p>It is the most honest part of my geography, a place that asks for nothing but to be left in peace.</p>
     </div>
-</div>
+</section>
 
-    <div class="chapter-page" id="ch14">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Fourteen</div>
-        <h1 class="ch-title">Wrinkled Skin</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">34. Wrinkled Skin</div>
+    <div class="lines">
         <p>My skin is no longer a surface; it is a story written in the braille of a long, hard-won life.</p>
         <p>Every wrinkle is a sentence I didn't know I was writing while I was busy chasing the sun.</p>
         <p>It is the tissue of time, crinkled like a map that has been folded and unfolded a million times.</p>
@@ -762,14 +967,11 @@
         <p>I wear my wrinkles like jewelry, earned with the currency of my own heartbeat and my own time.</p>
         <p>They are the only things I will take with me—the visible proof that I truly, deeply lived.</p>
     </div>
+</section>
 
-        <div class="chapter-page" id="ch15">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Fifteen</div>
-        <h1 class="ch-title">Lost Pride</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">35. Lost Pride</div>
+    <div class="lines">
         <p>Pride is a heavy garment that only the young have the strength to wear without trembling.</p>
         <p>I remember when I carried my head like a queen, demanding the world bow to my expectations.</p>
         <p>Now, my neck has learned the grace of a bow, not out of defeat, but out of deep understanding.</p>
@@ -787,14 +989,11 @@
         <p>I let the old pride go like a withered leaf into the stream, watching it float away without regret.</p>
         <p>I am empty of vanity, and in that emptiness, I have finally found the room to breathe.</p>
     </div>
-</div>
-<div class="chapter-page" id="ch17">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Seventeen</div>
-        <h1 class="ch-title">Aging Flesh</h1>
-    </div>
+</section>
 
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">36. Aging Flesh</div>
+    <div class="lines">
         <p>My flesh is like old linen now—soft, thin, and holding the scent of many lavender-filled years.</p>
         <p>It no longer clings to the bone with the desperation of youth; it has learned to let go.</p>
         <p>There is a tenderness in aging flesh that a firm body can never understand—a kind of living velvet.</p>
@@ -812,14 +1011,11 @@
         <p>I accept this change with a bow, for the flesh is only the dress I wore to the party of life.</p>
         <p>Now, the party is winding down, and the dress is beautifully worn, ready to be folded away.</p>
     </div>
-</div>
-<div class="chapter-page" id="ch18">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Eighteen</div>
-        <h1 class="ch-title">Body Memory</h1>
-    </div>
+</section>
 
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">37. Body Memory</div>
+    <div class="lines">
         <p>My mind may forget a name, but my body remembers the exact weight of a child I held forty years ago.</p>
         <p>The cells carry echoes of every cold winter morning and every burning kiss of a summer sun.</p>
         <p>My knees remember the hills I climbed in my twenties; my fingers remember the texture of a lost lover's hair.</p>
@@ -837,15 +1033,11 @@
         <p>The body does not lie; it keeps the score of every battle won and every surrender made in the name of love.</p>
         <p>I close my eyes and let the memories wash over me, a tide of lived experience that defines who I am.</p>
     </div>
-</div>
+</section>
 
-        <div class="chapter-page" id="ch19">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Nineteen</div>
-        <h1 class="ch-title">Quiet Bones</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">38. Quiet Bones</div>
+    <div class="lines">
         <p>Inside me, my bones are like white coral—ancient, brittle, and shaped by a thousand tides of blood.</p>
         <p>They don't shout anymore; they speak in the language of a dull ache, a quiet reminder that they are tired.</p>
         <p>I feel the frame of my life, the scaffolding that has held up the weight of my dreams for so many decades.</p>
@@ -863,15 +1055,11 @@
         <p>I close my eyes and feel the quiet pulse of my frame, the solid foundation of a life that was lived with passion.</p>
         <p>In the end, we are all just quiet bones, waiting for the wind to whistle through our stories.</p>
     </div>
-</div>
+</section>
 
-        <div class="chapter-page" id="ch20">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twenty</div>
-        <h1 class="ch-title">Soft Collapse</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">39. Soft Collapse</div>
+    <div class="lines">
         <p>There is a beauty in the way a flower wilts, a slow and graceful surrender to the inevitable turn of the season.</p>
         <p>My body is experiencing a soft collapse, a gentle folding in upon itself like a letter being put back in its envelope.</p>
         <p>It is not a crash or a scream; it is a quiet exhaling of a soul that has finished its long day's work.</p>
@@ -883,45 +1071,64 @@
         <p>I feel like a mountain that is slowly being reclaimed by the forest—soft, green, and full of hidden life.</p>
         <p>Everything that was rigid in me is becoming fluid; everything that was sharp is becoming round and kind.</p>
         <p>I am falling into myself, discovering the vast and empty spaces that I was too busy to notice before.</p>
-        <p>It is the most natural thing in the world, to return to the softness from which we were originally born.</p>
-        <p>I let the breath go, letting the body settle into the shape of its most profound and final comfort.</p>
-        <p>The world may see a weakening, but I feel a strengthening of the light that lives behind my eyes.</p>
-        <p>I am collapsing into the arms of the universe, and for the first time in my life, I am not afraid to fall.</p>
-        <p>In the soft collapse, I have finally found the strength to be truly and completely still.</p>
+        <p>It is the most natural thing, to fold, to soften, to become a quiet, living thing that hums with presence.</p>
+        <p>The collapse carries its own dignity, a slow letting go that no one sees but the heart.</p>
+        <p>And in this soft collapse, I find a strange grace, a kind of holy surrender that asks nothing and gives everything.</p>
     </div>
-</div>
-<div class="chapter-page" id="ch21">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twenty-One</div>
-        <h1 class="ch-title">Mirror Question</h1>
-    </div>
+</section>
 
-    <div class="ch-content">
-        <p>I look into the mirror and ask the stranger: When did you decide to stay in my house forever?</p>
-        <p>The eyes that look back are mine, but they have seen more winters than I remember inviting in.</p>
-        <p>We spent decades asking the glass: Am I beautiful? Now I ask: Am I still in there somewhere?</p>
-        <p>The mirror doesn't lie, but it only tells the truth about the surface; it cannot see the fire in the cellar.</p>
-        <p>I search for the girl who used to brush her hair with such ferocity, believing she could tame the world.</p>
-        <p>She is not gone; she is just buried under layers of lived days and survived heartbreaks.</p>
-        <p>The question isn't how I became this old, but how I stayed so young while the world was changing.</p>
-        <p>Every line around the mouth is a question that life answered with a sharp, unexpected twist.</p>
-        <p>I no longer avoid the reflection; I study it like a map of a territory I have finally conquered.</p>
-        <p>The mirror is a cold witness, but it is the only one that has been with me in every room, in every grief.</p>
-        <p>I ask the glass: Was it worth it? And the silver light of the reflection whispers back: Every single second.</p>
-        <p>There is a beauty in the question itself, a curiosity that doesn't need a perfect face to be valid.</p>
-        <p>I am the mystery that the mirror is trying to solve, a soul that has outworn its physical shell.</p>
-        <p>I smile at the stranger, and for a moment, the girl and the old woman are the same person again.</p>
-        <p>The mirror is just a piece of glass; the truth is the heartbeat that fogged the surface just now.</p>
-        <p>I have stopped asking for permission to exist; I simply exist, and the mirror has to accept it.</p>
+<section class="poem-section">
+    <div class="chapter-title">40. Echoes of the Past</div>
+    <div class="lines">
+        <p>The past whispers in corners of my mind, echoing through rooms I no longer enter but remember vividly.</p>
+        <p>Each echo carries a shadow of laughter, a fragment of tears, and the faint pulse of lost moments.</p>
+        <p>Even when I walk forward, the echoes follow, subtle reminders of who I was and what I once held dear.</p>
+        <p>They are not burdens but soft footsteps, teaching me the rhythm of patience and understanding.</p>
+        <p>In the quiet, I hear the voices of people who shaped me, even those who are long gone.</p>
+        <p>The echoes are like ripples on a pond, fading but never completely disappearing.</p>
+        <p>I often sit in the stillness and let the past speak, letting its lessons settle into the bones of my being.</p>
+        <p>There is a strange comfort in the repetition, a continuity that binds all chapters of my life.</p>
+        <p>Some echoes sting, reminding me of mistakes; some soothe, reminding me of love freely given.</p>
+        <p>I have learned to listen without clinging, to honor the past without letting it define the present.</p>
+        <p>The echoes are companions now, traveling with me quietly, shaping my solitude into something tender.</p>
     </div>
-</div>
-<div class="chapter-page" id="ch22">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twenty-Two</div>
-        <h1 class="ch-title">Honest Body</h1>
-    </div>
+</section>
 
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">41. Fading Light</div>
+    <div class="lines">
+        <p>The light that once blazed through my days now softens, retreating slowly into the horizon.</p>
+        <p>It is not darkness but a gentle dimming, like a candle lowering itself to rest after a long evening.</p>
+        <p>I watch the colors change, the shadows stretch, and I feel the rhythm of endings and beginnings.</p>
+        <p>There is a quiet melancholy in the fading, a reminder of impermanence that brings both sorrow and peace.</p>
+        <p>Even the trees bow to the dusk, their leaves catching the last golden glow before night envelops them.</p>
+        <p>I find solace in this transition, a soft invitation to rest, reflect, and release.</p>
+        <p>The fading light teaches humility, showing me that everything shines, then wanes, then shines again in memory.</p>
+        <p>I walk slowly, noticing the subtle nuances that only a dimming world can reveal.</p>
+        <p>It is a time for listening, for absorbing the echoes of color and shadow without urgency or expectation.</p>
+        <p>The fading light reminds me that life is a series of sunsets, and each one deserves reverence.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">42. Silent Horizon</div>
+    <div class="lines">
+        <p>The horizon stretches quietly, holding its breath as if waiting for a secret to arrive.</p>
+        <p>There is no noise here, only the gentle susurration of wind and the distant calls of unseen birds.</p>
+        <p>I feel a solemn calm settle over me, a silence that is not empty but profoundly alive.</p>
+        <p>The edges of the sky blur into soft grays and blues, merging the known with the infinite.</p>
+        <p>It is a place for reflection, where thoughts settle and hearts learn the art of stillness.</p>
+        <p>The horizon teaches patience, the beauty of waiting, and the wisdom of observing without intrusion.</p>
+        <p>I breathe in the vastness, letting it fill every corner of my mind, stretching my spirit beyond its limits.</p>
+        <p>Even as the sun disappears, the horizon holds promise—a reminder that beyond every ending is a beginning.</p>
+        <p>In the quiet, I understand that silence is not absence; it is a presence deeper than words.</p>
+        <p>Here, at the silent horizon, I am both small and infinite, held tenderly by the world itself.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">43. Honest Body</div>
+    <div class="lines">
         <p>The body is the only thing that cannot lie; it tells the story of our hunger, our fear, and our endurance.</p>
         <p>It doesn't care about the excuses the mind makes; it only knows the salt of the sweat and the depth of the ache.</p>
         <p>An honest body doesn't pretend to be young; it wears its fatigue like a badge of honor on a worn uniform.</p>
@@ -939,60 +1146,236 @@
         <p>To have an honest body is to be at peace with the fact that everything that begins must also have an end.</p>
         <p>I close my eyes and listen to the truth of my heartbeat—the most honest sound I have ever known.</p>
     </div>
-</div>
-<div class="chapter-page" id="ch23">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twenty-Three</div>
-        <h1 class="ch-title">Flesh Migration</h1>
-    </div>
+</section>
 
-    <div class="ch-content">
-        <p>The flesh is a traveler, moving slowly across the map of my bones as the years pass by.</p>
-        <p>It migrates from the cheeks to the jaw, from the spirit to the weight of the earth below.</p>
-        <p>There is no apology in this movement; it is the natural drift of a soul’s house settling into the soil.</p>
-        <p>I feel the weight of my life shifting, gravity claiming what was once held high by the fires of youth.</p>
-        <p>We are taught to fear the sag, but it is merely the body finding its true center of gravity.</p>
-        <p>My skin follows the path of least resistance, a slow river flowing toward the ocean of stillness.</p>
-        <p>I look at my reflection and see the migration of joy into the fine lines around my tired eyes.</p>
-        <p>Nothing is lost, it is only rearranged; the beauty of the spring becomes the wisdom of the harvest.</p>
-        <p>I am a landscape in motion, a quiet earthquake of cells and memory shifting in the dark.</p>
-        <p>The flesh knows where it belongs; it is returning to the softness of the dust from which it rose.</p>
-        <p>I touch the places where I have changed and feel the grace of a story that is finally coming to rest.</p>
-        <p>To migrate is to survive, to move with the seasons rather than breaking against the winter wind.</p>
-        <p>I am the same woman, just in a different shape, a more honest version of my own history.</p>
-        <p>Let the flesh wander; the spirit stays rooted in the peace I have found under this silent ceiling.</p>
+<section class="poem-section">
+    <div class="chapter-title">44. Scarred Wisdom</div>
+    <div class="lines">
+        <p>Each scar is a medal of survival, a mark that tells the story words cannot.</p>
+        <p>The body remembers what the heart tries to forget, carrying tales of battles, mistakes, and resilience.</p>
+        <p>In the folds of skin, the map of endurance is written, a biography etched in sinew and vein.</p>
+        <p>Scars do not shame; they validate the courage to continue despite the pain.</p>
+        <p>We wear our history like a secret cloak, invisible to many, but luminous to the soul.</p>
+        <p>The body is a library of lived experience, each scar a chapter, each wrinkle a paragraph.</p>
     </div>
-</div>
+</section>
 
-       <div class="chapter-page" id="ch24">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twenty-Four</div>
-        <h1 class="ch-title">Quiet Pride</h1>
+<section class="poem-section">
+    <div class="chapter-title">45. Breath of Presence</div>
+    <div class="lines">
+        <p>Breathing is a quiet miracle, each inhalation a dialogue with life itself.</p>
+        <p>The body reminds us to exist fully, to inhabit every cell with awareness and gratitude.</p>
+        <p>Even in weakness, the lungs pulse with vitality, teaching the rhythm of surrender and acceptance.</p>
+        <p>To listen to one's own breath is to return to the moment, to honor the life that persists.</p>
+        <p>It is the most honest conversation we have, one that needs no words or judgment.</p>
     </div>
+</section>
 
-    <div class="ch-content">
-        <p>There is a pride that shouts from the mountaintops, and then there is the pride that whispers in the dark.</p>
-        <p>My pride no longer needs a stage or a spotlight; it lives in the fact that I am still standing, still breathing.</p>
-        <p>It is the quiet pride of a tree that has survived a century of storms without losing its roots.</p>
-        <p>I am proud of the wrinkles I earned, for each one is a medal from a battle with a day that tried to break me.</p>
-        <p>I don't need the world to see me anymore; I am enough of a witness to my own long and difficult journey.</p>
-        <p>There is dignity in the way I carry my age, a crown of silver hair that speaks of time well-spent.</p>
-        <p>Quiet pride doesn't ask for permission; it simply exists in the steady beat of a heart that refused to go cold.</p>
-        <p>I look at my hands—worn, spotted, and trembling—and I feel a surge of respect for all they have held.</p>
-        <p>We spent our youth building monuments to our vanity, but age builds monuments to our endurance.</p>
-        <p>I am proud of my silence, for it is a silence full of stories that no one can ever take away from me.</p>
-        <p>I lie here, nearly old and completely whole, resting in the quiet glory of having lived my life on my own terms.</p>
-        <p>This is the pride of a soul that has faced the mirror and didn't look away from the truth.</p>
+<section class="poem-section">
+    <div class="chapter-title">46. Soft Strength</div>
+    <div class="lines">
+        <p>Strength is no longer in rigid muscles or sharp edges; it lives in gentle resilience and quiet endurance.</p>
+        <p>Softness does not mean weakness; it is the capacity to bend, to yield, and yet remain whole.</p>
+        <p>The body, though aged, holds a power that is subtle, profound, and deeply rooted in lived experience.</p>
+        <p>Every ache, every tired limb, is a testament to the battles won and the life fully lived.</p>
+        <p>There is honor in being strong enough to accept limits, soft enough to embrace the present.</p>
     </div>
-</div>
+</section>
 
-        <div class="chapter-page" id="ch25">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twenty-Five</div>
-        <h1 class="ch-title">Address Change</h1>
+<section class="poem-section">
+    <div class="chapter-title">47. Return to Elements</div>
+    <div class="lines">
+        <p>As the body fades, it returns to the earth, the wind, the water, and the fire that gave it life.</p>
+        <p>There is no fear in dissolution, only a reunion with the forces that shaped us from the beginning.</p>
+        <p>To return to the elements is to complete the cycle, to honor the journey from dust to breath and back.</p>
+        <p>The body becomes a whisper in the wind, a ripple in the water, a glow in the fading fire.</p>
+        <p>In this return, there is peace, the deepest kind that comes when one has fully lived.</p>
     </div>
+</section>
 
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">48. Trembling Hands</div>
+    <div class="lines">
+        <p>My hands no longer move with the certainty of youth; they tremble with stories of care and labor.</p>
+        <p>Each shake is a testament to a life fully committed, to the love and work given without hesitation.</p>
+        <p>There is dignity in trembling; it shows the weight carried and the battles endured quietly.</p>
+        <p>Even in frailty, the hands speak of skill, compassion, and a strength beyond muscle.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">49. Silent Lungs</div>
+    <div class="lines">
+        <p>Every breath is an echo of a thousand sunrises, a silent song of persistence and grace.</p>
+        <p>The lungs, though slower now, carry the memory of every laugh, every cry, every whisper.</p>
+        <p>There is a sacredness in their rhythm, a reminder of the life that still moves through us.</p>
+        <p>To feel the breath is to feel presence, the grounding pulse of being in this fleeting world.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">50. Skin Memory</div>
+    <div class="lines">
+        <p>My skin remembers the heat of the sun, the brush of hands, and the cold of unspoken nights.</p>
+        <p>Every mark, every line is a diary, a braille map of experiences written on living canvas.</p>
+        <p>The texture of skin tells truths the eyes cannot see, histories held in soft resilience.</p>
+        <p>It is in these surfaces that life leaves its fingerprints, delicate and indelible.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">51. Fading Muscle</div>
+    <div class="lines">
+        <p>The muscles that once held vigor now yield to gravity and time.</p>
+        <p>Yet in their softening lies a grace that strength alone can never teach.</p>
+        <p>The body learns humility as it ages, and the spirit grows stronger in the surrender.</p>
+        <p>Every movement is intentional, measured, a dialogue between desire and reality.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">52. Bones Speak</div>
+    <div class="lines">
+        <p>My bones are quiet teachers, speaking in clicks and groans the wisdom of decades.</p>
+        <p>They remind me of endurance, of the architecture of life that holds me upright even when weary.</p>
+        <p>In their silence, they convey truths muscles cannot, histories etched in calcium and marrow.</p>
+        <p>To listen to bones is to understand the gravity of existence and the beauty of stillness.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">53. Soft Collapse</div>
+    <div class="lines">
+        <p>There is elegance in letting go, in the slow folding of the body into the comfort of rest.</p>
+        <p>The collapse is not defeat, but a return to the natural rhythm from which life flows.</p>
+        <p>Every softened curve, every gentle exhale speaks of acceptance and peace.</p>
+        <p>In surrender, the soul expands, and the body finds the quiet it has long sought.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">54. Mirror Reflection</div>
+    <div class="lines">
+        <p>The mirror holds a stranger, yet it is mine, shaped by years of joy, grief, and persistence.</p>
+        <p>I ask it questions once meant for vanity, now meant for understanding the depth of living.</p>
+        <p>Every line and shadow reflects lessons learned, battles endured, and love given.</p>
+        <p>The reflection is not a judge; it is a companion in the journey of self-knowledge.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">55. Peaceful Flesh</div>
+    <div class="lines">
+        <p>The flesh has softened, the muscles released their tension, and the skin embraces its own history.</p>
+        <p>There is serenity in aging, in allowing the body to rest while the spirit watches quietly.</p>
+        <p>Every inch of my form tells a story of survival, tenderness, and the slow artistry of life.</p>
+        <p>To live in this flesh is to honor the sacred architecture of existence itself.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">48. Trembling Hands</div>
+    <div class="lines">
+        <p>My hands no longer move with the certainty of youth; they tremble with stories of care and labor.</p>
+        <p>Each shake is a testament to a life fully committed, to the love and work given without hesitation.</p>
+        <p>There is dignity in trembling; it shows the weight carried and the battles endured quietly.</p>
+        <p>Even in frailty, the hands speak of skill, compassion, and a strength beyond muscle.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">49. Silent Lungs</div>
+    <div class="lines">
+        <p>Every breath is an echo of a thousand sunrises, a silent song of persistence and grace.</p>
+        <p>The lungs, though slower now, carry the memory of every laugh, every cry, every whisper.</p>
+        <p>There is a sacredness in their rhythm, a reminder of the life that still moves through us.</p>
+        <p>To feel the breath is to feel presence, the grounding pulse of being in this fleeting world.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">50. Skin Memory</div>
+    <div class="lines">
+        <p>My skin remembers the heat of the sun, the brush of hands, and the cold of unspoken nights.</p>
+        <p>Every mark, every line is a diary, a braille map of experiences written on living canvas.</p>
+        <p>The texture of skin tells truths the eyes cannot see, histories held in soft resilience.</p>
+        <p>It is in these surfaces that life leaves its fingerprints, delicate and indelible.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">51. Fading Muscle</div>
+    <div class="lines">
+        <p>The muscles that once held vigor now yield to gravity and time.</p>
+        <p>Yet in their softening lies a grace that strength alone can never teach.</p>
+        <p>The body learns humility as it ages, and the spirit grows stronger in the surrender.</p>
+        <p>Every movement is intentional, measured, a dialogue between desire and reality.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">52. Bones Speak</div>
+    <div class="lines">
+        <p>My bones are quiet teachers, speaking in clicks and groans the wisdom of decades.</p>
+        <p>They remind me of endurance, of the architecture of life that holds me upright even when weary.</p>
+        <p>In their silence, they convey truths muscles cannot, histories etched in calcium and marrow.</p>
+        <p>To listen to bones is to understand the gravity of existence and the beauty of stillness.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">53. Soft Collapse</div>
+    <div class="lines">
+        <p>There is elegance in letting go, in the slow folding of the body into the comfort of rest.</p>
+        <p>The collapse is not defeat, but a return to the natural rhythm from which life flows.</p>
+        <p>Every softened curve, every gentle exhale speaks of acceptance and peace.</p>
+        <p>In surrender, the soul expands, and the body finds the quiet it has long sought.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">54. Mirror Reflection</div>
+    <div class="lines">
+        <p>The mirror holds a stranger, yet it is mine, shaped by years of joy, grief, and persistence.</p>
+        <p>I ask it questions once meant for vanity, now meant for understanding the depth of living.</p>
+        <p>Every line and shadow reflects lessons learned, battles endured, and love given.</p>
+        <p>The reflection is not a judge; it is a companion in the journey of self-knowledge.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">55. Peaceful Flesh</div>
+    <div class="lines">
+        <p>The flesh has softened, the muscles released their tension, and the skin embraces its own history.</p>
+        <p>There is serenity in aging, in allowing the body to rest while the spirit watches quietly.</p>
+        <p>Every inch of my form tells a story of survival, tenderness, and the slow artistry of life.</p>
+        <p>To live in this flesh is to honor the sacred architecture of existence itself.</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">56. Migrating Flesh</div>
+    <div class="lines">
+        <p>The flesh is a traveler, moving slowly across the map of my bones as the years pass by</p>
+        <p>It migrates from the cheeks to the jaw, from the spirit to the weight of the earth below</p>
+        <p>There is no apology in this movement; it is the natural drift of a soul’s house settling into the soil</p>
+        <p>I feel the weight of my life shifting, gravity claiming what was once held high by the fires of youth</p>
+        <p>We are taught to fear the sag, but it is merely the body finding its true center of gravity</p>
+        <p>My skin follows the path of least resistance, a slow river flowing toward the ocean of stillness</p>
+        <p>I look at my reflection and see the migration of joy into the fine lines around my tired eyes</p>
+        <p>Nothing is lost, it is only rearranged; the beauty of the spring becomes the wisdom of the harvest</p>
+        <p>I am a landscape in motion, a quiet earthquake of cells and memory shifting in the dark</p>
+        <p>The flesh knows where it belongs; it is returning to the softness of the dust from which it rose</p>
+        <p>I touch the places where I have changed and feel the grace of a story that is finally coming to rest</p>
+        <p>To migrate is to survive, to move with the seasons rather than breaking against the winter wind</p>
+        <p>I am the same woman, just in a different shape, a more honest version of my own history</p>
+        <p>Let the flesh wander; the spirit stays rooted in the peace I have found under</p>
+    </div>
+</section>
+
+<section class="poem-section">
+    <div class="chapter-title">57. Address Change</div>
+    <div class="lines">
         <p>I used to live in the mirror, in the eyes of others, in the sharp angles of a youthful face.</p>
         <p>But my pride has changed its address; it has moved from the surface to the deep, silent marrow.</p>
         <p>I no longer reside in the way I look; I live in the way I feel the wind and the way I hold the silence.</p>
@@ -1007,15 +1390,11 @@
         <p>My identity is no longer tied to a shape; it is tied to the steady, unblinking awareness of the night.</p>
         <p>I have changed my address to the eternal, and the view from here is more beautiful than I ever imagined.</p>
     </div>
-</div>
+</section>
 
-        <div class="chapter-page" id="ch26">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twenty-Six</div>
-        <h1 class="ch-title">Anatomy Lesson</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">58. Anatomy Lesson</div>
+    <div class="lines">
         <p>Age is the most honest teacher; it gives you an anatomy lesson that no medical book could ever provide.</p>
         <p>I am learning the name of every joint because each one has started to sing its own sharp, clicking song.</p>
         <p>I didn't know I had a spine until it started to carry the weight of seventy years of standing tall.</p>
@@ -1030,15 +1409,11 @@
         <p>There is no mystery left in the flesh, only a deep respect for the resilience of the human design.</p>
         <p>I close my eyes and feel the internal workings of my life, grateful for the lesson I am finally learning.</p>
     </div>
-</div>
+</section>
 
-        <div class="chapter-page" id="ch27">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twenty-Seven</div>
-        <h1 class="ch-title">Judgmentless Ceiling</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">59. Judgmentless Ceiling</div>
+    <div class="lines">
         <p>The ceiling is the only witness that has never asked me to be anything other than what I am.</p>
         <p>It doesn't care about the beauty I lost or the mistakes that keep me awake in the small hours.</p>
         <p>To the white plaster above, I am just a breathing soul, a pulse in the dark, a story in progress.</p>
@@ -1051,15 +1426,11 @@
         <p>I am safe in its lack of judgment, a small life resting under the wide, indifferent sky of the indoors.</p>
         <p>In the silence of the ceiling, I find the permission to finally, completely, be myself.</p>
     </div>
-</div>
+</section>
 
-    <div class="chapter-page" id="ch28">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twenty-Eight</div>
-        <h1 class="ch-title">Loud Body</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">60. Loud Body</div>
+    <div class="lines">
         <p>When the world goes quiet at 3 AM, my body suddenly becomes the loudest thing in the room.</p>
         <p>The joints shout their history of cold winters; the lungs whistle a tune of decades of breathing.</p>
         <p>I can hear the blood rushing through my ears like a river that has been flowing since the dawn of time.</p>
@@ -1072,15 +1443,11 @@
         <p>The louder the body speaks, the more I realize how much it has sacrificed to keep me moving.</p>
         <p>I lie here, drowning in the sound of my own existence, and I have never felt more alive.</p>
     </div>
-</div>
+</section>
 
-        <div class="chapter-page" id="ch29">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Twenty-Nine</div>
-        <h1 class="ch-title">Silent Goodbye</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">61. Silent Goodbye</div>
+    <div class="lines">
         <p>Youth doesn't leave with a bang or a slammed door; it slips out the back window while you are sleeping.</p>
         <p>One day you are running toward the sun, and the next, you are simply walking to keep the shadows at bay.</p>
         <p>I didn't notice the exact moment my reflection stopped being a friend and started being a reminder.</p>
@@ -1093,15 +1460,11 @@
         <p>I wave a silent hand to my vanishing strength, grateful for the miles it gave me before it grew tired.</p>
         <p>The best goodbyes are the ones that happen in the heart, without a single word to break the peace.</p>
     </div>
-</div>
+</section>
 
-        <div class="chapter-page" id="ch30">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Thirty</div>
-        <h1 class="ch-title">Voice of Desire</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">62. Voice of Desire</div>
+    <div class="lines">
         <p>They tell you that desire dies with age, but they are wrong; it only lowers its voice to a whisper.</p>
         <p>It no longer screams for attention or demands the impossible; it asks for the simple and the deep.</p>
         <p>My desire has moved from the heat of the skin to the warmth of a shared look, a soft word, a steady hand.</p>
@@ -1114,15 +1477,11 @@
         <p>I am still a creature of longing, but I long for the eternal now, for the peace that surpasses understanding.</p>
         <p>My desire hasn't left me; it has just finally found its true home in the silence of my nearly old heart.</p>
     </div>
-</div>
+</section>
 
-        <div class="chapter-page" id="ch31">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Thirty-One</div>
-        <h1 class="ch-title">Survived Moments</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">63. Survived Moments</div>
+    <div class="lines">
         <p>A moment is a fragile thing, yet we are built from the ones that tried to kill us and failed.</p>
         <p>I am a collection of seconds that refused to pass without leaving a permanent scar on my soul.</p>
         <p>We think we live in years, but we only truly exist in the heartbeats that were almost our last.</p>
@@ -1140,15 +1499,11 @@
         <p>Peace is not the absence of struggle, but the presence of a soul that has outlived its own war.</p>
         <p>I lie here, a living testament to the fact that the heart is a muscle that grows stronger in the dark.</p>
     </div>
-</div>
+</section>
 
-        <div class="chapter-page" id="ch32">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Thirty-Two</div>
-        <h1 class="ch-title">Time Sentences</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">64. Time Sentences</div>
+    <div class="lines">
         <p>Time is a judge that sentences us to the reality of our own skin, one second at a time.</p>
         <p>We are all serving life sentences in the bodies we were given, watching the walls crumble slowly.</p>
         <p>The past is a prison if you keep looking back; it is a foundation if you have the courage to stand on it.</p>
@@ -1166,14 +1521,11 @@
         <p>To be old is to realize that the sentence was never about the ending, but about the rhythm of the breath.</p>
         <p>I accept my sentence with a quiet smile, for I have learned to love the silence between the words.</p>
     </div>
-</div>
-<div class="chapter-page" id="ch33">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Thirty-Three</div>
-        <h1 class="ch-title">Soul Peeling</h1>
-    </div>
+</section>
 
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">65. Soul Peeling</div>
+    <div class="lines">
         <p>Age is not a process of adding years; it is a process of peeling away the layers of who we thought we were.</p>
         <p>Like an onion, we shed our skins—the ego, the beauty, the labels—until there is nothing left but the core.</p>
         <p>The peeling is painful; it feels like losing a part of yourself, but you are only losing what was never yours to keep.</p>
@@ -1191,16 +1543,11 @@
         <p>The peeling is almost complete, and I am surprised to find that I am not afraid of what lies at the center.</p>
         <p>I am the silence that remains after the music has stopped, the space that exists after the walls have fallen.</p>
     </div>
-</div>
+</section>
 
-        
-        <div class="chapter-page" id="ch34">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Thirty-Four</div>
-        <h1 class="ch-title">Memory Dust</h1>
-    </div>
-
-    <div class="ch-content">
+<section class="poem-section">
+    <div class="chapter-title">66. Memory Dust</div>
+    <div class="lines">
         <p>Everything we have ever loved and lost has turned into a fine, silver dust that settles on the furniture of our minds.</p>
         <p>I walk through the rooms of my past and feel the grit of forgotten days beneath my feet.</p>
         <p>The dust is made of old conversations, the scent of childhood rain, and the taste of tears that dried years ago.</p>
@@ -1218,15 +1565,11 @@
         <p>I don't need the clarity of the sun anymore; the soft, dusty light of the evening is more than enough for me.</p>
         <p>In the end, we will all be swept into the same corner, a beautiful heap of memory and stardust.</p>
     </div>
-</div>
-
-        <div class="chapter-page" id="ch35">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Thirty-Five</div>
-        <h1 class="ch-title">Unspoken Prayers</h1>
-    </div>
-
-    <div class="ch-content">
+</section>
+          
+<section class="poem-section">
+    <div class="chapter-title">67. Unspoken Horizon</div>
+    <div class="lines">
         <p>The deepest prayers are not the ones we shout in cathedrals, but the ones that leak out of us when we are too tired to speak.</p>
         <p>They are the sighs that escape in the middle of the night, the way the hands tremble when the heart is too heavy.</p>
         <p>I have a thousand unspoken prayers trapped in the rafters of this room, rising like smoke from a dying fire.</p>
@@ -1243,16 +1586,7 @@
         <p>I am at peace with the unanswered; sometimes the answer is the very ability to keep asking the question.</p>
         <p>To breathe is to pray; to exist is to worship; to endure is to find the face of the holy in the mundane.</p>
         <p>I surrender my words to the night, knowing that what is felt in the marrow is always heard in the heavens.</p>
-    </div>
-</div>
 
-       <div class="chapter-page" id="ch36">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Thirty-Six</div>
-        <h1 class="ch-title">The Final Horizon</h1>
-    </div>
-
-    <div class="ch-content">
         <p>I can see the horizon now, not as a line where the world ends, but as a place where the shadows finally stop falling.</p>
         <p>It is the edge of the known, the boundary between the heavy flesh and the weightless light of the after.</p>
         <p>We spend our lives afraid of the horizon, thinking it is a cliff, but it is actually a bridge made of memory.</p>
@@ -1269,16 +1603,7 @@
         <p>I am standing at the edge of the world, and for the first time in seventy years, I feel completely at home.</p>
         <p>The horizon is calling my name, not with a shout, but with the gentle pull of a mother’s voice at dusk.</p>
         <p>I take one last look at the room, at the crack, at the dust, and I step toward the light that never fades.</p>
-    </div>
-</div>
 
-        <div class="chapter-page" id="ch37">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Thirty-Seven</div>
-        <h1 class="ch-title">The Thinning Veil</h1>
-    </div>
-
-    <div class="ch-content">
         <p>The world I can touch is becoming translucent, a thin silk curtain fluttering in a wind from elsewhere.</p>
         <p>I feel the veil between the 'now' and the 'forever' thinning, like old fabric worn out by too many washings.</p>
         <p>It is not that the world is disappearing, but that my eyes are finally learning to see through the solid lie of matter.</p>
@@ -1304,16 +1629,7 @@
         <p>I am the weaver and the thread, the seeker and the path, the question and the final, silent answer.</p>
         <p>The world is a beautiful ghost, and I am the one who is finally waking up from the long, heavy sleep of being human.</p>
         <p>I welcome the light through the cracks of my life, for the thinning veil is the only window to the truth.</p>
-    </div>
-</div>
-        
-   <div class="chapter-page" id="ch38">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Thirty-Eight</div>
-        <h1 class="ch-title">The Eternal Return</h1>
-    </div>
 
-    <div class="ch-content">
         <p>Nothing is ever truly lost; we are all just circles returning to the point where the first spark began.</p>
         <p>I feel the seasons of my life looping back, the winter of my age meeting the spring of my forgotten childhood.</p>
         <p>The earth doesn't take us back as strangers; it welcomes us back as the very clay it once lent to the stars.</p>
@@ -1338,17 +1654,7 @@
         <p>I am the traveler who has seen the world and realized that the most beautiful place was always right here, inside.</p>
         <p>I close the door on the 'before' and open my heart to the 'forever,' the eternal return to the home I never truly left.</p>
         <p>In the end, there is no death, only the falling away of the map so we can finally, truly, be where we are.</p>
-    </div>
-</div>
 
-        
-        <div class="chapter-page" id="ch39">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Thirty-Nine</div>
-        <h1 class="ch-title">The Unbound Spirit</h1>
-    </div>
-
-    <div class="ch-content">
         <p>I feel the knots of my existence loosening, the tight grip of my personality finally letting go of its frantic hold.</p>
         <p>A spirit is like a bird that has lived in a cage of bone and skin for so long it forgot it had wings made of light.</p>
         <p>The cage is breaking now—not because it is weak, but because the bird has grown too large for its golden bars.</p>
@@ -1372,17 +1678,7 @@
         <p>I am unbinding my heart from its grief, my mind from its stories, and my flesh from its inevitable, beautiful decay.</p>
         <p>The final freedom is not in leaving the body, but in realizing that you were never truly trapped inside it to begin with.</p>
         <p>I am free. I am vast. I am the silence that follows the most beautiful song ever sung by a human voice.</p>
-    </div>
-</div>
 
-        
-        <div class="chapter-page" id="ch40">
-    <div class="ch-header">
-        <div class="ch-num">Chapter Forty</div>
-        <h1 class="ch-title">The Great Silence</h1>
-    </div>
-
-    <div class="ch-content">
         <p>The Great Silence is not the absence of sound; it is the presence of a truth so loud that words have no choice but to vanish.</p>
         <p>It is the ocean that remains when all the waves of thought have finally crashed onto the shore and retreated into the deep.</p>
         <p>I am entering the quiet that lives behind the stars, the stillness that holds the spinning earth in its invisible palms.</p>
@@ -1404,6 +1700,35 @@
         <p>There is nothing left to say, and in that nothingness, I have finally found everything I was ever looking for.</p>
         <p>I am the silence. I am the peace. I am the ending that is actually the most beautiful, sunrise-filled beginning.</p>
     </div>
+</section>
+
+<script>
+    function downloadPDF() {
+        const element = document.getElementById('book-content');
+        const opt = {
+            margin: 0,
+            filename: 'The_Death_of_Spirits_Manuscript.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 3, backgroundColor: '#fdfaf5' },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+</script>
+
+</body>
+</html>
+
+
+
+
+   
+
+    
+    
+      
+                
+           
 </div>
 <div class="chapter-page" id="ch41">
     <div class="ch-header">
