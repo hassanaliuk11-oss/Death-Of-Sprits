@@ -133,14 +133,22 @@
             z-index: 100;
         }
 
+        /* --- MODAL CONTENT FIX WITH SCROLL --- */
         .modal-content-box {
             background: var(--card-bg);
             transform: translateY(30px);
             opacity: 0;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 80vh;       /* scrollable height */
+            overflow-y: auto;        /* vertical scroll */
+            padding: 1.5rem;        /* optional padding */
+            border-radius: 1.5rem;
         }
 
-        #poem-modal.active .modal-content-box { transform: translateY(0); opacity: 1; }
+        #poem-modal.active .modal-content-box { 
+            transform: translateY(0); 
+            opacity: 1; 
+        }
         
         .image-placeholder {
             display: flex;
