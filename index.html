@@ -194,30 +194,46 @@
         </div>
     </header>
 
-    <!-- Main Content (Markazi Hissa) -->
-    <main class="container mx-auto px-6 py-12 flex-grow">
-        <div id="poetry-grid" class="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-10"></div>
-    </main>
-
-    <footer class="py-16 text-center border-t">
-        <p class="hassan-jatoi-signature text-4xl">Hassan Jatoi ❤️</p>
-        <div class="mt-8 opacity-30 text-[9px] tracking-[0.7em] uppercase font-bold">© 2025 • HASSAN JATOI</div>
-    </footer>
-
-    <!-- Modal (Nazm Dekhne Ka Box) -->
-    <div id="poem-modal" class="fixed inset-0 flex items-center justify-center p-6 bg-black/95">
-        <div class="modal-content-box w-full max-w-xl rounded-[3rem] overflow-hidden shadow-2xl relative p-12 text-center">
-            <button onclick="closePoem()" class="absolute top-8 right-8 text-white/50 hover:text-white transition-colors">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            </button>
-            <div class="w-32 h-32 mx-auto mb-10 rounded-full overflow-hidden border-4 border-indigo-500/20">
-                <img id="modal-image" src="" class="w-full h-full object-cover" onerror="handleImageError(this, '📖')">
-            </div>
-            <h2 id="modal-title" class="font-black text-2xl mb-6 uppercase tracking-widest text-indigo-600"></h2>
-            <div id="modal-body" class="normal text-xl font-serif leading-relaxed text-slate-700"></div>
-            <button onclick="closePoem()" class="mt-12 px-10 py-4 bg-indigo-600 text-white text-[11px] uppercase tracking-widest font-black rounded-full shadow-lg">Return Back</button>
+   <!-- Modal (Nazm Dekhne Ka Box) -->
+<div id="poem-modal" class="fixed inset-0 flex items-center justify-center p-6 bg-black/95">
+    <div class="modal-content-box w-full max-w-xl shadow-2xl relative text-center">
+        <button onclick="closePoem()" class="absolute top-8 right-8 text-white/50 hover:text-white transition-colors">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+        <div class="w-32 h-32 mx-auto mb-10 rounded-full overflow-hidden border-4 border-indigo-500/20">
+            <img id="modal-image" src="" class="w-full h-full object-cover" onerror="handleImageError(this, '📖')">
         </div>
+        <h2 id="modal-title" class="font-black text-2xl mb-6 uppercase tracking-widest text-indigo-600"></h2>
+        <div id="modal-body" class="normal text-xl font-serif leading-relaxed text-slate-700 overflow-y-auto max-h-[50vh] px-4"></div>
+        <button onclick="closePoem()" class="mt-12 px-10 py-4 bg-indigo-600 text-white text-[11px] uppercase tracking-widest font-black rounded-full shadow-lg">Return Back</button>
     </div>
+</div>
+
+<style>
+.modal-content-box {
+    background: var(--card-bg);
+    transform: translateY(30px);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-height: 80vh;          /* modal ki max height */
+    padding: 2rem 1.5rem;       /* content ke liye padding */
+    border-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#modal-body {
+    overflow-y: auto;           /* vertical scroll enable */
+    flex: 1 1 auto;             /* body flexibly fill kare height */
+    padding-right: 0.5rem;      /* thoda space scroll ke liye */
+}
+#poem-modal.active .modal-content-box { 
+    transform: translateY(0); 
+    opacity: 1; 
+}
+</style>
 
     <script>
         // Image error handle karne ke liye (Tasveer load na ho toh)
