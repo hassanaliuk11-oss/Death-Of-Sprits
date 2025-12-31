@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Death of Spirits - Hassan Jatoi</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;600;700;800;900&family=Dancing+Script:wght@700&display=swap');
@@ -24,7 +25,7 @@
             overflow-x: hidden;
             min-height: 100vh;
             margin: 0;
-            display: block !important; /* Ensure body is always layout-ready */
+            display: block !important;
         }
 
         /* --- INTRO SEQUENCE STYLES --- */
@@ -155,10 +156,10 @@
 </head>
 <body class="flex flex-col">
 
-    <!-- Intro Sequence -->
+    <!-- Intro Sequence (Suruati Parda) -->
     <div id="intro-overlay">
         <div id="art-phase" class="absolute inset-0 flex items-center justify-center">
-            <img id="first-art" src="https://i.ibb.co/VcbY0pMK/Gemini-Generated-Image-yla1khyla1khyla1.png" alt="Welcome Art" onerror="handleImageError(this, '✨')">
+            <img id="first-art" src="https://i.ibb.co/VcbY0pMK/Gemini-Generated-Image-yla1khyla1khyla1.png" alt="Khush Amdeed Art" onerror="handleImageError(this, '✨')">
         </div>
         
         <div id="bulb-container">
@@ -166,13 +167,14 @@
                 <path d="M9 18h6M10 22h4M15.09 14c.18-.19.33-.4.46-.62a6 6 0 1 0-7.1 0c.13.22.28.43.46.62L10 16h4l1.09-2z"></path>
             </svg>
             <div id="intro-text" class="text-white tracking-[0.7em] uppercase text-[11px] font-bold mt-8 opacity-0 transition-opacity duration-1000">
-                Hassan Jatoi Presents
+                Hassan Jatoi Pesh Karte Hain
             </div>
         </div>
     </div>
 
     <div id="sky-light-wrap" class="sky-light-container"></div>
 
+    <!-- Header (Sarnama) -->
     <header class="sticky top-0 z-40 py-8 border-b text-center backdrop-blur-md bg-white/90">
         <div class="container mx-auto px-4">
             <h1 class="main-title-design text-xl md:text-4xl">The Death of Spirits</h1>
@@ -184,6 +186,7 @@
         </div>
     </header>
 
+    <!-- Main Content (Markazi Hissa) -->
     <main class="container mx-auto px-6 py-12 flex-grow">
         <div id="poetry-grid" class="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-10"></div>
     </main>
@@ -193,7 +196,7 @@
         <div class="mt-8 opacity-30 text-[9px] tracking-[0.7em] uppercase font-bold">© 2025 • HASSAN JATOI</div>
     </footer>
 
-    <!-- Modal -->
+    <!-- Modal (Nazm Dekhne Ka Box) -->
     <div id="poem-modal" class="fixed inset-0 flex items-center justify-center p-6 bg-black/95">
         <div class="modal-content-box w-full max-w-xl rounded-[3rem] overflow-hidden shadow-2xl relative p-12 text-center">
             <button onclick="closePoem()" class="absolute top-8 right-8 text-white/50 hover:text-white transition-colors">
@@ -204,11 +207,12 @@
             </div>
             <h2 id="modal-title" class="font-black text-2xl mb-6 uppercase tracking-widest text-indigo-600"></h2>
             <div id="modal-body" class="italic text-xl font-serif leading-relaxed text-slate-700"></div>
-            <button onclick="closePoem()" class="mt-12 px-10 py-4 bg-indigo-600 text-white text-[11px] uppercase tracking-widest font-black rounded-full shadow-lg">Back to Spirits</button>
+            <button onclick="closePoem()" class="mt-12 px-10 py-4 bg-indigo-600 text-white text-[11px] uppercase tracking-widest font-black rounded-full shadow-lg">Wapas Jayein</button>
         </div>
     </div>
 
     <script>
+        // Image error handle karne ke liye (Tasveer load na ho toh)
         function handleImageError(img, icon) {
             const parent = img.parentElement;
             if(!parent || parent.querySelector('.image-placeholder')) return;
@@ -219,6 +223,7 @@
             img.style.display = 'none';
         }
 
+        // Intro sequence chalaane ke liye
         function runIntro() {
             const overlay = document.getElementById('intro-overlay');
             const art = document.getElementById('first-art');
@@ -226,38 +231,46 @@
             const bulb = document.getElementById('bulb-svg');
             const introText = document.getElementById('intro-text');
 
-            // Phase 1: Show Art
+            if (!overlay) return;
+
+            // Phase 1: Art dikhana
             setTimeout(() => {
                 if(art) { art.style.opacity = '1'; art.style.transform = 'scale(1)'; }
             }, 200);
 
-            // Phase 2: Transition to Bulb
+            // Phase 2: Bulb par transition
             setTimeout(() => {
-                document.getElementById('art-phase').style.opacity = '0';
+                const artPhase = document.getElementById('art-phase');
+                if (artPhase) artPhase.style.opacity = '0';
                 setTimeout(() => {
-                    document.getElementById('art-phase').style.display = 'none';
-                    bulbCont.style.display = 'flex';
-                    setTimeout(() => {
-                        bulbCont.style.opacity = '1';
-                        introText.style.opacity = '1';
-                        bulb.classList.add('bulb-flicker');
-                    }, 50);
+                    if (artPhase) artPhase.style.display = 'none';
+                    if (bulbCont) {
+                        bulbCont.style.display = 'flex';
+                        setTimeout(() => {
+                            bulbCont.style.opacity = '1';
+                            if (introText) introText.style.opacity = '1';
+                            if (bulb) bulb.classList.add('bulb-flicker');
+                        }, 50);
+                    }
                 }, 600);
             }, 2500);
 
-            // Phase 3: Reveal Site
+            // Phase 3: Website dikhana
             setTimeout(() => {
                 overlay.style.opacity = '0';
                 setTimeout(() => {
                     overlay.style.display = 'none';
-                    document.getElementById('sky-light-wrap').style.opacity = '1';
+                    const wrap = document.getElementById('sky-light-wrap');
+                    if (wrap) wrap.style.opacity = '1';
                     triggerSkyLights();
                 }, 800);
             }, 5500);
         }
 
+        // Background lights ke liye
         function triggerSkyLights() {
             const wrap = document.getElementById('sky-light-wrap');
+            if (!wrap) return;
             const colors = ['rgba(99,102,241,0.25)', 'rgba(236,72,153,0.15)', 'rgba(168,85,247,0.2)'];
             for(let i=0; i<8; i++) {
                 const b = document.createElement('div');
@@ -269,8 +282,8 @@
             }
         }
 
- const poetryData = [
-    { 
+        const poetryData = [
+            { 
         id: 1, 
         title: "Loss of Inner Light", 
         image: "https://images.unsplash.com/photo-1507643179773-3e975d7ac515?w=400", 
@@ -808,8 +821,9 @@
         text: "Eventually, the breath and the silence become one. There is no more struggle, no more gasping for meaning. The soul accepts the sannata as its true home. You breathe not to live, but to endure the peace of having nothing left to lose—a spirit finally resting in the center of its own disappearance." 
     }
 ];
-        function renderCards() {
+        function render() {
             const grid = document.getElementById('poetry-grid');
+            if (!grid) return;
             poetryData.forEach(p => {
                 const div = document.createElement('div');
                 div.className = "poem-card p-6 flex flex-col items-center group";
@@ -832,24 +846,28 @@
 
         function closePoem() {
             const m = document.getElementById('poem-modal');
-            m.classList.remove('active');
-            setTimeout(() => m.style.display = 'none', 500);
+            if (m) {
+                m.classList.remove('active');
+                setTimeout(() => m.style.display = 'none', 500);
+            }
         }
 
         function updateClock() {
             const now = new Date();
-            document.getElementById('live-clock').textContent = now.toTimeString().split(' ')[0];
-            document.getElementById('live-date').textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+            const clock = document.getElementById('live-clock');
+            const date = document.getElementById('live-date');
+            if (clock) clock.textContent = now.toTimeString().split(' ')[0];
+            if (date) date.textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
         }
 
-        // Final fail-safe: Ensure site reveals even if an error occurs
-        window.addEventListener('DOMContentLoaded', () => {
+        // Jab page puri tarah load ho jaye
+        window.addEventListener('load', () => {
             updateClock();
             setInterval(updateClock, 1000);
             render();
             runIntro();
             
-            // Safety Reveal after 10s
+            // Agar intro phase mein koi masla ho toh 10s baad khud reveal ho jaye
             setTimeout(() => {
                 const overlay = document.getElementById('intro-overlay');
                 if (overlay && overlay.style.display !== 'none') {
@@ -860,4 +878,4 @@
         });
     </script>
 </body>
-</html> 
+</html>        
