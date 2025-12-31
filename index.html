@@ -281,16 +281,68 @@
                 wrap.appendChild(b);
             }
         }
-
         const poetryData = [
-            { id: 1, title: "Aakhri Saans", image: "https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?w=400", text: "Aakhri saans ek khatma nahi, balki us jagah ki yaad hai jahan se rooh ka taaluq tha." },
-            { id: 2, title: "Sukoon-e-Qalb", image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400", text: "Maut khamoshi nahi, balki ek wasee rasta hai jahan rooh wazan se azad ho jati hai." },
-            { id: 3, title: "Waqt ki Qaid", image: "https://images.unsplash.com/photo-1502481851512-e9e2529bbbf9?w=400", text: "Jise hum rukhsat kehte hain, woh sirf rooh ka waqt se peecha chudana hai." },
-            { id: 4, title: "Be-hisaab Manzar", image: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=400", text: "Aankhein band hoti hain magar rooh be-hisaab dekhne lagti hai." },
-            { id: 5, title: "Abadi Raqs", image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400", text: "Saans isliye tham jati hai kyunke ab uski zaroorat nahi rehti jahan abadiyat aapka intezar karti hai." },
-            { id: 6, title: "Rooh ki Parwaz", image: "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=400", text: "Zindagi dard sikhati hai taake maut parwaz karna sikha sake." }
-        ];
-
+    { 
+        id: 1, 
+        title: "Loss of Inner Light", 
+        image: "https://images.unsplash.com/photo-1507643179773-3e975d7ac515?w=400", 
+        text: "The light inside me did not vanish loudly; it dimmed the way evening forgets the sun—slowly, gently, without farewell. I kept touching my chest to see if something still glows, but even warmth had learned the language of absence. What once guided my prayers now sleeps under layers of tired hope, and I walk carrying a lantern that remembers fire." 
+    },
+    { 
+        id: 2, 
+        title: "The Funeral of Hope", 
+        image: "https://images.unsplash.com/photo-1516589174184-c685cee02f3b?w=400", 
+        text: "Hope was not buried in the ground; it was folded quietly inside my breath. No mourners came, only silence stood beside me, wearing my own face. Flowers refused to bloom that day, even sorrow felt exhausted. I whispered goodbye to tomorrow, and tomorrow did not answer." 
+    },
+    { 
+        id: 3, 
+        title: "When the Soul Stops Believing", 
+        image: "https://images.unsplash.com/photo-1493612276216-ee3925520721?w=400", 
+        text: "Belief did not break, it simply sat down—too tired to explain itself. Faith loosened its grip on my hands, like a bird that forgives the cage. I searched the sky for answers, but the sky had learned how to look away, and my soul learned how to kneel without prayer." 
+    },
+    { 
+        id: 4, 
+        title: "The Silence That Screams", 
+        image: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=400", 
+        text: "There is a silence louder than storms; it lives behind the ribs. It speaks in pauses and heavy breathing; it knows all my forgotten names. At night it presses its ear to my heart, listening for something alive, and finds only echoes learning to survive." 
+    },
+    { 
+        id: 5, 
+        title: "The Grave Inside the Chest", 
+        image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400", 
+        text: "I carry a small grave where my courage once slept. No stone, no writing, only weight. Memories kneel there every evening, lighting thoughts instead of candles. Sometimes I feel movement under the soil, as if pain is still growing roots, searching for meaning in darkness." 
+    },
+    { 
+        id: 6, 
+        title: "Hollow Prayers", 
+        image: "https://images.unsplash.com/photo-1445445290250-18a3a8300ad0?w=400", 
+        text: "My prayers rise without wings; they circle and fall back into me, tired of knocking on closed heavens. I speak softly so God will not feel accused. Even my amens tremble, as if unsure where to belong. Faith now whispers instead of singing." 
+    },
+    { 
+        id: 7, 
+        title: "A Heart Tired of Surviving", 
+        image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400", 
+        text: "I am not broken, I am overused. My heart has worked too many nights without rest, without reward. It beats out of habit, not hope. Survival has become a routine, and living feels like remembering how to breathe." 
+    },
+    { 
+        id: 8, 
+        title: "The Soul’s Slow Extinction", 
+        image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400", 
+        text: "Nothing ends suddenly. Even light learns how to leave slowly. First the colors fade, then the warmth, then the reason to look up. What remains is a quiet endurance—a soul practicing disappearance, one feeling at a time." 
+    },
+    { 
+        id: 9, 
+        title: "Sacred Emptiness", 
+        image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=400", 
+        text: "There is a holiness in being empty, a strange peace in having nothing left to lose. When desire burns out, truth begins to whisper. The soul sits naked before existence—no masks, no demands, only a silent understanding between pain and grace." 
+    },
+    { 
+        id: 10, 
+        title: "A Candle Afraid of Its Own Flame", 
+        image: "https://images.unsplash.com/photo-151351190280c-96e17c1fd8ad?w=400", 
+        text: "I am a candle taught to fear fire, told that burning means ending. So I learned to dim myself to survive longer in the dark. But even fear cannot erase longing; the wick still dreams of light, even while trembling." 
+    }
+];  
         function render() {
             const grid = document.getElementById('poetry-grid');
             if (!grid) return;
