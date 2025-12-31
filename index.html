@@ -28,6 +28,13 @@
             display: block !important;
         }
 
+        /* Poetry Card Font Specifics */
+        .poem-title {
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 600; 
+            letter-spacing: 0.1em;
+        }
+
         /* --- INTRO SEQUENCE STYLES --- */
         #intro-overlay {
             position: fixed;
@@ -133,22 +140,35 @@
             z-index: 100;
         }
 
-        /* --- MODAL CONTENT FIX WITH SCROLL --- */
+        /* Long Poetry Scroll Support */
         .modal-content-box {
             background: var(--card-bg);
             transform: translateY(30px);
             opacity: 0;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            max-height: 80vh;       /* scrollable height */
-            overflow-y: auto;        /* vertical scroll */
-            padding: 1.5rem;        /* optional padding */
-            border-radius: 1.5rem;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        #poem-modal.active .modal-content-box { 
-            transform: translateY(0); 
-            opacity: 1; 
+        .poem-scroll-area {
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-top: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: #6366f1 transparent;
         }
+
+        .poem-scroll-area::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .poem-scroll-area::-webkit-scrollbar-thumb {
+            background-color: #6366f1;
+            border-radius: 10px;
+        }
+
+        #poem-modal.active .modal-content-box { transform: translateY(0); opacity: 1; }
         
         .image-placeholder {
             display: flex;
@@ -164,7 +184,7 @@
 </head>
 <body class="flex flex-col">
 
-    <!-- Intro Sequence (Suruati Parda) -->
+    <!-- Intro Sequence -->
     <div id="intro-overlay">
         <div id="art-phase" class="absolute inset-0 flex items-center justify-center">
             <img id="first-art" src="https://i.ibb.co/VcbY0pMK/Gemini-Generated-Image-yla1khyla1khyla1.png" alt="Khush Amdeed Art" onerror="handleImageError(this, '✨')">
@@ -175,14 +195,14 @@
                 <path d="M9 18h6M10 22h4M15.09 14c.18-.19.33-.4.46-.62a6 6 0 1 0-7.1 0c.13.22.28.43.46.62L10 16h4l1.09-2z"></path>
             </svg>
             <div id="intro-text" class="text-white tracking-[0.7em] uppercase text-[11px] font-bold mt-8 opacity-0 transition-opacity duration-1000">
-                The Grief of 2025 Diary
+                AUTHOR HASSAN JATOI WELCOMING YOU
             </div>
         </div>
     </div>
 
     <div id="sky-light-wrap" class="sky-light-container"></div>
 
-    <!-- Header (Sarnama) -->
+    <!-- Header -->
     <header class="sticky top-0 z-40 py-8 border-b text-center backdrop-blur-md bg-white/90">
         <div class="container mx-auto px-4">
             <h1 class="main-title-design text-xl md:text-4xl">The Death of Spirits</h1>
@@ -194,49 +214,36 @@
         </div>
     </header>
 
-   <!-- Modal (Nazm Dekhne Ka Box) -->
-<div id="poem-modal" class="fixed inset-0 flex items-center justify-center p-6 bg-black/95">
-    <div class="modal-content-box w-full max-w-xl shadow-2xl relative text-center">
-        <button onclick="closePoem()" class="absolute top-8 right-8 text-white/50 hover:text-white transition-colors">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
-        </button>
-        <div class="w-32 h-32 mx-auto mb-10 rounded-full overflow-hidden border-4 border-indigo-500/20">
-            <img id="modal-image" src="" class="w-full h-full object-cover" onerror="handleImageError(this, '📖')">
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12 flex-grow">
+        <div id="poetry-grid" class="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-10"></div>
+    </main>
+
+    <footer class="py-16 text-center border-t">
+        <p class="hassan-jatoi-signature text-4xl">Hassan Jatoi ❤️</p>
+        <div class="mt-8 opacity-30 text-[9px] tracking-[0.7em] uppercase font-bold">© 2025 • HASSAN JATOI</div>
+    </footer>
+
+    <!-- Modal with Scroll Support -->
+    <div id="poem-modal" class="fixed inset-0 flex items-center justify-center p-6 bg-black/95">
+        <div class="modal-content-box w-full max-w-xl rounded-[3rem] overflow-hidden shadow-2xl relative p-8 md:p-12 text-center">
+            <button onclick="closePoem()" class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors z-50">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            
+            <div class="poem-scroll-area">
+                <div class="w-32 h-32 mx-auto mb-10 rounded-full overflow-hidden border-4 border-indigo-500/20 flex-shrink-0">
+                    <img id="modal-image" src="" class="w-full h-full object-cover" onerror="handleImageError(this, '📖')">
+                </div>
+                <h2 id="modal-title" class="font-black text-2xl mb-6 uppercase tracking-widest text-indigo-600"></h2>
+                <div id="modal-body" class="italic text-xl font-serif leading-relaxed text-slate-700 whitespace-pre-line px-4"></div>
+                
+                <button onclick="closePoem()" class="my-12 px-10 py-4 bg-indigo-600 text-white text-[11px] uppercase tracking-widest font-black rounded-full shadow-lg hover:bg-indigo-700 transition-all">Wapas Jayein</button>
+            </div>
         </div>
-        <h2 id="modal-title" class="font-black text-2xl mb-6 uppercase tracking-widest text-indigo-600"></h2>
-        <div id="modal-body" class="normal text-xl font-serif leading-relaxed text-slate-700 overflow-y-auto max-h-[50vh] px-4"></div>
-        <button onclick="closePoem()" class="mt-12 px-10 py-4 bg-indigo-600 text-white text-[11px] uppercase tracking-widest font-black rounded-full shadow-lg">Return Back</button>
     </div>
-</div>
-
-<style>
-.modal-content-box {
-    background: var(--card-bg);
-    transform: translateY(30px);
-    opacity: 0;
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    max-height: 80vh;          /* modal ki max height */
-    padding: 2rem 1.5rem;       /* content ke liye padding */
-    border-radius: 1.5rem;
-    display: flex;
-    flex-direction: column;
-}
-
-#modal-body {
-    overflow-y: auto;           /* vertical scroll enable */
-    flex: 1 1 auto;             /* body flexibly fill kare height */
-    padding-right: 0.5rem;      /* thoda space scroll ke liye */
-}
-#poem-modal.active .modal-content-box { 
-    transform: translateY(0); 
-    opacity: 1; 
-}
-</style>
 
     <script>
-        // Image error handle karne ke liye (Tasveer load na ho toh)
         function handleImageError(img, icon) {
             const parent = img.parentElement;
             if(!parent || parent.querySelector('.image-placeholder')) return;
@@ -247,7 +254,6 @@
             img.style.display = 'none';
         }
 
-        // Intro sequence chalaane ke liye
         function runIntro() {
             const overlay = document.getElementById('intro-overlay');
             const art = document.getElementById('first-art');
@@ -257,12 +263,10 @@
 
             if (!overlay) return;
 
-            // Phase 1: Art dikhana
             setTimeout(() => {
                 if(art) { art.style.opacity = '1'; art.style.transform = 'scale(1)'; }
             }, 200);
 
-            // Phase 2: Bulb par transition
             setTimeout(() => {
                 const artPhase = document.getElementById('art-phase');
                 if (artPhase) artPhase.style.opacity = '0';
@@ -279,7 +283,6 @@
                 }, 600);
             }, 2500);
 
-            // Phase 3: Website dikhana
             setTimeout(() => {
                 overlay.style.opacity = '0';
                 setTimeout(() => {
@@ -291,7 +294,6 @@
             }, 5500);
         }
 
-        // Background lights ke liye
         function triggerSkyLights() {
             const wrap = document.getElementById('sky-light-wrap');
             if (!wrap) return;
@@ -305,6 +307,7 @@
                 wrap.appendChild(b);
             }
         }
+
         const poetryData = [
     { 
         id: 1, 
@@ -1567,8 +1570,7 @@
         text: "The story is finished; the ink has turned to light. The soul and the void have found their perfect union. In this final stillness, the weight is gone, the wounds are closed, and the silence is the only truth that remains. This is the end of the spirit's long wandering—the final rest at the edge of forever." 
     }
     ];
-     
-        function render() {
+    function render() {
             const grid = document.getElementById('poetry-grid');
             if (!grid) return;
             poetryData.forEach(p => {
@@ -1580,13 +1582,15 @@
                     document.getElementById('modal-image').src = p.image;
                     const m = document.getElementById('poem-modal');
                     m.style.display = 'flex';
+                    // Scroll back to top when opening new poem
+                    document.querySelector('.poem-scroll-area').scrollTop = 0;
                     setTimeout(() => m.classList.add('active'), 20);
                 };
                 div.innerHTML = `
                     <div class="w-full aspect-square mb-6 overflow-hidden rounded-2xl bg-slate-100">
                         <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="handleImageError(this, '🕊️')">
                     </div>
-                    <h3 class="font-black text-[10px] text-center uppercase tracking-widest group-hover:text-indigo-600 transition-colors">${p.title}</h3>`;
+                    <h3 class="poem-title text-[10px] text-center uppercase group-hover:text-indigo-600 transition-colors">${p.title}</h3>`;
                 grid.appendChild(div);
             });
         }
@@ -1607,14 +1611,12 @@
             if (date) date.textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
         }
 
-        // Jab page puri tarah load ho jaye
         window.addEventListener('load', () => {
             updateClock();
             setInterval(updateClock, 1000);
             render();
             runIntro();
             
-            // Agar intro phase mein koi masla ho toh 10s baad khud reveal ho jaye
             setTimeout(() => {
                 const overlay = document.getElementById('intro-overlay');
                 if (overlay && overlay.style.display !== 'none') {
@@ -1625,4 +1627,5 @@
         });
     </script>
 </body>
-</html>
+</html> 
+       
