@@ -7,15 +7,16 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;600;700;800;900&family=Dancing+Script:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700;800;900&family=Dancing+Script:wght@700&family=Cinzel:wght@700&display=swap');
         
         :root {
-            --bg-primary: #f8fafc;
-            --text-main: #1e293b;
-            --accent-gradient: linear-gradient(to right, #1e293b, #6366f1, #1e293b);
-            --signature-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-            --card-bg: white;
-            --border-col: rgba(226, 232, 240, 0.8);
+            --bg-primary: #0f172a;
+            --text-main: #f8fafc;
+            --accent-primary: #6366f1;
+            --accent-secondary: #a855f7;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --gold: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
         }
 
         body {
@@ -25,17 +26,24 @@
             overflow-x: hidden;
             min-height: 100vh;
             margin: 0;
-            display: block !important;
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a 50%);
         }
 
-        /* Poetry Card Font Specifics */
-        .poem-title {
-            font-family: 'Montserrat', sans-serif; 
-            font-weight: 600; 
-            letter-spacing: 0.1em;
+        /* --- BACKGROUND ANIMATION --- */
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
         }
 
-        /* --- INTRO SEQUENCE STYLES --- */
+        /* --- INTRO SEQUENCE --- */
         #intro-overlay {
             position: fixed;
             inset: 0;
@@ -45,270 +53,284 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.8s ease-in-out;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #first-art {
             max-width: 80%;
-            max-height: 65vh;
-            border-radius: 20px;
+            max-height: 60vh;
+            border-radius: 30px;
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.2);
             opacity: 0; 
-            transform: scale(0.9);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .bulb-flicker {
-            animation: flicker 1.8s forwards;
-        }
-
-        @keyframes flicker {
-            0% { opacity: 0; }
-            5% { opacity: 1; filter: brightness(2); }
-            15% { opacity: 0.2; }
-            25% { opacity: 1; }
-            80% { opacity: 1; filter: drop-shadow(0 0 30px #fff); }
-            100% { opacity: 0; }
+            transform: scale(0.95);
+            transition: all 1s ease;
         }
 
         #bulb-container {
             display: none;
             opacity: 0;
-            transition: opacity 0.4s;
-            flex-direction: column;
-            align-items: center;
+            transition: opacity 0.5s;
+            text-align: center;
+        }
+
+        .bulb-flicker {
+            animation: flicker 2s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 5px #fbbf24); }
+            50% { opacity: 1; filter: drop-shadow(0 0 20px #fbbf24); }
+        }
+
+        /* --- BEAUTIFUL TYPOGRAPHY --- */
+        .main-title-design {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            background: var(--gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            background-size: 200% auto;
+            animation: shine 6s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .hassan-signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            background: linear-gradient(to bottom, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            position: relative;
+        }
+
+        .hassan-signature::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(165, 180, 252, 0.5), transparent);
         }
 
         /* --- UI COMPONENTS --- */
-        .main-title-design {
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hassan-jatoi-signature {
-            font-family: 'Dancing Script', cursive;
-            background: var(--signature-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .poem-card {
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 1px solid var(--border-col);
-            background: var(--card-bg);
-            border-radius: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 2rem;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
         }
 
         .poem-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.2);
-            border-color: #6366f1;
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        .sky-light-container {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 5;
-            opacity: 0;
-            transition: opacity 2s ease;
-        }
-
-        .sky-light {
-            position: absolute;
-            bottom: -150px;
-            width: 250px;
-            height: 180vh;
-            filter: blur(80px);
-            transform-origin: bottom center;
-            animation: sweep 10s infinite ease-in-out;
-        }
-
-        @keyframes sweep {
-            0%, 100% { transform: rotate(-30deg); }
-            50% { transform: rotate(30deg); }
-        }
-
+        /* --- MODAL & SCROLLING STYLE --- */
         #poem-modal {
             display: none;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
             z-index: 100;
+            background: rgba(0, 0, 0, 0.85);
         }
 
-        /* Long Poetry Scroll Support */
         .modal-content-box {
-            background: var(--card-bg);
-            transform: translateY(30px);
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(50px);
             opacity: 0;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            max-height: 90vh;
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            max-height: 85vh;
+            width: 95%;
+            max-width: 600px;
+            border-radius: 3.5rem;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 0 80px rgba(99, 102, 241, 0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        #poem-modal.active .modal-content-box {
+            transform: translateY(0);
+            opacity: 1;
         }
 
         .poem-scroll-area {
+            flex: 1;
             overflow-y: auto;
-            padding-right: 10px;
-            margin-top: 20px;
+            padding: 60px 40px 20px 40px;
             scrollbar-width: thin;
-            scrollbar-color: #6366f1 transparent;
+            scrollbar-color: rgba(99, 102, 241, 0.5) transparent;
+            scroll-behavior: smooth;
         }
 
-        .poem-scroll-area::-webkit-scrollbar {
-            width: 6px;
-        }
-
+        .poem-scroll-area::-webkit-scrollbar { width: 4px; }
+        .poem-scroll-area::-webkit-scrollbar-track { background: transparent; margin: 30px 0; }
         .poem-scroll-area::-webkit-scrollbar-thumb {
-            background-color: #6366f1;
+            background: linear-gradient(to bottom, #6366f1, #a855f7);
             border-radius: 10px;
         }
 
-        #poem-modal.active .modal-content-box { transform: translateY(0); opacity: 1; }
-        
+        #modal-body {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.5rem;
+            line-height: 2;
+            color: #cbd5e1;
+            text-align: center;
+            padding-bottom: 40px;
+        }
+
+        .modal-footer {
+            padding: 20px 40px 40px 40px;
+            background: linear-gradient(to top, #0f172a 80%, transparent);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .btn-return {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            padding: 14px 50px;
+            border-radius: 9999px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+            display: inline-block;
+        }
+
+        .btn-return:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.5);
+        }
+
+        /* FALLBACK ICONS */
         .image-placeholder {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #111;
-            font-size: 3rem;
-            color: #fff;
             width: 100%;
             height: 100%;
+            color: #6366f1;
+            gap: 10px;
+        }
+        .image-placeholder svg {
+            filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
     </style>
 </head>
-<body class="flex flex-col">
+<body>
+
+    <div class="bg-glow"></div>
 
     <!-- Intro Sequence -->
     <div id="intro-overlay">
         <div id="art-phase" class="absolute inset-0 flex items-center justify-center">
-            <img id="first-art" src="https://i.ibb.co/VcbY0pMK/Gemini-Generated-Image-yla1khyla1khyla1.png" alt="Khush Amdeed Art" onerror="handleImageError(this, '✨')">
+            <img id="first-art" src="https://i.ibb.co/VcbY0pMK/Gemini-Generated-Image-yla1khyla1khyla1.png" alt="Welcome" onerror="handleImageError(this, 'bird')">
         </div>
         
         <div id="bulb-container">
-            <svg id="bulb-svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5">
+            <svg id="bulb-svg" class="mx-auto" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5">
                 <path d="M9 18h6M10 22h4M15.09 14c.18-.19.33-.4.46-.62a6 6 0 1 0-7.1 0c.13.22.28.43.46.62L10 16h4l1.09-2z"></path>
             </svg>
-            <div id="intro-text" class="text-white tracking-[0.7em] uppercase text-[11px] font-bold mt-8 opacity-0 transition-opacity duration-1000">
-                AUTHOR HASSAN JATOI WELCOMING YOU
+            <div id="intro-text" class="text-white tracking-[0.8em] uppercase text-[10px] font-medium mt-10 opacity-0 transition-opacity duration-1000">
+                Hassan Jatoi Presents
             </div>
         </div>
     </div>
 
-    <div id="sky-light-wrap" class="sky-light-container"></div>
-
-    <!-- Header -->
-    <header class="sticky top-0 z-40 py-8 border-b text-center backdrop-blur-md bg-white/90">
+    <!-- Header Section -->
+    <header class="sticky top-0 z-40 py-12 text-center glass-panel">
         <div class="container mx-auto px-4">
-            <h1 class="main-title-design text-xl md:text-4xl">The Death of Spirits</h1>
-            <div class="flex items-center justify-center gap-4 mt-2">
-                <div id="live-date" class="opacity-40 font-bold text-[9px] uppercase tracking-[0.4em]">---</div>
-                <div id="live-clock" class="text-indigo-500 text-xs font-black tracking-widest">00:00:00</div>
+            <h1 class="main-title-design text-2xl md:text-4xl lg:text-5xl mb-4">The Death of Spirits</h1>
+            
+            <div class="hassan-signature mb-4">Hassan Jatoi ❤️</div>
+            
+            <div class="flex items-center justify-center gap-6 mt-2 opacity-50">
+                <div id="live-date" class="text-indigo-300 font-semibold text-[9px] uppercase tracking-[0.6em]">---</div>
+                <div id="live-clock" class="text-white text-[10px] font-mono tracking-widest">00:00:00</div>
             </div>
-            <p class="hassan-jatoi-signature text-3xl md:text-4xl mt-4">Hassan Jatoi ❤️</p>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 py-12 flex-grow">
-        <div id="poetry-grid" class="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-10"></div>
+    <main class="container mx-auto px-8 py-20 flex-grow">
+        <div id="poetry-grid" class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-12"></div>
     </main>
 
-    <footer class="py-16 text-center border-t">
-        <p class="hassan-jatoi-signature text-4xl">Hassan Jatoi ❤️</p>
-        <div class="mt-8 opacity-30 text-[9px] tracking-[0.7em] uppercase font-bold">© 2025 • HASSAN JATOI</div>
+    <footer class="py-24 text-center border-t border-white/5">
+        <div class="hassan-signature text-6xl">Hassan Jatoi ❤️</div>
+        <div class="mt-10 text-white/20 text-[10px] tracking-[0.8em] uppercase font-bold">EST 2025 • ARTISTIC SOUL</div>
     </footer>
 
-    <!-- Modal with Scroll Support -->
-    <div id="poem-modal" class="fixed inset-0 flex items-center justify-center p-6 bg-black/95">
-        <div class="modal-content-box w-full max-w-xl rounded-[3rem] overflow-hidden shadow-2xl relative p-8 md:p-12 text-center">
-            <button onclick="closePoem()" class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors z-50">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    <!-- Modal -->
+    <div id="poem-modal" class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="modal-content-box">
+            <button onclick="closePoem()" class="absolute top-8 right-8 text-white/30 hover:text-white transition-all z-50 p-2 bg-white/5 rounded-full">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
             
-            <div class="poem-scroll-area">
-                <div class="w-32 h-32 mx-auto mb-10 rounded-full overflow-hidden border-4 border-indigo-500/20 flex-shrink-0">
-                    <img id="modal-image" src="" class="w-full h-full object-cover" onerror="handleImageError(this, '📖')">
+            <div class="poem-scroll-area" id="modal-scroll-container">
+                <div id="modal-image-container" class="w-24 h-24 mx-auto mb-10 rounded-[2.5rem] rotate-2 overflow-hidden border-2 border-white/10 shadow-2xl flex-shrink-0 relative bg-slate-800">
+                    <img id="modal-image" src="" class="w-full h-full object-cover">
                 </div>
-                <h2 id="modal-title" class="font-black text-2xl mb-6 uppercase tracking-widest text-indigo-600"></h2>
-                <div id="modal-body" class="italic text-xl font-serif leading-relaxed text-slate-700 whitespace-pre-line px-4"></div>
-                
-                <button onclick="closePoem()" class="my-12 px-10 py-4 bg-indigo-600 text-white text-[11px] uppercase tracking-widest font-black rounded-full shadow-lg hover:bg-indigo-700 transition-all">Wapas Jayein</button>
+                <h2 id="modal-title" class="font-bold text-lg mb-8 uppercase tracking-[0.4em] text-indigo-400 text-center"></h2>
+                <div id="modal-body" class="whitespace-pre-line"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button onclick="closePoem()" class="btn-return">Return Back</button>
             </div>
         </div>
     </div>
 
     <script>
-        function handleImageError(img, icon) {
+        const ICONS = {
+            bird: `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 7c-2.5 0-4.5 2-4.5 4.5S13.5 16 16 16c2.5 0 4.5-2 4.5-4.5S18.5 7 16 7z"/><path d="M4 19c2 0 4-1 4-3s-2-3-4-3-4 1-4 3 2 3 4 3z"/><path d="M11.5 11.5L8 16"/></svg>`,
+            heart: `<svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
+            book: `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`
+        };
+
+        function handleImageError(img, type) {
             const parent = img.parentElement;
             if(!parent || parent.querySelector('.image-placeholder')) return;
-            const p = document.createElement('div');
-            p.className = 'image-placeholder';
-            p.innerHTML = icon;
-            parent.appendChild(p);
+            const placeholder = document.createElement('div');
+            placeholder.className = 'image-placeholder';
+            let icon = ICONS[type] || ICONS.bird;
+            placeholder.innerHTML = icon;
+            parent.appendChild(placeholder);
             img.style.display = 'none';
         }
 
-        function runIntro() {
-            const overlay = document.getElementById('intro-overlay');
-            const art = document.getElementById('first-art');
-            const bulbCont = document.getElementById('bulb-container');
-            const bulb = document.getElementById('bulb-svg');
-            const introText = document.getElementById('intro-text');
-
-            if (!overlay) return;
-
-            setTimeout(() => {
-                if(art) { art.style.opacity = '1'; art.style.transform = 'scale(1)'; }
-            }, 200);
-
-            setTimeout(() => {
-                const artPhase = document.getElementById('art-phase');
-                if (artPhase) artPhase.style.opacity = '0';
-                setTimeout(() => {
-                    if (artPhase) artPhase.style.display = 'none';
-                    if (bulbCont) {
-                        bulbCont.style.display = 'flex';
-                        setTimeout(() => {
-                            bulbCont.style.opacity = '1';
-                            if (introText) introText.style.opacity = '1';
-                            if (bulb) bulb.classList.add('bulb-flicker');
-                        }, 50);
-                    }
-                }, 600);
-            }, 2500);
-
-            setTimeout(() => {
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    const wrap = document.getElementById('sky-light-wrap');
-                    if (wrap) wrap.style.opacity = '1';
-                    triggerSkyLights();
-                }, 800);
-            }, 5500);
-        }
-
-        function triggerSkyLights() {
-            const wrap = document.getElementById('sky-light-wrap');
-            if (!wrap) return;
-            const colors = ['rgba(99,102,241,0.25)', 'rgba(236,72,153,0.15)', 'rgba(168,85,247,0.2)'];
-            for(let i=0; i<8; i++) {
-                const b = document.createElement('div');
-                b.className = 'sky-light';
-                b.style.left = (Math.random()*100)+'%';
-                b.style.background = `linear-gradient(to top, transparent, ${colors[i%3]})`;
-                b.style.animationDelay = (Math.random()*5)+'s';
-                wrap.appendChild(b);
-            }
-        }
-
-        const poetryData = [
+      const poetryData = [
     { 
         id: 1, 
         title: "Loss of Inner Light", 
@@ -1570,36 +1592,72 @@
         text: "The story is finished; the ink has turned to light. The soul and the void have found their perfect union. In this final stillness, the weight is gone, the wounds are closed, and the silence is the only truth that remains. This is the end of the spirit's long wandering—the final rest at the edge of forever." 
     }
     ];
-    function render() {
+       function render() {
             const grid = document.getElementById('poetry-grid');
             if (!grid) return;
             poetryData.forEach(p => {
                 const div = document.createElement('div');
-                div.className = "poem-card p-6 flex flex-col items-center group";
+                div.className = "poem-card p-4 flex flex-col items-center group cursor-pointer";
                 div.onclick = () => {
+                    const mImg = document.getElementById('modal-image');
+                    const mCont = document.getElementById('modal-image-container');
+                    mImg.style.display = 'block';
+                    const oldP = mCont.querySelector('.image-placeholder');
+                    if(oldP) oldP.remove();
                     document.getElementById('modal-title').innerText = p.title;
-                    document.getElementById('modal-body').innerText = `“${p.text}”`;
-                    document.getElementById('modal-image').src = p.image;
+                    document.getElementById('modal-body').innerText = p.text;
+                    mImg.src = p.image;
+                    mImg.onerror = () => handleImageError(mImg, p.type);
                     const m = document.getElementById('poem-modal');
                     m.style.display = 'flex';
-                    // Scroll back to top when opening new poem
-                    document.querySelector('.poem-scroll-area').scrollTop = 0;
+                    document.getElementById('modal-scroll-container').scrollTop = 0;
                     setTimeout(() => m.classList.add('active'), 20);
                 };
                 div.innerHTML = `
-                    <div class="w-full aspect-square mb-6 overflow-hidden rounded-2xl bg-slate-100">
-                        <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="handleImageError(this, '🕊️')">
+                    <div class="w-full aspect-[4/5] mb-6 overflow-hidden rounded-[1.5rem] bg-slate-800 relative shadow-lg">
+                        <img src="${p.image}" class="w-full h-full object-cover" onerror="handleImageError(this, '${p.type}')">
                     </div>
-                    <h3 class="poem-title text-[10px] text-center uppercase group-hover:text-indigo-600 transition-colors">${p.title}</h3>`;
+                    <h3 class="text-[10px] text-center uppercase tracking-[0.3em] font-bold text-white/50 group-hover:text-indigo-400 transition-colors">${p.title}</h3>`;
                 grid.appendChild(div);
             });
+        }
+
+        function runIntro() {
+            const overlay = document.getElementById('intro-overlay');
+            const art = document.getElementById('first-art');
+            const bulbCont = document.getElementById('bulb-container');
+            const bulb = document.getElementById('bulb-svg');
+            const introText = document.getElementById('intro-text');
+
+            setTimeout(() => { if(art) { art.style.opacity = '1'; art.style.transform = 'scale(1)'; } }, 300);
+
+            setTimeout(() => {
+                const artPhase = document.getElementById('art-phase');
+                if (artPhase) artPhase.style.opacity = '0';
+                setTimeout(() => {
+                    if (artPhase) artPhase.style.display = 'none';
+                    if (bulbCont) {
+                        bulbCont.style.display = 'block';
+                        setTimeout(() => {
+                            bulbCont.style.opacity = '1';
+                            if (introText) introText.style.opacity = '1';
+                            if (bulb) bulb.classList.add('bulb-flicker');
+                        }, 50);
+                    }
+                }, 800);
+            }, 3000);
+
+            setTimeout(() => {
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.style.display = 'none', 1000);
+            }, 6500);
         }
 
         function closePoem() {
             const m = document.getElementById('poem-modal');
             if (m) {
                 m.classList.remove('active');
-                setTimeout(() => m.style.display = 'none', 500);
+                setTimeout(() => m.style.display = 'none', 400);
             }
         }
 
@@ -1616,16 +1674,8 @@
             setInterval(updateClock, 1000);
             render();
             runIntro();
-            
-            setTimeout(() => {
-                const overlay = document.getElementById('intro-overlay');
-                if (overlay && overlay.style.display !== 'none') {
-                    overlay.style.opacity = '0';
-                    setTimeout(() => overlay.style.display = 'none', 1000);
-                }
-            }, 10000);
         });
     </script>
 </body>
-</html> 
+</html>
        
